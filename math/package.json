@@ -1,0 +1,11 @@
+{
+  "name": "math-learn",
+  "version": "1.0.0",
+  "description": "用直覺學數學 — 14 課互動課程",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0"
+  }
+}

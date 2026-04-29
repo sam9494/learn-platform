@@ -1,0 +1,188 @@
+================================================================================
+Does Far Transfer Exist? Negative Evidence From Chess, Music, and Working Memory Training
+================================================================================
+
+Authors: Giovanni Sala and Fernand Gobet
+Affiliation: Department of Psychological Sciences, University of Liverpool
+
+Journal: Current Directions in Psychological Science, Volume 26, Issue 6, December 2017, Pages 515-520
+DOI: 10.1177/0963721417712760
+PMC: PMC5724589
+
+================================================================================
+ABSTRACT
+================================================================================
+
+Chess masters and expert musicians appear to be, on average, more intelligent than the general population. Some researchers have thus claimed that playing chess or learning music enhances children's cognitive abilities and academic attainment. We here present two meta-analyses assessing the effect of chess and music instruction on children's cognitive and academic skills. A third meta-analysis evaluated the effects of working memory training -- a cognitive skill correlated with music and chess expertise -- on the same variables. The results show small to moderate effects. However, the effect sizes are inversely related to the quality of the experimental design (e.g., presence of active control groups). This pattern of results casts serious doubts on the effectiveness of chess, music, and working memory training. We discuss the theoretical and practical implications of these findings; extend the debate to other types of training such as spatial training, brain training, and video games; and conclude that far transfer of learning rarely occurs.
+
+================================================================================
+INTRODUCTION
+================================================================================
+
+Transfer of learning is something all of us experience in our daily life. Knowledge of Samsung smartphones transfers to iPhones. Driving one's car generalizes to other models of cars. Knowing how to cook spaghetti Bolognese is useful for cooking chicken pasta. All of these are examples of near transfer; that is, the generalization of a set of skills across two (or more) domains tightly related to each other. However, another type of transfer has attracted the attention of researchers for over a century: far transfer. Far transfer occurs when a set of skills generalizes across two (or more) domains that are only loosely related to each other (e.g., mathematics and Latin).
+
+In a seminal article, common-elements theory proposed that transfer is a function of the extent to which two domains share common features (Thorndike & Woodworth, 1901). The theory predicts that while near transfer takes place often, far transfer is much less common. This point has been echoed by extensive research into the psychology of expertise and skill acquisition. For example, research on chess players has established that expert performance relies, to a large extent, on perceptual information such as the knowledge of tens of thousands of chunks (i.e., meaningful configurations of chess pieces). Because of its high specificity, such information is hardly transferable to other fields, as predicted by chunking theory (Chase & Simon, 1973) and template theory (i.e., an extension of chunking theory; Gobet & Simon, 1996). However, research on expertise has also provided convincing evidence that experts -- such as chess masters and professional musicians -- possess, on average, superior overall cognitive ability. Importantly, domain-general cognitive abilities (e.g., intelligence, processing speed, and working memory [WM]) are reliable predictors of success for outcomes such as academic achievement (Deary, Strand, Smith, & Fernandes, 2007) and job proficiency (Hunter & Hunter, 1984).
+
+At this point, we can see readers waving their hands: This evidence establishes correlation, but can we conclude that there is a causal relationship? Does training in cognitively demanding activities make people smarter? Is it possible to train domain-general cognitive abilities in one domain and hence obtain benefits in a vast number of areas? In other words, does far transfer occur?
+
+This article presents the results of two meta-analyses investigating the cognitive correlates of expert performance and three meta-analyses on the effectiveness of cognitive training in the domains of chess, music, and WM training. Meta-analysis is a statistical method pooling together the results of all the studies available on a topic. Importantly, meta-analysis enables more reliable conclusions than a single experiment, because of the greater number of participants involved and the fact that studies are replicated. After the presentation of the five meta-analyses, the theoretical and practical implications of the findings are discussed and the discussion extends to other types of cognitive training.
+
+================================================================================
+DOES FAR TRANSFER OCCUR? INSIGHTS FROM CHESS, MUSIC, AND WM TRAINING
+================================================================================
+
+Comparison and Correlational Studies
+-------------------------------------
+
+People engaged in intellectual activities show superior overall cognitive ability compared with the general population. In the first of the meta-analytic reviews regarding the cognitive correlates of expert performance (Sala et al., 2017), chess players' overall cognitive ability was superior to that of non-chess players by half a standard deviation, a moderately large effect. When the focus shifted to the chess population and studies measuring the correlation between cognitive outcomes and chess skill (Burgoyne et al., 2016), the pattern did not change. The second meta-analysis reported statistically significant correlations between chess skill and four broad measures of cognitive ability: (a) fluid intelligence -- that is, the ability to solve new problems; (b) processing speed -- that is, the efficiency of basic mental operations (e.g., as measured in reaction-time tasks); (c) short-term and WM memory -- that is, the ability to retain, manipulate, and recall information over a brief period of time; and (d) comprehension knowledge -- that is, the ability to use knowledge acquired through experience (e.g., vocabulary and reading comprehension). In other words, the more skilled the chess player, the higher his or her level of cognitive ability.
+
+These results with chess players replicate previous findings on the role of cognitive ability in musicians. In previous research (Ruthsatz, Detterman, Griscom, & Cirullo, 2008), a group of conservatory-level musicians got higher scores on Raven's Progressive Matrices -- a standard measure of fluid intelligence -- compared with a group of novice musicians. Analogously, positive correlations have been found between music skill, WM, and IQ (Lee, Lu, & Ko, 2007).
+
+The Hypothesis Underlying the Potential Occurrence of Far Transfer
+-------------------------------------------------------------------
+
+The positive correlation between cognitive ability and chess or music does not tell us anything certain about far transfer. An alternative explanation is that people with superior cognitive ability are more likely to engage and excel in chess and music. Moreover, given the research on expertise, one should be skeptical about the possibility of far transfer occurring.
+
+So why do some researchers believe in the presence of far transfer from chess or music to other domains? The standard explanation assumes that these activities require domain-general cognitive abilities that may be trained by practice in a specific domain. Then, these enhanced cognitive abilities transfer to other domains. This idea has been made popular by influential research (Jaeggi, Buschkuehl, Jonides, & Perrig, 2008), which presented an experiment in which participants who received training on a WM task showed an improvement on a fluid intelligence test (Raven's Matrices). A similar argument was deployed by other researchers (Schellenberg, 2006), according to whom music instruction enhances general intelligence, which in turn positively affects a wide range of other cognitive and academic abilities. In the same manner, other researchers suggested that chess requires WM, fluid intelligence, and concentration capacity, and by practicing chess, children improve these abilities in general (Bart, 2014).
+
+One theoretical foundation of the far-transfer hypothesis is neural plasticity -- that is, the capability of the neural system of adapting and modifying under the pressure of the environment. Training cognitive function is thought to lead to changes in the neural system, which may account for the improvements on cognitive tests (Karbach & Schubert, 2013).
+
+Experimental Studies
+---------------------
+
+If these explanations are correct, training domain-general cognitive skills (WM, intelligence) through chess or music may transfer to other cognitive abilities and domain-specific skills (e.g., mathematics and literacy). This hypothesis was tested by running three meta-analyses (Sala & Gobet, 2016, 2017b, 2017c), focusing on typically developing children and young adolescents. Children and young adolescents represent an ideal population on which to test the possible transfer of chess and music skills to other domains: During childhood and early adolescence, cognitive ability and academic skills are still at an initial stage of development, and thus, cognitive training is more likely to be effective than in adulthood.
+
+The first two meta-analyses of the experimental studies assessed the effect of chess and music instruction in enhancing children's and young adolescents' academic attainment (literacy and mathematics) and cognitive skills such as phonological processing, memory, and general intelligence. The third one was carried out to evaluate the effects of WM training on academic achievement, fluid intelligence, and several measures of cognitive control (e.g., processing speed) in typically developing children. The results showed small to moderate overall effect sizes in all three meta-analyses.
+
+TABLE 1: Results of the Three Meta-Analyses of the Experimental Studies
+------------------------------------------------------------------------
+
+CHESS INSTRUCTION (Sala & Gobet, 2016)
+  Overall effect: 0.34 [0.24, 0.44]
+  Cognitive skills: 0.33 [0.13, 0.53]
+  Mathematics: 0.38 [0.23, 0.53]
+  Literacy: 0.25 [0.13, 0.37]
+
+MUSIC INSTRUCTION (Sala & Gobet, 2017b)
+  Overall effect: 0.16 [0.09, 0.22]
+  Intelligence (fluid/full-scale): 0.35 [0.21, 0.49]
+  Memory: 0.34 [0.20, 0.48]
+  Phonological processing: 0.17 [0.04, 0.29]
+  Spatial cognition: 0.14 [-0.06, 0.34]
+  Mathematics: 0.17 [-0.02, 0.36]
+  Literacy: -0.07 [-0.23, 0.09]
+
+WORKING MEMORY TRAINING (Sala & Gobet, 2017c)
+  Overall effect: 0.12 [0.06, 0.18]
+  Fluid intelligence: 0.11 [-0.02, 0.24]
+  Cognitive control: 0.09 [-0.08, 0.26]
+  Mathematics: 0.20 [0.03, 0.36]
+  Literacy: 0.11 [0.00, 0.22]
+
+Note: Results are presented as overall differences in standard deviations between
+treatment and control groups. The 95% confidence intervals are shown in brackets.
+Effect sizes of 0.20, 0.50, and 0.80 are considered small, medium, and large,
+respectively (Cohen, 1988).
+
+Overall, these results may be considered "cautiously promising." In fact, they are not. The size of the effects was inversely related to the quality of the experimental design. Specifically, when the experimental groups were compared with active control groups -- other filler activities to rule out possible placebo effects such as positive expectations about the training and the excitement induced by a novel activity -- the overall effect sizes were minimal or null.
+
+Focusing on the WM- and music-treated samples, regarding the effects of music instruction, the overall effect sizes were 0.25 SD for comparisons with passive control groups and 0.03 SD for comparisons with active control groups. About the effects of WM training, the overall effect sizes were 0.18 SD for comparisons with passive control groups and 0.05 SD for comparisons with active control groups.
+
+The only exception to this pattern was the robust near-transfer effect that WM training exerted on other memory tasks (0.44 and 0.46 SD when the treated groups were compared with active and passive control groups, respectively).
+
+================================================================================
+RESEARCH IN OTHER DOMAINS
+================================================================================
+
+The results are in line with several recent studies on other types of cognitive training. In systematic reviews (Simons et al., 2016), it has been observed that no convincing evidence has been provided so far about the alleged generalized benefits of brain-training programs. Like WM training, such programs have been proven to enhance participants' performance on the task they train and, at best, some other similar tasks. However, the studies with a strong experimental design (e.g., active control group and random allocation of the participants to the groups) showed no far-transfer effects.
+
+Spatial ability has been found to be malleable by spatial training (Uttal et al., 2013). Considering that spatial ability predicts attainment in mathematics (Wai, Lubinski, & Benbow, 2009), one might expect that spatial training helps to develop mathematical ability. Regrettably, the attempts to obtain such a far-transfer effect have been unsuccessful so far (Xu & LeFevre, 2016).
+
+Researchers (Oei & Patterson, 2015) have challenged the idea that action-video-game training can improve performance in a broad set of visuo-attentional and cognitive tasks. In their experiment, they used four different action video games as training tasks. These video games differed from each other in terms of their cognitive demands (e.g., different speed pace and level of selective attention). The results showed that participants' improvements were limited to the cognitive abilities targeted by the game they played. This outcome is in line with common-elements theory.
+
+================================================================================
+THEORETICAL AND PRACTICAL IMPLICATIONS
+================================================================================
+
+Together with recent experimental studies, the meta-analytic reviews have provided a clear pattern of findings: (a) People engaged in cognitively demanding activities such as chess and music have better overall cognitive ability than the general population; (b) cognitive ability (e.g., WM or general intelligence) is a predictor of chess skill and music skill, among many others; (c) training chess, music, or WM capacity does not reliably enhance any skill beyond the skills they train; and (d) far-transfer effects, when reported, probably stemmed from confounds such as placebo effects. The same pattern of results appears to occur with other types of cognitive training.
+
+In accordance with common-elements theory, far transfer remains a chimera. Consequently, theories assuming that skill acquisition and expert behavior rely on a large amount of domain-specific information -- such as chunking and template theories -- find substantial corroboration in the results. In fact, these theories predict no (or minimal) far transfer from the training task to other nontrained tasks. Conversely, theories assuming that training domain-general cognitive abilities helps individuals to improve a broad range of domain-specific skills are not supported.
+
+Another theoretical implication of the results concerns neural plasticity. The substantial absence of far transfer suggests that the neural patterns observed in people engaged in cognitively demanding activities reflect modifications in domain-specific abilities (e.g., chess skill) rather than enhanced domain-general cognitive ability. The occurrence of specific neural patterns (anatomical and functional) and absence of far-transfer effects on cognitive tests have been reported in domains such as music (Tierney, Krizman, & Kraus, 2015), chess (Hanggi, Brutsch, Siegel, & Jancke, 2014), and video game training (Colom et al., 2012).
+
+In addition to theoretical aspects, the most obvious practical implications of the findings concern education. If skills rarely generalize across different domains, then the most effective way to acquire a skill is to train that particular skill. Considering the insights provided by the research on expert performance and cognitive training, educational and professional curricula should focus on discipline-related material rather than general principles without any specific reference to a particular subject (e.g., domain-general problem-solving skills). Moreover, the benefits of such domain-specific training should not be expected to generalize to other domains (e.g., learning Latin to improve logical thinking in mathematics).
+
+Also, in line with the idea that training domain-general cognitive skills leads to benefits in a wide range of real-life skills, the last decade has seen the rise of a multibillion-dollar industry of commercial brain-training programs. Companies such as Posit Science and Cogmed claim that their training programs can help people in their daily, professional, and academic lives. However, in light of the results reported in the present paper, the effectiveness of these programs remains doubtful.
+
+================================================================================
+CONCLUSIONS AND FUTURE DIRECTIONS
+================================================================================
+
+The meta-analytic reviews presented in this article strongly suggest that the optimism about the far-transfer effects of cognitive training is not justified, at least with typically developing children and young adolescents. Although cognitive ability correlates with domain-specific skills -- for example, smarter people are more likely to be stronger chess players and better musicians -- there is little evidence that chess or music instruction makes people smarter. Rather, smarter individuals are more likely to engage and excel in these fields. Moreover, converging evidence supporting common-elements theory comes from the research on other types of training (e.g., WM training, video games, spatial training, and brain training) and expertise acquisition.
+
+Future interventions trying to obtain far-transfer effects should strive for an experimental design including pretests and at least two control groups (a do-nothing group and an active control group). Such a design is the minimum standard in order to evaluate whether the putative benefits of cognitive training are genuine and not produced by statistical artifacts (e.g., differences at baseline level) and nonspecific factors (e.g., placebo effects, expectations). Another central aim is to identify the specific characteristics of the training that might improve one's cognitive ability, which abilities they boost, and why these abilities should foster other nontrained abilities (i.e., far transfer).
+
+Nonetheless, given the scarceness of evidence for far transfer in the literature, the prediction is that future experiments will show findings in line with those presented in this article. For this reason, researchers and policymakers should seriously consider stopping spending resources for this type of research. Rather than searching for a way to improve overall domain-general cognitive ability, the field should focus on clarifying the domain-specific cognitive correlates underpinning expert performance.
+
+================================================================================
+FOOTNOTES
+================================================================================
+
+1. Declaration of Conflicting Interests: The author(s) declared that there were no conflicts of interest with respect to the authorship or the publication of this article.
+
+2. Two studies in the meta-analysis about chess instruction included participants with learning disabilities and below-average IQ.
+
+3. According to a common categorization, effect sizes of 0.20, 0.50, and 0.80 are considered small, medium, and large, respectively (Cohen, 1988).
+
+4. k refers to the number of total comparisons between experimental and control groups in the meta-analytic model.
+
+5. It is worth noting that this conclusion does not necessarily apply to the population of older adults. The aim of cognitive training in the elderly is mainly to slow down cognitive decline, not to enhance cognitive abilities.
+
+================================================================================
+RECOMMENDED READING
+================================================================================
+
+- Boot, W. R., Simons, D. J., Stothart, C., & Stutts, C. (2013). A discussion of the confounding effects of expectations in video-game training.
+- Melby-Lervag, M., Redick, T. S., & Hulme, C. (2016). A comprehensive meta-analysis on working memory training.
+- Mosing, M. A., Madison, G., Pedersen, N. L., & Ullen, F. (2016). An interesting and alternative method (i.e., twin study) to investigate the occurrence of transfer in the domain of music.
+- Sala, G., & Gobet, F. (2017). A meta-analysis on the importance of domain-specific perceptual knowledge in the recall of randomized material by experts and nonexperts.
+- Shipstead, Z., Redick, T. S., & Engle, R. W. (2012). A theoretical analysis of the limitations of working memory training studies.
+
+================================================================================
+REFERENCES
+================================================================================
+
+1. Bart, W. M. (2014). On the effect of chess training on scholastic achievement. Frontiers in Psychology, 5, Article 762.
+2. Boot, W. R., Simons, D. J., Stothart, C., & Stutts, C. (2013). The pervasive problem with placebos in psychology: Why active control groups are not sufficient to rule out placebo effects. Perspectives on Psychological Science, 8, 445-454.
+3. Burgoyne, A. P., Sala, G., Gobet, F., Macnamara, B. N., Campitelli, G., & Hambrick, D. Z. (2016). The relationship between cognitive ability and chess skill: A comprehensive meta-analysis. Intelligence, 59, 72-83.
+4. Chase, W. G., & Simon, H. A. (1973). Perception in chess. Cognitive Psychology, 4, 55-81.
+5. Cohen, J. (1988). Statistical power analysis for the behavioral sciences. Hillsdale, NJ: Erlbaum.
+6. Colom, R., Quiroga, M. A., Solana, A. B., Burgaleta, M., Roman, F. J., Privado, J., et al. (2012). Structural changes after videogame practice related to a brain network associated with intelligence. Intelligence, 40, 479-489.
+7. Deary, I. J., Strand, S., Smith, P., & Fernandes, C. (2007). Intelligence and educational achievement. Intelligence, 35, 13-21.
+8. Gobet, F. (2016). Understanding expertise: A multi-disciplinary approach. London, UK: Palgrave/Macmillan.
+9. Gobet, F., & Simon, H. A. (1996). Templates in chess memory: A mechanism for recalling several boards. Cognitive Psychology, 31, 1-40.
+10. Hanggi, J., Brutsch, K., Siegel, A. M., & Jancke, L. (2014). The architecture of the chess player's brain. Neuropsychologia, 62, 152-162.
+11. Hunter, J. E., & Hunter, R. F. (1984). Validity and utility of alternative predictors of job performance. Psychological Bulletin, 96, 72-98.
+12. Jaeggi, S. M., Buschkuehl, M., Jonides, J., & Perrig, W. J. (2008). Improving fluid intelligence with training on working memory. Proceedings of the National Academy of Sciences, USA, 105, 6829-6833.
+13. Karbach, J., & Schubert, T. (2013). Training-induced cognitive and neural plasticity. Frontiers in Human Neuroscience, 9, Article 48.
+14. Karbach, J., & Verhaeghen, P. (2014). Making working memory work: A meta-analysis of executive control and working memory training in younger and older adults. Psychological Science, 25, 2027-2037.
+15. Lee, Y., Lu, M., & Ko, H. (2007). Effect of skill training on working memory capacity. Learning and Instruction, 17, 336-344.
+16. Melby-Lervag, M., & Hulme, C. (2016). There is no convincing evidence that working memory training is effective: A reply to Au et al. (2014) and Karbach and Verhaeghen (2014). Psychonomic Bulletin & Review, 23, 324-330.
+17. Melby-Lervag, M., Redick, T. S., & Hulme, C. (2016). Working memory training does not improve performance on measures of intelligence or other measures of "far transfer": Evidence from a meta-analytic review. Perspectives on Psychological Science, 11, 512-534.
+18. Mosing, M. A., Madison, G., Pedersen, N. L., & Ullen, F. (2016). Investigating cognitive transfer within the framework of music practice: Genetic pleiotropy rather than causality. Developmental Science, 19, 504-512.
+19. Oei, A. C., & Patterson, M. D. (2015). Enhancing perceptual and attentional skills requires common demands between the action video games and transfer tasks. Frontiers in Psychology, 6, Article 113.
+20. Ruthsatz, J., Detterman, D., Griscom, W. S., & Cirullo, B. A. (2008). Becoming an expert in the musical domain: It takes more than just practice. Intelligence, 36, 330-338.
+21. Sala, G., Burgoyne, A. P., Macnamara, B. N., Hambrick, D. Z., Campitelli, G., & Gobet, F. (2017). Checking the "academic selection" argument. Chess players outperform non-chess players in cognitive skills related to intelligence: A meta-analysis. Intelligence, 61, 130-139.
+22. Sala, G., & Gobet, F. (2016). Do the benefits of chess instruction transfer to academic and cognitive skills? A meta-analysis. Educational Research Review, 18, 46-57.
+23. Sala, G., & Gobet, F. (2017a). Experts' memory superiority for domain-specific random material generalizes across fields of expertise: A meta-analysis. Memory & Cognition, 45, 183-193.
+24. Sala, G., & Gobet, F. (2017b). When the music's over. Does music skill transfer to children's and young adolescents' cognitive and academic skills? A meta-analysis. Educational Research Review, 20, 55-67.
+25. Sala, G., & Gobet, F. (2017c). Working memory training in typically developing children: A meta-analysis of the available evidence. Developmental Psychology, 53, 671-685.
+26. Schellenberg, E. G. (2006). Long-term positive associations between music lessons and IQ. Journal of Educational Psychology, 98, 457-468.
+27. Shipstead, Z., Redick, T. S., & Engle, R. W. (2012). Is working memory training effective? Psychological Bulletin, 138, 628-654.
+28. Simons, D. J., Boot, W. R., Charness, N., Gathercole, S. E., Chabris, C. F., Hambrick, D. Z., & Stine-Morrow, E. A. L. (2016). Do "brain-training" programs work? Psychological Science in the Public Interest, 17, 103-186.
+29. Strobach, T., & Karbach, J. (2016). Cognitive training: An overview of features and applications. New York, NY: Springer.
+30. Thorndike, E. L., & Woodworth, R. S. (1901). The influence of improvement in one mental function upon the efficiency of other functions (I). Psychological Review, 8, 247-261.
+31. Tierney, A. T., Krizman, J., & Kraus, N. (2015). Music training alters the course of adolescent auditory development. Proceedings of the National Academy of Sciences, USA, 112, 10062-10067.
+32. Uttal, D. H., Meadow, N. G., Tipton, E., Hand, L. L., Alden, A. R., Warren, C., & Newcombe, N. S. (2013). The malleability of spatial skills: A meta-analysis of training studies. Psychological Bulletin, 139, 352-402.
+33. Wai, J., Lubinski, D., & Benbow, C. P. (2009). Spatial ability for STEM domains: Aligning over 50 years of cumulative psychological knowledge solidifies its importance. Journal of Educational Psychology, 101, 817-835.
+34. Xu, C., & LeFevre, J. A. (2016). Training young children on sequential relations among numbers and spatial decomposition: Differential transfer to number line and mental transformation tasks. Developmental Psychology, 52, 854-866.

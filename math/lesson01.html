@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>學數學 · 第一課：函數圖形</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #334155;
+    --accent: #38bdf8;
+    --accent-2: #f472b6;
+    --accent-3: #facc15;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #334155;
+    --grid: #1e3a5f;
+    --axis: #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 40px 0 60px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 999px;
+    font-size: 13px;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #38bdf8, #f472b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 16px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 64px;
+  }
+  h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: 20px;
+    margin: 24px 0 12px;
+    color: var(--accent);
+  }
+  p { margin-bottom: 12px; }
+
+  .lead {
+    font-size: 17px;
+    color: var(--text);
+    background: var(--panel);
+    padding: 20px 24px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent);
+    margin-bottom: 24px;
+  }
+
+  /* Cards */
+  .grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .card .icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .card h4 {
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-size: 17px;
+  }
+  .card p {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .examples .card {
+    display: flex;
+    flex-direction: column;
+  }
+  canvas.mini {
+    width: 100%;
+    height: auto;
+    background: #0a1628;
+    border-radius: 8px;
+    margin-top: 14px;
+    display: block;
+  }
+  .axis-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px !important;
+    font-family: "Cascadia Code", "Consolas", monospace;
+  }
+
+  /* Plot panel */
+  .plot-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 20px;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .btn {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Cascadia Code", "Consolas", monospace;
+    transition: all 0.15s;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  canvas {
+    width: 100%;
+    height: auto;
+    background: #0a1628;
+    border-radius: 8px;
+    display: block;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+  }
+  .swatch {
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  /* Comparison table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background: var(--panel);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--panel-2);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* Highlight box */
+  .takeaway {
+    background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(244,114,182,0.08));
+    border: 1px solid rgba(56,189,248,0.3);
+    padding: 24px;
+    border-radius: 12px;
+    margin-top: 24px;
+  }
+  .takeaway h3 {
+    color: var(--accent-2);
+    margin-top: 0;
+  }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+
+  code {
+    background: var(--panel-2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: "Cascadia Code", "Consolas", monospace;
+    color: var(--accent-3);
+    font-size: 0.95em;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* Top nav */
+  .topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .topnav a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .topnav a:hover { border-color: var(--accent); background: rgba(56,189,248,0.08); }
+  .topnav .progress { color: var(--muted); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding-top: 40px;
+    margin-top: 60px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">第 01 課 / 共 02 課</span>
+  </nav>
+
+  <header style="border-bottom: 1px solid var(--border); padding: 20px 0 50px;">
+    <span class="badge">Mathematics · Lesson 01</span>
+    <h1>函數圖形</h1>
+    <p class="subtitle">Function Graphs — 用一條曲線，看見規律</p>
+  </header>
+
+  <!-- Section 1: What problem does it solve -->
+  <section>
+    <h2><span class="num">1</span>這門學科在解決什麼問題？</h2>
+
+    <div class="lead">
+      <strong>核心問題：「兩個量之間，怎麼隨彼此變化？」</strong><br>
+      函數圖形把抽象的數學關係，變成<strong>看得見的曲線</strong>，
+      讓我們一眼看出趨勢、極值、轉折，比看一堆數字快上百倍。
+    </div>
+
+    <h3>具體可以回答這些問題</h3>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">📈</div>
+        <h4>趨勢方向</h4>
+        <p>這個量是越來越大、越來越小，還是先升後降？</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h4>極值點</h4>
+        <p>什麼時候會達到最大值或最小值？利潤、成本最佳點在哪？</p>
+      </div>
+      <div class="card">
+        <div class="icon">🔄</div>
+        <h4>變化速度</h4>
+        <p>變化是平緩的，還是越來越劇烈？（之後會用「斜率」量化）</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎲</div>
+        <h4>預測未來</h4>
+        <p>知道規律後，可以推算還沒發生的數值。</p>
+      </div>
+      <div class="card">
+        <div class="icon">⚖️</div>
+        <h4>比較不同模型</h4>
+        <p>哪一種成長方式比較快？線性 vs 指數差很多。</p>
+      </div>
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h4>建立直覺</h4>
+        <p>把抽象的代數式，轉成可以「想像」的形狀。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Real world examples -->
+  <section>
+    <h2><span class="num">2</span>真實世界的例子</h2>
+    <p style="color: var(--muted); margin-bottom: 20px;">
+      每個例子都附上對應的函數圖形，讓你看見「公式 ↔ 現實」的連結。
+    </p>
+
+    <div class="grid examples">
+      <div class="card">
+        <div class="icon">🏀</div>
+        <h4>拋物線運動</h4>
+        <p>投出一顆球，它的軌跡就是 <code>y = -x² + ...</code>，二次函數預測落點。</p>
+        <canvas class="mini" data-demo="projectile" width="320" height="180"></canvas>
+        <p class="axis-note">x：水平距離　／　y：高度</p>
+      </div>
+      <div class="card">
+        <div class="icon">💰</div>
+        <h4>複利成長</h4>
+        <p>銀行存款、投資報酬是<strong>指數函數</strong> <code>y = 1.05ˣ</code>，越久增長越快。</p>
+        <canvas class="mini" data-demo="compound" width="320" height="180"></canvas>
+        <p class="axis-note">x：年數　／　y：本利和倍數</p>
+      </div>
+      <div class="card">
+        <div class="icon">🦠</div>
+        <h4>疫情傳播</h4>
+        <p>初期感染人數類似 <code>y = 2ˣ</code>（指數），達到飽和後變 S 型曲線。</p>
+        <canvas class="mini" data-demo="logistic" width="320" height="180"></canvas>
+        <p class="axis-note">x：天數　／　y：感染人數</p>
+      </div>
+      <div class="card">
+        <div class="icon">🚗</div>
+        <h4>汽車煞車距離</h4>
+        <p>跟速度的<strong>平方</strong>成正比 — 速度兩倍，距離四倍。這是 x² 的真實後果。</p>
+        <canvas class="mini" data-demo="braking" width="320" height="180"></canvas>
+        <p class="axis-note">x：時速 (km/h)　／　y：煞車距離 (m)</p>
+      </div>
+      <div class="card">
+        <div class="icon">📦</div>
+        <h4>體積與長度</h4>
+        <p>立方體邊長 x，體積是 x³。邊長變兩倍，體積變八倍。</p>
+        <canvas class="mini" data-demo="cube" width="320" height="180"></canvas>
+        <p class="axis-note">x：邊長　／　y：體積</p>
+      </div>
+      <div class="card">
+        <div class="icon">🌡️</div>
+        <h4>溫度變化</h4>
+        <p>一杯熱水冷卻 → 指數衰減 <code>y = e⁻ˣ</code>，最後趨近室溫。</p>
+        <canvas class="mini" data-demo="cooling" width="320" height="180"></canvas>
+        <p class="axis-note">x：時間（分鐘）　／　y：溫度（°C）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Interactive plot -->
+  <section>
+    <h2><span class="num">3</span>互動：親手畫畫看</h2>
+    <p style="color: var(--muted); margin-bottom: 16px;">
+      點選下方按鈕切換不同函數，觀察曲線形狀如何隨「次方」變化。
+    </p>
+
+    <div class="plot-panel">
+      <div class="controls" id="controls">
+        <button class="btn active" data-fn="x">y = x（一次）</button>
+        <button class="btn" data-fn="x2">y = x²（二次）</button>
+        <button class="btn" data-fn="x3">y = x³（三次）</button>
+        <button class="btn" data-fn="x4">y = x⁴（四次）</button>
+        <button class="btn" data-fn="all">全部疊圖</button>
+      </div>
+
+      <canvas id="plot" width="900" height="540"></canvas>
+
+      <div class="legend" id="legend"></div>
+      <p class="hint">提示：滑鼠移到圖上可以看座標。注意 x² 和 x⁴ 都是「U 形」（左右對稱），x 和 x³ 都是「S 形」（穿過原點）。</p>
+    </div>
+  </section>
+
+  <!-- Section 4: Comparison -->
+  <section>
+    <h2><span class="num">4</span>數值對照表</h2>
+    <p>同一個 x 代入不同函數，差異到底有多大？</p>
+    <table>
+      <thead>
+        <tr><th>x</th><th>y = x</th><th>y = x²</th><th>y = x³</th><th>y = x⁴</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>-3</td><td>-3</td><td>9</td><td>-27</td><td>81</td></tr>
+        <tr><td>-2</td><td>-2</td><td>4</td><td>-8</td><td>16</td></tr>
+        <tr><td>-1</td><td>-1</td><td>1</td><td>-1</td><td>1</td></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>2</td><td>2</td><td>4</td><td>8</td><td>16</td></tr>
+        <tr><td>3</td><td>3</td><td>9</td><td>27</td><td>81</td></tr>
+      </tbody>
+    </table>
+
+    <div class="takeaway">
+      <h3>🎓 重點整理</h3>
+      <ul>
+        <li><strong>偶數次方</strong>（x²、x⁴）→ U 形，左右對稱於 y 軸，永遠 ≥ 0，叫做<strong>偶函數</strong>。</li>
+        <li><strong>奇數次方</strong>（x、x³）→ S 形，對稱於原點，可正可負，叫做<strong>奇函數</strong>。</li>
+        <li>次方越高，曲線在「中間」越平、在「兩端」竄升越快。</li>
+        <li>學會看圖形，等於學會「直覺地理解」一條方程式。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border);">
+    <a href="index.html" style="background: var(--panel); border: 1px solid var(--border); color: var(--text); padding: 16px 24px; border-radius: 10px; text-decoration: none; flex: 1; transition: all 0.15s;"
+       onmouseover="this.style.borderColor='#38bdf8'; this.style.background='#334155';"
+       onmouseout="this.style.borderColor='#334155'; this.style.background='#1e293b';">
+      <div style="font-size: 12px; color: var(--muted);">← 課程目錄</div>
+      <div style="color: var(--accent); font-weight: 600; margin-top: 4px;">所有課程</div>
+    </a>
+    <a href="lesson02.html" style="background: var(--panel); border: 1px solid var(--border); color: var(--text); padding: 16px 24px; border-radius: 10px; text-decoration: none; text-align: right; flex: 1; transition: all 0.15s;"
+       onmouseover="this.style.borderColor='#38bdf8'; this.style.background='#334155';"
+       onmouseout="this.style.borderColor='#334155'; this.style.background='#1e293b';">
+      <div style="font-size: 12px; color: var(--muted);">下一課 →</div>
+      <div style="color: var(--accent); font-weight: 600; margin-top: 4px;">02 · 函數變換</div>
+    </a>
+  </div>
+
+  <footer>
+    📚 第 01 課完成
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById("plot");
+  const ctx = canvas.getContext("2d");
+  const legend = document.getElementById("legend");
+
+  // Logical viewport in math units
+  const xMin = -4, xMax = 4;
+  const yMin = -10, yMax = 10;
+
+  const W = canvas.width;
+  const H = canvas.height;
+
+  // mapping
+  const xToPx = x => ((x - xMin) / (xMax - xMin)) * W;
+  const yToPx = y => H - ((y - yMin) / (yMax - yMin)) * H;
+  const pxToX = px => xMin + (px / W) * (xMax - xMin);
+  const pxToY = py => yMin + ((H - py) / H) * (yMax - yMin);
+
+  const fns = {
+    x:  { label: "y = x",   color: "#38bdf8", f: x => x },
+    x2: { label: "y = x²",  color: "#f472b6", f: x => x * x },
+    x3: { label: "y = x³",  color: "#facc15", f: x => x * x * x },
+    x4: { label: "y = x⁴",  color: "#4ade80", f: x => x * x * x * x },
+  };
+
+  let active = ["x"];
+
+  function drawGrid() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+
+    // minor grid
+    ctx.strokeStyle = "#1e3a5f";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = Math.ceil(xMin); x <= xMax; x++) {
+      const px = xToPx(x);
+      ctx.moveTo(px, 0); ctx.lineTo(px, H);
+    }
+    for (let y = Math.ceil(yMin); y <= yMax; y += 2) {
+      const py = yToPx(y);
+      ctx.moveTo(0, py); ctx.lineTo(W, py);
+    }
+    ctx.stroke();
+
+    // axes
+    ctx.strokeStyle = "#64748b";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0));
+    ctx.moveTo(xToPx(0), 0); ctx.lineTo(xToPx(0), H);
+    ctx.stroke();
+
+    // axis labels
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "12px sans-serif";
+    for (let x = Math.ceil(xMin); x <= xMax; x++) {
+      if (x === 0) continue;
+      ctx.fillText(x, xToPx(x) + 3, yToPx(0) + 14);
+    }
+    for (let y = Math.ceil(yMin); y <= yMax; y += 2) {
+      if (y === 0) continue;
+      ctx.fillText(y, xToPx(0) + 5, yToPx(y) - 3);
+    }
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "bold 14px sans-serif";
+    ctx.fillText("x", W - 16, yToPx(0) - 6);
+    ctx.fillText("y", xToPx(0) + 8, 16);
+  }
+
+  function drawFunction(key) {
+    const { f, color } = fns[key];
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let started = false;
+    for (let px = 0; px <= W; px++) {
+      const x = pxToX(px);
+      const y = f(x);
+      const py = yToPx(y);
+      if (py < -50 || py > H + 50) {
+        started = false;
+        continue;
+      }
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  }
+
+  function render() {
+    drawGrid();
+    active.forEach(drawFunction);
+    renderLegend();
+  }
+
+  function renderLegend() {
+    legend.innerHTML = active.map(k => {
+      const { label, color } = fns[k];
+      return `<div class="legend-item">
+        <span class="swatch" style="background:${color}"></span>${label}
+      </div>`;
+    }).join("");
+  }
+
+  // Buttons
+  document.getElementById("controls").addEventListener("click", e => {
+    const btn = e.target.closest(".btn");
+    if (!btn) return;
+    document.querySelectorAll(".btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const fn = btn.dataset.fn;
+    active = fn === "all" ? Object.keys(fns) : [fn];
+    render();
+  });
+
+  // Hover coords
+  const tooltip = document.createElement("div");
+  Object.assign(tooltip.style, {
+    position: "absolute",
+    background: "rgba(15,23,42,0.95)",
+    border: "1px solid #38bdf8",
+    color: "#e2e8f0",
+    padding: "6px 10px",
+    borderRadius: "6px",
+    fontSize: "12px",
+    fontFamily: "monospace",
+    pointerEvents: "none",
+    display: "none",
+    zIndex: 10
+  });
+  document.body.appendChild(tooltip);
+
+  canvas.addEventListener("mousemove", e => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const px = (e.clientX - rect.left) * scaleX;
+    const py = (e.clientY - rect.top) * scaleY;
+    const x = pxToX(px);
+    const y = pxToY(py);
+    tooltip.textContent = `x = ${x.toFixed(2)}, y = ${y.toFixed(2)}`;
+    tooltip.style.display = "block";
+    tooltip.style.left = (e.clientX + 14) + "px";
+    tooltip.style.top  = (e.clientY + 14) + "px";
+  });
+  canvas.addEventListener("mouseleave", () => tooltip.style.display = "none");
+
+  render();
+})();
+
+/* ============================================================
+   Mini demos — 真實世界例子的小圖
+   ============================================================ */
+(function () {
+  const demos = {
+    // 拋物線運動：y = -0.05(x-10)² + 5（投出後落下）
+    projectile: {
+      xRange: [0, 20], yRange: [0, 6],
+      xLabel: "距離 (m)", yLabel: "高度 (m)",
+      color: "#f472b6",
+      f: x => Math.max(0, -0.05 * (x - 10) ** 2 + 5),
+      annotations: [
+        { x: 10, y: 5, label: "最高點 (10, 5)" }
+      ],
+      ticksX: [0, 5, 10, 15, 20],
+      ticksY: [0, 2, 4, 6]
+    },
+
+    // 複利：y = 1.05^x
+    compound: {
+      xRange: [0, 30], yRange: [0, 5],
+      xLabel: "年", yLabel: "倍",
+      color: "#facc15",
+      f: x => Math.pow(1.05, x),
+      annotations: [
+        { x: 15, y: Math.pow(1.05, 15), label: "15年≈2.08倍" }
+      ],
+      ticksX: [0, 10, 20, 30],
+      ticksY: [1, 2, 3, 4]
+    },
+
+    // 邏輯成長（疫情）：S 型曲線
+    logistic: {
+      xRange: [0, 30], yRange: [0, 1000],
+      xLabel: "天", yLabel: "感染數",
+      color: "#ef4444",
+      f: x => 1000 / (1 + Math.exp(-0.4 * (x - 15))),
+      annotations: [
+        { x: 15, y: 500, label: "拐點" }
+      ],
+      ticksX: [0, 10, 20, 30],
+      ticksY: [0, 250, 500, 750, 1000]
+    },
+
+    // 煞車距離：d = v² / (2·μ·g)，簡化為 d = v²/200
+    braking: {
+      xRange: [0, 120], yRange: [0, 80],
+      xLabel: "速度 km/h", yLabel: "距離 m",
+      color: "#38bdf8",
+      f: v => (v * v) / 180,
+      annotations: [
+        { x: 60, y: 60 * 60 / 180, label: "60→20m" },
+        { x: 120, y: 120 * 120 / 180, label: "120→80m" }
+      ],
+      ticksX: [0, 30, 60, 90, 120],
+      ticksY: [0, 20, 40, 60, 80]
+    },
+
+    // 立方體積：y = x³
+    cube: {
+      xRange: [0, 5], yRange: [0, 130],
+      xLabel: "邊長", yLabel: "體積",
+      color: "#4ade80",
+      f: x => x * x * x,
+      annotations: [
+        { x: 2, y: 8, label: "2³=8" },
+        { x: 4, y: 64, label: "4³=64" }
+      ],
+      ticksX: [0, 1, 2, 3, 4, 5],
+      ticksY: [0, 30, 60, 90, 120]
+    },
+
+    // 牛頓冷卻：T = 25 + 75·e^(-0.1x)
+    cooling: {
+      xRange: [0, 60], yRange: [0, 110],
+      xLabel: "分鐘", yLabel: "°C",
+      color: "#fb923c",
+      f: x => 25 + 75 * Math.exp(-0.08 * x),
+      annotations: [
+        { x: 0, y: 100, label: "100°C" },
+        { x: 60, y: 25 + 75 * Math.exp(-0.08 * 60), label: "≈室溫" }
+      ],
+      ticksX: [0, 20, 40, 60],
+      ticksY: [25, 50, 75, 100],
+      // 室溫水平虛線
+      reference: 25
+    }
+  };
+
+  function drawDemo(canvas, cfg) {
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+    const padL = 38, padR = 12, padT = 14, padB = 28;
+    const plotW = W - padL - padR;
+    const plotH = H - padT - padB;
+
+    const [xMin, xMax] = cfg.xRange;
+    const [yMin, yMax] = cfg.yRange;
+
+    const xToPx = x => padL + ((x - xMin) / (xMax - xMin)) * plotW;
+    const yToPx = y => padT + plotH - ((y - yMin) / (yMax - yMin)) * plotH;
+
+    // background
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+
+    // grid
+    ctx.strokeStyle = "#1e3a5f";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    cfg.ticksX.forEach(x => {
+      const px = xToPx(x);
+      ctx.moveTo(px, padT); ctx.lineTo(px, padT + plotH);
+    });
+    cfg.ticksY.forEach(y => {
+      const py = yToPx(y);
+      ctx.moveTo(padL, py); ctx.lineTo(padL + plotW, py);
+    });
+    ctx.stroke();
+
+    // axes
+    ctx.strokeStyle = "#64748b";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH);
+    ctx.lineTo(padL + plotW, padT + plotH);
+    ctx.stroke();
+
+    // tick labels
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "center";
+    cfg.ticksX.forEach(x => {
+      ctx.fillText(x, xToPx(x), padT + plotH + 14);
+    });
+    ctx.textAlign = "right";
+    cfg.ticksY.forEach(y => {
+      ctx.fillText(y, padL - 4, yToPx(y) + 3);
+    });
+
+    // reference line (e.g. room temp)
+    if (cfg.reference != null) {
+      ctx.strokeStyle = "rgba(148,163,184,0.4)";
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(padL, yToPx(cfg.reference));
+      ctx.lineTo(padL + plotW, yToPx(cfg.reference));
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    // curve fill (gradient under)
+    const grad = ctx.createLinearGradient(0, padT, 0, padT + plotH);
+    grad.addColorStop(0, cfg.color + "55");
+    grad.addColorStop(1, cfg.color + "00");
+
+    ctx.beginPath();
+    let started = false;
+    const steps = 200;
+    for (let i = 0; i <= steps; i++) {
+      const x = xMin + (xMax - xMin) * (i / steps);
+      const y = cfg.f(x);
+      const py = yToPx(Math.max(yMin, Math.min(yMax, y)));
+      const px = xToPx(x);
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    // close to baseline for fill
+    ctx.lineTo(xToPx(xMax), yToPx(yMin));
+    ctx.lineTo(xToPx(xMin), yToPx(yMin));
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // curve stroke
+    ctx.beginPath();
+    started = false;
+    for (let i = 0; i <= steps; i++) {
+      const x = xMin + (xMax - xMin) * (i / steps);
+      const y = cfg.f(x);
+      const py = yToPx(Math.max(yMin, Math.min(yMax, y)));
+      const px = xToPx(x);
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = cfg.color;
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // annotations
+    if (cfg.annotations) {
+      cfg.annotations.forEach(a => {
+        const px = xToPx(a.x), py = yToPx(a.y);
+        ctx.fillStyle = cfg.color;
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#e2e8f0";
+        ctx.font = "11px sans-serif";
+        ctx.textAlign = "left";
+        // smart label position
+        const offsetX = px > W * 0.7 ? -8 : 8;
+        const offsetY = py < H * 0.4 ? 14 : -8;
+        ctx.textAlign = offsetX < 0 ? "right" : "left";
+        ctx.fillText(a.label, px + offsetX, py + offsetY);
+      });
+    }
+  }
+
+  document.querySelectorAll("canvas.mini").forEach(c => {
+    const cfg = demos[c.dataset.demo];
+    if (cfg) drawDemo(c, cfg);
+  });
+})();
+</script>
+<script src="progress.js"></script>
+</body>
+</html>

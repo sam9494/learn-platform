@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>線性代數 V1 · 向量是什麼</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #4ade80; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">線性代數 · V1</span>
+  </nav>
+
+  <header>
+    <span class="badge">Linear Algebra · V1</span>
+    <h1>向量是什麼</h1>
+    <p class="subtitle">Vectors — 有方向的量</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「光說『5』不夠 — 那 5 公里是『往哪』5 公里？」</strong><br>
+      日常生活很多量需要<strong>大小 + 方向</strong>：力、速度、位移、風。
+      向量就是用來表達這種「有方向的量」。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>純量 vs 向量</h2>
+    <table>
+      <thead><tr><th></th><th>純量 Scalar</th><th>向量 Vector</th></tr></thead>
+      <tbody>
+        <tr><td>意思</td><td>只有大小</td><td>大小 + 方向</td></tr>
+        <tr><td>例子</td><td>溫度、質量、時間</td><td>速度、力、位移</td></tr>
+        <tr><td>表示法</td><td>5</td><td>(3, 4) 或 <code>3î + 4ĵ</code></td></tr>
+        <tr><td>圖像</td><td>數線上一點</td><td>箭頭（從起點指到終點）</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>互動：向量加法</h2>
+    <p style="color: var(--muted);">拖兩個滑桿改變兩個向量，看「平行四邊形法則」如何給出和向量。</p>
+    <div class="lab">
+      <canvas id="vecCanvas" width="900" height="500"></canvas>
+      <div class="controls-row">
+        <div class="ctrl"><label>v₁ x <span id="ax">3</span></label><input type="range" id="axS" min="-5" max="5" step="0.5" value="3"></div>
+        <div class="ctrl"><label>v₁ y <span id="ay">2</span></label><input type="range" id="ayS" min="-5" max="5" step="0.5" value="2"></div>
+        <div class="ctrl"><label>v₂ x <span id="bx">-1</span></label><input type="range" id="bxS" min="-5" max="5" step="0.5" value="-1"></div>
+        <div class="ctrl"><label>v₂ y <span id="by">3</span></label><input type="range" id="byS" min="-5" max="5" step="0.5" value="3"></div>
+      </div>
+      <div style="background: var(--panel-2); padding: 14px; border-radius: 8px; text-align: center; font-family: monospace;">
+        <span style="color: #38bdf8;">v₁ = (<span id="v1d">3, 2</span>)</span> +
+        <span style="color: #f472b6;">v₂ = (<span id="v2d">-1, 3</span>)</span> =
+        <span style="color: #facc15;">v₁+v₂ = (<span id="vsd">2, 5</span>)</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>向量的基本運算</h2>
+    <h3>① 加法（首尾相接）</h3>
+    <p><code>(a, b) + (c, d) = (a+c, b+d)</code> — 各分量分別相加。</p>
+
+    <h3>② 純量乘法（變長 / 反向）</h3>
+    <p><code>k · (a, b) = (ka, kb)</code></p>
+    <ul>
+      <li>k = 2 → 向量變兩倍長</li>
+      <li>k = 0.5 → 變一半</li>
+      <li>k = -1 → 反方向</li>
+    </ul>
+
+    <h3>③ 內積（Dot Product）</h3>
+    <p><code>(a, b) · (c, d) = ac + bd</code></p>
+    <p>幾何意義：<code>v · w = |v| |w| cos θ</code>，θ 是兩向量夾角。</p>
+    <ul>
+      <li>內積 &gt; 0 → 夾角 &lt; 90°（同方向）</li>
+      <li>內積 = 0 → 垂直（正交）</li>
+      <li>內積 &lt; 0 → 夾角 &gt; 90°（反方向）</li>
+    </ul>
+
+    <h3>④ 長度（範數）</h3>
+    <p><code>|v| = √(a² + b²)</code> — 畢氏定理！</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實應用</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🚀</div><h4>物理：力的合成</h4><p>多個力同時作用，總效果 = 各力向量相加。</p></div>
+      <div class="card"><div class="icon">🛩️</div><h4>飛行：風的影響</h4><p>飛機速度 + 風速 = 實際對地飛行的向量。</p></div>
+      <div class="card"><div class="icon">🎮</div><h4>遊戲：角色移動</h4><p>按下方向鍵 → 給角色一個移動向量。</p></div>
+      <div class="card"><div class="icon">🤖</div><h4>機器學習：特徵向量</h4><p>每個資料點都是一個向量，相似度用內積算。</p></div>
+      <div class="card"><div class="icon">🧭</div><h4>導航</h4><p>GPS 路徑就是位置向量的時間序列。</p></div>
+      <div class="card"><div class="icon">🎨</div><h4>電腦繪圖</h4><p>每個像素的顏色 = (R, G, B) 三維向量。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>向量 = <strong>大小 + 方向</strong>。</li>
+        <li>加法用「平行四邊形法則」或「首尾相接」。</li>
+        <li>內積為 0 表示<strong>垂直</strong>，是線性代數的常用判斷。</li>
+        <li>長度用畢氏定理算 <code>√(x² + y²)</code>。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="c2.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">C2 · 積分入門</div></a>
+    <a href="v2.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">V2 · 矩陣與線性變換</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("vecCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2, scale = 40;
+
+  let v1 = { x: 3, y: 2 }, v2 = { x: -1, y: 3 };
+
+  function drawArrow(x1, y1, x2, y2, color) {
+    const px1 = cx + x1 * scale, py1 = cy - y1 * scale;
+    const px2 = cx + x2 * scale, py2 = cy - y2 * scale;
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(px1, py1);
+    ctx.lineTo(px2, py2);
+    ctx.stroke();
+    // arrowhead
+    const ang = Math.atan2(py2 - py1, px2 - px1);
+    const ah = 12;
+    ctx.beginPath();
+    ctx.moveTo(px2, py2);
+    ctx.lineTo(px2 - ah * Math.cos(ang - Math.PI/6), py2 - ah * Math.sin(ang - Math.PI/6));
+    ctx.lineTo(px2 - ah * Math.cos(ang + Math.PI/6), py2 - ah * Math.sin(ang + Math.PI/6));
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function render() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    // grid
+    ctx.strokeStyle = "#1e3a5f"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = -10; x <= 10; x++) {
+      ctx.moveTo(cx + x * scale, 0); ctx.lineTo(cx + x * scale, H);
+    }
+    for (let y = -6; y <= 6; y++) {
+      ctx.moveTo(0, cy + y * scale); ctx.lineTo(W, cy + y * scale);
+    }
+    ctx.stroke();
+    // axes
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, cy); ctx.lineTo(W, cy);
+    ctx.moveTo(cx, 0); ctx.lineTo(cx, H);
+    ctx.stroke();
+
+    // v2 from v1's tip (parallelogram method tip-to-tail)
+    drawArrow(v1.x, v1.y, v1.x + v2.x, v1.y + v2.y, "rgba(244,114,182,0.5)");
+    // v1 from v2's tip
+    drawArrow(v2.x, v2.y, v1.x + v2.x, v1.y + v2.y, "rgba(56,189,248,0.5)");
+
+    // v1 (blue)
+    drawArrow(0, 0, v1.x, v1.y, "#38bdf8");
+    // v2 (pink)
+    drawArrow(0, 0, v2.x, v2.y, "#f472b6");
+    // sum (yellow)
+    drawArrow(0, 0, v1.x + v2.x, v1.y + v2.y, "#facc15");
+
+    // labels
+    ctx.fillStyle = "#94a3b8"; ctx.font = "13px sans-serif";
+    ctx.fillText("v₁ + v₂", cx + (v1.x + v2.x) * scale + 8, cy - (v1.y + v2.y) * scale - 4);
+
+    document.getElementById("v1d").textContent = `${v1.x}, ${v1.y}`;
+    document.getElementById("v2d").textContent = `${v2.x}, ${v2.y}`;
+    document.getElementById("vsd").textContent = `${v1.x + v2.x}, ${v1.y + v2.y}`;
+  }
+
+  function bind(id, prop, dispId, isV2) {
+    document.getElementById(id).addEventListener("input", e => {
+      const val = +e.target.value;
+      if (isV2) v2[prop] = val; else v1[prop] = val;
+      document.getElementById(dispId).textContent = val;
+      render();
+    });
+  }
+  bind("axS", "x", "ax", false);
+  bind("ayS", "y", "ay", false);
+  bind("bxS", "x", "bx", true);
+  bind("byS", "y", "by", true);
+  render();
+})();
+</script>
+</body>
+</html>

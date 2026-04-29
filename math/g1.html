@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>幾何 G1 · 平面幾何</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #f472b6; }
+  .pythag-svg { max-width: 100%; height: auto; background: #0a1628; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">幾何 · G1</span>
+  </nav>
+
+  <header>
+    <span class="badge">Geometry · G1</span>
+    <h1>平面幾何</h1>
+    <p class="subtitle">Plane Geometry — 形狀、面積、與兩千年的智慧</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「圖形有哪些不變的性質？怎麼算面積、長度？」</strong><br>
+      平面幾何研究<strong>點、線、角、形狀</strong>之間的關係。
+      它是人類最早建立的數學系統 — 古希臘<strong>歐幾里得</strong>用 5 條公設推出整個幾何，影響後世兩千多年。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>三角形：最基本的形狀</h2>
+    <div class="grid">
+      <div class="card"><h4>內角和 = 180°</h4><p>任何三角形，三個內角加起來都是 180°。這是最重要的事實。</p></div>
+      <div class="card"><h4>面積 = (底 × 高) / 2</h4><p>底邊乘以高，再除以 2。注意「高」要垂直於底。</p></div>
+      <div class="card"><h4>三邊關係</h4><p>任兩邊和 &gt; 第三邊（不然連不起來）。</p></div>
+      <div class="card"><h4>分類</h4><p>銳角三角形、直角三角形、鈍角三角形 / 等邊、等腰、不等邊。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>畢氏定理（最有名的定理）</h2>
+    <div class="lead">
+      <strong>直角三角形</strong>的兩股平方和 = 斜邊平方<br>
+      <code style="font-size: 18px;">a² + b² = c²</code>
+    </div>
+
+    <h3>視覺證明</h3>
+    <p>把三邊各畫出一個正方形，<strong>兩個小正方形的面積</strong>剛好等於<strong>大正方形</strong>。</p>
+
+    <svg class="pythag-svg" viewBox="0 0 500 360" width="500">
+      <!-- triangle vertices: A(180,260), B(380,260), C(180,100) -->
+      <!-- square on a (vertical leg, left side) -->
+      <rect x="20" y="100" width="160" height="160" fill="rgba(56,189,248,0.25)" stroke="#38bdf8" stroke-width="2"/>
+      <text x="100" y="190" text-anchor="middle" fill="#38bdf8" font-size="22" font-family="monospace">a² = 16</text>
+      <text x="100" y="80" text-anchor="middle" fill="#94a3b8" font-size="13">a = 4</text>
+
+      <!-- square on b (horizontal leg, bottom) -->
+      <rect x="180" y="260" width="200" height="100" fill="rgba(244,114,182,0.25)" stroke="#f472b6" stroke-width="2"/>
+      <text x="280" y="320" text-anchor="middle" fill="#f472b6" font-size="22" font-family="monospace">b² = 9</text>
+      <!-- Note: b should also be square. For visual simplicity, show area label only -->
+
+      <!-- triangle -->
+      <polygon points="180,260 380,260 180,100" fill="#facc15" fill-opacity="0.3" stroke="#facc15" stroke-width="3"/>
+      <text x="195" y="180" fill="#facc15" font-size="14">a=4</text>
+      <text x="270" y="280" fill="#facc15" font-size="14">b=3</text>
+      <text x="290" y="170" fill="#facc15" font-size="14">c=5</text>
+
+      <!-- right angle indicator -->
+      <rect x="180" y="240" width="20" height="20" fill="none" stroke="#facc15" stroke-width="2"/>
+
+      <!-- equation -->
+      <text x="250" y="40" text-anchor="middle" fill="#e2e8f0" font-size="20" font-family="monospace">3² + 4² = 5²</text>
+      <text x="250" y="65" text-anchor="middle" fill="#94a3b8" font-size="14">9 + 16 = 25 ✓</text>
+    </svg>
+
+    <p style="margin-top: 14px; color: var(--muted); font-size: 14px;">經典 3-4-5 三角形：邊長 3、4、5 的三角形必為直角三角形。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>圓：完美對稱</h2>
+    <table>
+      <thead><tr><th>性質</th><th>公式</th><th>備註</th></tr></thead>
+      <tbody>
+        <tr><td>圓周長</td><td><code>C = 2πr</code></td><td>π ≈ 3.14159</td></tr>
+        <tr><td>圓面積</td><td><code>A = πr²</code></td><td></td></tr>
+        <tr><td>扇形面積</td><td><code>A = (θ/360) · πr²</code></td><td>θ 為度數</td></tr>
+        <tr><td>弧長</td><td><code>L = (θ/360) · 2πr</code></td><td></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 12px;"><strong>π 是什麼？</strong> 是「圓周長 ÷ 直徑」這個固定比值。
+    無論圓多大多小，這個比都是 3.14159…，是宇宙的常數。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>為什麼歐幾里得幾何很重要？</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🏛️</div><h4>邏輯推理的範本</h4><p>從幾條公設出發，嚴密推出所有定理 — 這套方法影響了整個西方科學。</p></div>
+      <div class="card"><div class="icon">📐</div><h4>建築與工程</h4><p>金字塔、教堂、橋樑都靠幾何學設計。</p></div>
+      <div class="card"><div class="icon">🎨</div><h4>美術透視</h4><p>文藝復興畫家用幾何學創造立體感。</p></div>
+      <div class="card"><div class="icon">🛰️</div><h4>GPS 定位</h4><p>三點定位法靠的是三角形的幾何性質。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 必背公式</h3>
+      <ul>
+        <li>三角形面積 = 底 × 高 ÷ 2</li>
+        <li>三角形內角和 = 180°</li>
+        <li>畢氏定理：a² + b² = c²（直角三角形）</li>
+        <li>圓周長 = 2πr，圓面積 = πr²</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="l4.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">L4 · 指數與對數</div></a>
+    <a href="t1.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">T1 · 三角函數入門</div></a>
+  </div>
+</div>
+
+</body>
+</html>

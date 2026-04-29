@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>統計學 S2 · 描述性統計</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #fb923c; }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .stat-grid .box {
+    background: var(--panel-2);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .stat-grid .lbl { font-size: 12px; color: var(--muted); }
+  .stat-grid .num { font-size: 18px; font-family: monospace; color: var(--accent-3); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">統計學 · S2</span>
+  </nav>
+
+  <header>
+    <span class="badge">Statistics · S2</span>
+    <h1>描述性統計</h1>
+    <p class="subtitle">Descriptive Statistics — 用幾個數字總結一大堆資料</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「面對 10000 筆資料，怎麼一眼看出全貌？」</strong><br>
+      你不可能一個一個看。描述性統計用幾個關鍵數字 — 平均、中位數、標準差 — 把資料的「中心」和「分散」濃縮起來。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>集中趨勢：「中心」在哪</h2>
+    <table>
+      <thead><tr><th>指標</th><th>定義</th><th>適用</th></tr></thead>
+      <tbody>
+        <tr><td><strong>平均數</strong></td><td>所有數加起來 ÷ 個數</td><td>對稱資料</td></tr>
+        <tr><td><strong>中位數</strong></td><td>排序後正中間那個</td><td>有極端值時（房價、收入）</td></tr>
+        <tr><td><strong>眾數</strong></td><td>出現最多次的</td><td>類別資料（最受歡迎）</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 10px;"><strong>注意</strong>：薪水這種有「極富者」拉高的資料，平均數會嚴重失真，要看中位數才公平。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>分散程度：「散得多開」</h2>
+    <ul>
+      <li><strong>全距 (Range)</strong>：最大值 − 最小值</li>
+      <li><strong>變異數 (Variance)</strong>：每個資料和平均數的差，平方後平均。<br>
+          <code>σ² = Σ(xᵢ − μ)² / n</code></li>
+      <li><strong>標準差 (Standard Deviation)</strong>：變異數開根號，單位和原資料一致。<br>
+          <code>σ = √σ²</code></li>
+    </ul>
+    <p>標準差小 → 資料集中；標準差大 → 資料分散。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>互動：直方圖 + 統計量</h2>
+    <p style="color: var(--muted);">點圖表加入資料點，或用按鈕新增不同分布。觀察平均、中位數、標準差怎麼變。</p>
+    <div class="lab">
+      <canvas id="canvas" width="900" height="400"></canvas>
+      <div class="btn-row">
+        <button class="btn" data-act="cluster">集中分布</button>
+        <button class="btn" data-act="spread">分散分布</button>
+        <button class="btn" data-act="skew">偏態（含極端值）</button>
+        <button class="btn" data-act="reset">清除</button>
+      </div>
+      <div class="stat-grid">
+        <div class="box"><div class="lbl">資料筆數</div><div class="num" id="nV">0</div></div>
+        <div class="box"><div class="lbl">平均數 μ</div><div class="num" id="meanV">—</div></div>
+        <div class="box"><div class="lbl">中位數</div><div class="num" id="medV">—</div></div>
+        <div class="box"><div class="lbl">標準差 σ</div><div class="num" id="sdV">—</div></div>
+        <div class="box"><div class="lbl">最小</div><div class="num" id="minV">—</div></div>
+        <div class="box"><div class="lbl">最大</div><div class="num" id="maxV">—</div></div>
+      </div>
+      <p style="font-size: 13px; color: var(--muted); margin-top: 10px;">點圖中央區域可加入新資料點。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>常見的分布形狀</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🔔</div><h4>常態分布（鐘形）</h4><p>身高、考試分數、測量誤差。中央高、兩邊對稱遞減。</p></div>
+      <div class="card"><div class="icon">📉</div><h4>右偏分布</h4><p>薪水、房價。少數極大值把右尾拉長 → 平均 &gt; 中位數。</p></div>
+      <div class="card"><div class="icon">🎲</div><h4>均勻分布</h4><p>骰子、公平樂透。每個值出現機率相同。</p></div>
+      <div class="card"><div class="icon">📊</div><h4>雙峰分布</h4><p>有兩種子族群混在一起（如男女身高混合）。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>用「平均、中位數、標準差」三個數字就能描繪資料樣貌。</li>
+        <li>平均對<strong>極端值敏感</strong>，中位數比較<strong>穩健</strong>。</li>
+        <li>標準差告訴你「資料散得多開」。</li>
+        <li>看到統計數字，先問「分布是什麼形狀？」— 數字本身可能誤導人。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="s1.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">S1 · 機率基礎</div></a>
+    <a href="index.html" class="nav-btn next"><div class="label">完成 ✓</div><div class="title">回到課程目錄</div></a>
+  </div>
+
+  <footer style="margin-top: 50px;">🎉 恭喜！你已完成所有 14 課的數學基礎之旅。</footer>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const xMin = 0, xMax = 100;
+  const padL = 40, padR = 20, padT = 20, padB = 50;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  let data = [];
+
+  function xToPx(x) { return padL + ((x - xMin) / (xMax - xMin)) * plotW; }
+
+  function stats() {
+    const n = data.length;
+    if (n === 0) return null;
+    const mean = data.reduce((a, b) => a + b, 0) / n;
+    const sd = Math.sqrt(data.reduce((s, x) => s + (x - mean)**2, 0) / n);
+    const sorted = [...data].sort((a, b) => a - b);
+    const median = n % 2 ? sorted[(n-1)/2] : (sorted[n/2-1] + sorted[n/2]) / 2;
+    return { n, mean, sd, median, min: sorted[0], max: sorted[n-1] };
+  }
+
+  function render() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    // bins
+    const nBins = 25;
+    const bins = new Array(nBins).fill(0);
+    data.forEach(x => {
+      let b = Math.floor((x - xMin) / (xMax - xMin) * nBins);
+      if (b >= nBins) b = nBins - 1;
+      if (b >= 0) bins[b]++;
+    });
+    const maxC = Math.max(1, ...bins);
+    const binW = plotW / nBins;
+    for (let i = 0; i < nBins; i++) {
+      if (bins[i] === 0) continue;
+      const px = padL + i * binW;
+      const h = (bins[i] / maxC) * plotH;
+      ctx.fillStyle = "rgba(251,146,60,0.6)";
+      ctx.fillRect(px, padT + plotH - h, binW - 1, h);
+    }
+    // axis
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT + plotH); ctx.lineTo(W - padR, padT + plotH);
+    ctx.stroke();
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    for (let v = 0; v <= 100; v += 10) {
+      const px = xToPx(v);
+      ctx.fillText(v, px - 6, padT + plotH + 14);
+    }
+
+    const s = stats();
+    if (s) {
+      // mean line
+      ctx.strokeStyle = "#facc15"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(xToPx(s.mean), padT); ctx.lineTo(xToPx(s.mean), padT + plotH); ctx.stroke();
+      ctx.fillStyle = "#facc15"; ctx.fillText("平均 μ=" + s.mean.toFixed(1), xToPx(s.mean) + 4, padT + 12);
+      // median line
+      ctx.strokeStyle = "#38bdf8";
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      ctx.moveTo(xToPx(s.median), padT); ctx.lineTo(xToPx(s.median), padT + plotH); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#38bdf8"; ctx.fillText("中位數=" + s.median.toFixed(1), xToPx(s.median) + 4, padT + 28);
+      // sd band
+      ctx.fillStyle = "rgba(244,114,182,0.15)";
+      ctx.fillRect(xToPx(s.mean - s.sd), padT + plotH - 6, xToPx(s.mean + s.sd) - xToPx(s.mean - s.sd), 6);
+
+      document.getElementById("nV").textContent = s.n;
+      document.getElementById("meanV").textContent = s.mean.toFixed(1);
+      document.getElementById("medV").textContent = s.median.toFixed(1);
+      document.getElementById("sdV").textContent = s.sd.toFixed(2);
+      document.getElementById("minV").textContent = s.min.toFixed(1);
+      document.getElementById("maxV").textContent = s.max.toFixed(1);
+    } else {
+      ["nV","meanV","medV","sdV","minV","maxV"].forEach(id => {
+        document.getElementById(id).textContent = id === "nV" ? "0" : "—";
+      });
+    }
+  }
+
+  function gen(action) {
+    if (action === "cluster") {
+      data = [];
+      for (let i = 0; i < 100; i++) {
+        let v = 50 + (Math.random() + Math.random() + Math.random() - 1.5) * 8;
+        data.push(Math.max(0, Math.min(100, v)));
+      }
+    }
+    if (action === "spread") {
+      data = [];
+      for (let i = 0; i < 100; i++) {
+        let v = 50 + (Math.random() + Math.random() + Math.random() - 1.5) * 25;
+        data.push(Math.max(0, Math.min(100, v)));
+      }
+    }
+    if (action === "skew") {
+      data = [];
+      for (let i = 0; i < 80; i++) {
+        let v = 30 + (Math.random() + Math.random() - 1) * 12;
+        data.push(Math.max(0, Math.min(100, v)));
+      }
+      // outliers
+      for (let i = 0; i < 6; i++) data.push(85 + Math.random() * 15);
+    }
+    if (action === "reset") data = [];
+    render();
+  }
+
+  document.querySelectorAll("[data-act]").forEach(b => {
+    b.addEventListener("click", () => gen(b.dataset.act));
+  });
+
+  canvas.addEventListener("click", e => {
+    const rect = canvas.getBoundingClientRect();
+    const sx = canvas.width / rect.width;
+    const px = (e.clientX - rect.left) * sx;
+    if (px < padL || px > W - padR) return;
+    const v = xMin + (px - padL) / plotW * (xMax - xMin);
+    data.push(v);
+    render();
+  });
+
+  gen("cluster");
+})();
+</script>
+</body>
+</html>

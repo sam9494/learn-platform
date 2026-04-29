@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>線性代數 V2 · 矩陣與線性變換</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #4ade80; }
+  .matrix {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--panel-2);
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 22px;
+    color: var(--accent-3);
+    border-left: 3px solid var(--branch);
+    border-right: 3px solid var(--branch);
+  }
+  .matrix span { text-align: center; padding: 4px 12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">線性代數 · V2</span>
+  </nav>
+
+  <header>
+    <span class="badge">Linear Algebra · V2</span>
+    <h1>矩陣與線性變換</h1>
+    <p class="subtitle">Matrices — 把空間「拉、轉、壓」的指令</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「怎麼用一個物件，描述空間整體的變形？」</strong><br>
+      矩陣不是「一堆數字」，它是「<strong>變形指令</strong>」 —
+      把整個空間旋轉、縮放、剪切，全都可以濃縮成一個 2×2 矩陣。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>矩陣的基本長相</h2>
+    <p>一個 2×2 矩陣寫成：</p>
+    <div class="matrix" style="margin: 14px 0;">
+      <span>a</span><span>b</span>
+      <span>c</span><span>d</span>
+    </div>
+
+    <h3>關鍵想法：矩陣決定基底向量去哪</h3>
+    <ul>
+      <li>第 1 欄 (a, c) = <strong>î</strong> = (1, 0) 變換後的位置</li>
+      <li>第 2 欄 (b, d) = <strong>ĵ</strong> = (0, 1) 變換後的位置</li>
+    </ul>
+    <p>知道了基底走向哪，整個空間怎麼變就確定了。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>互動：拖動矩陣，看空間變形</h2>
+    <p style="color: var(--muted);">虛線網格是原始空間，實線網格是變形後。藍 / 粉箭頭是 î、ĵ 變換後的位置。</p>
+    <div class="lab">
+      <canvas id="canvas" width="900" height="500"></canvas>
+      <div class="controls-row">
+        <div class="ctrl"><label>a (î_x) <span id="aV">1</span></label><input type="range" id="aS" min="-2" max="2" step="0.1" value="1"></div>
+        <div class="ctrl"><label>c (î_y) <span id="cV">0</span></label><input type="range" id="cS" min="-2" max="2" step="0.1" value="0"></div>
+        <div class="ctrl"><label>b (ĵ_x) <span id="bV">0</span></label><input type="range" id="bS" min="-2" max="2" step="0.1" value="0"></div>
+        <div class="ctrl"><label>d (ĵ_y) <span id="dV">1</span></label><input type="range" id="dS" min="-2" max="2" step="0.1" value="1"></div>
+      </div>
+      <div class="btn-row" id="presets">
+        <button class="btn" data-preset="identity">恆等（不變）</button>
+        <button class="btn" data-preset="rotate">旋轉 45°</button>
+        <button class="btn" data-preset="scale">放大 2 倍</button>
+        <button class="btn" data-preset="shear">剪切</button>
+        <button class="btn" data-preset="flip">翻轉</button>
+      </div>
+      <div style="background: var(--panel-2); padding: 14px; border-radius: 8px; text-align: center; font-family: monospace;">
+        det = <span id="detV" style="color: #facc15;">1.00</span>
+        <span style="color: var(--muted); font-size: 13px;"> ← 行列式 = 變形後面積的倍率</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>矩陣 × 向量</h2>
+    <p>矩陣作用在向量上：</p>
+    <div class="formula" style="display: block; text-align: center; padding: 14px; font-size: 16px; margin: 12px 0;">
+      [a b; c d] · (x, y) = (ax + by, cx + dy)
+    </div>
+    <h3>常見變換</h3>
+    <table>
+      <thead><tr><th>變換</th><th>矩陣</th><th>效果</th></tr></thead>
+      <tbody>
+        <tr><td>恆等</td><td><code>[1 0; 0 1]</code></td><td>什麼都不變</td></tr>
+        <tr><td>放大 k 倍</td><td><code>[k 0; 0 k]</code></td><td>整個空間放大</td></tr>
+        <tr><td>旋轉 θ</td><td><code>[cosθ -sinθ; sinθ cosθ]</code></td><td>逆時針旋轉</td></tr>
+        <tr><td>水平剪切</td><td><code>[1 k; 0 1]</code></td><td>把方塊變平行四邊形</td></tr>
+        <tr><td>x 軸反射</td><td><code>[1 0; 0 -1]</code></td><td>上下翻</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實應用</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🎮</div><h4>3D 遊戲</h4><p>所有物體的旋轉、縮放、移動都用矩陣計算。GPU 為這量身打造。</p></div>
+      <div class="card"><div class="icon">📷</div><h4>相機透視</h4><p>3D 場景投影到 2D 螢幕的計算。</p></div>
+      <div class="card"><div class="icon">🤖</div><h4>神經網路</h4><p>每一層 = 一次矩陣乘法 + 非線性函數。</p></div>
+      <div class="card"><div class="icon">🔍</div><h4>Google PageRank</h4><p>網頁排名算法用的是巨大矩陣的特徵向量。</p></div>
+      <div class="card"><div class="icon">📈</div><h4>主成分分析</h4><p>從高維資料中找出主要方向，用矩陣分解完成。</p></div>
+      <div class="card"><div class="icon">📐</div><h4>工程結構</h4><p>橋樑、建築的應力分析離不開矩陣計算。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>矩陣 = <strong>線性變換</strong>的具體表示。</li>
+        <li>矩陣的<strong>欄</strong>就是基底向量變換後的位置。</li>
+        <li><strong>行列式</strong> det = ad - bc，告訴你變換後面積放大幾倍（負號表示翻面）。</li>
+        <li>連續變換 = 矩陣相乘（注意順序，AB ≠ BA）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="v1.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">V1 · 向量是什麼</div></a>
+    <a href="s1.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">S1 · 機率基礎</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2, scale = 60;
+
+  let m = { a: 1, b: 0, c: 0, d: 1 };
+
+  function transform(x, y) { return [m.a * x + m.b * y, m.c * x + m.d * y]; }
+
+  function render() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    // original (dashed)
+    ctx.strokeStyle = "#334155"; ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    for (let x = -7; x <= 7; x++) {
+      ctx.moveTo(cx + x * scale, 0); ctx.lineTo(cx + x * scale, H);
+    }
+    for (let y = -4; y <= 4; y++) {
+      ctx.moveTo(0, cy + y * scale); ctx.lineTo(W, cy + y * scale);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // transformed grid
+    ctx.strokeStyle = "rgba(74,222,128,0.4)"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = -7; x <= 7; x++) {
+      const [tx0, ty0] = transform(x, -4);
+      const [tx1, ty1] = transform(x, 4);
+      ctx.moveTo(cx + tx0 * scale, cy - ty0 * scale);
+      ctx.lineTo(cx + tx1 * scale, cy - ty1 * scale);
+    }
+    for (let y = -4; y <= 4; y++) {
+      const [tx0, ty0] = transform(-7, y);
+      const [tx1, ty1] = transform(7, y);
+      ctx.moveTo(cx + tx0 * scale, cy - ty0 * scale);
+      ctx.lineTo(cx + tx1 * scale, cy - ty1 * scale);
+    }
+    ctx.stroke();
+
+    // unit square (transformed)
+    const corners = [[0,0],[1,0],[1,1],[0,1]].map(([x,y]) => transform(x,y));
+    ctx.fillStyle = "rgba(250,204,21,0.15)";
+    ctx.beginPath();
+    ctx.moveTo(cx + corners[0][0]*scale, cy - corners[0][1]*scale);
+    for (let i = 1; i < 4; i++) ctx.lineTo(cx + corners[i][0]*scale, cy - corners[i][1]*scale);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "#facc15"; ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // axes
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, cy); ctx.lineTo(W, cy);
+    ctx.moveTo(cx, 0); ctx.lineTo(cx, H);
+    ctx.stroke();
+
+    // i-hat (blue)
+    function arrow(tx, ty, color) {
+      const px = cx + tx * scale, py = cy - ty * scale;
+      ctx.strokeStyle = color; ctx.fillStyle = color;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy); ctx.lineTo(px, py); ctx.stroke();
+      const ang = Math.atan2(py - cy, px - cx);
+      ctx.beginPath();
+      ctx.moveTo(px, py);
+      ctx.lineTo(px - 12 * Math.cos(ang - Math.PI/6), py - 12 * Math.sin(ang - Math.PI/6));
+      ctx.lineTo(px - 12 * Math.cos(ang + Math.PI/6), py - 12 * Math.sin(ang + Math.PI/6));
+      ctx.closePath();
+      ctx.fill();
+    }
+    arrow(m.a, m.c, "#38bdf8");
+    arrow(m.b, m.d, "#f472b6");
+
+    // det
+    const det = m.a * m.d - m.b * m.c;
+    document.getElementById("detV").textContent = det.toFixed(2);
+  }
+
+  function bind(id, prop, dispId) {
+    document.getElementById(id).addEventListener("input", e => {
+      m[prop] = +e.target.value;
+      document.getElementById(dispId).textContent = m[prop].toFixed(1);
+      render();
+    });
+  }
+  bind("aS","a","aV"); bind("bS","b","bV"); bind("cS","c","cV"); bind("dS","d","dV");
+
+  function setM(a, b, c, d) {
+    m = { a, b, c, d };
+    document.getElementById("aS").value = a; document.getElementById("aV").textContent = a.toFixed(1);
+    document.getElementById("bS").value = b; document.getElementById("bV").textContent = b.toFixed(1);
+    document.getElementById("cS").value = c; document.getElementById("cV").textContent = c.toFixed(1);
+    document.getElementById("dS").value = d; document.getElementById("dV").textContent = d.toFixed(1);
+    render();
+  }
+
+  document.getElementById("presets").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const t = b.dataset.preset;
+    if (t === "identity") setM(1, 0, 0, 1);
+    if (t === "rotate")   setM(0.7, -0.7, 0.7, 0.7);
+    if (t === "scale")    setM(2, 0, 0, 2);
+    if (t === "shear")    setM(1, 1, 0, 1);
+    if (t === "flip")     setM(1, 0, 0, -1);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

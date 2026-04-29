@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微積分 C2 · 積分入門</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #facc15; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">微積分 · C2</span>
+  </nav>
+
+  <header>
+    <span class="badge">Calculus · C2</span>
+    <h1>積分入門</h1>
+    <p class="subtitle">Integration — 用「面積」累積總量</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「給定一個變化率，總共累積了多少？」</strong><br>
+      微分問「變化多快」，積分問「<strong>累積多少</strong>」。<br>
+      在圖形上，積分就是<strong>曲線下的面積</strong>。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>從矩形逼近面積</h2>
+    <p>怎麼算彎曲曲線下的面積？古希臘的辦法：用很多窄矩形堆起來逼近。</p>
+    <p>當矩形數量 n → ∞，矩形寬度 → 0，總和就是<strong>定積分</strong>，記作：</p>
+    <div class="formula" style="font-size: 22px; padding: 12px 20px; display: block; text-align: center; margin: 16px 0;">
+      ∫<sub>a</sub><sup>b</sup> f(x) dx
+    </div>
+
+    <div class="lab">
+      <canvas id="riemannCanvas" width="900" height="500"></canvas>
+      <div class="ctrl" style="margin-top: 14px;">
+        <label>矩形數量 n <span id="nVal">10</span></label>
+        <input type="range" id="nSlider" min="1" max="200" step="1" value="10">
+      </div>
+      <div style="background: var(--panel-2); padding: 14px; border-radius: 8px; text-align: center; margin-top: 12px; font-family: monospace;">
+        <div style="color: var(--muted); font-size: 13px;">用 <span id="nDisp">10</span> 個矩形逼近 ∫₀² x² dx</div>
+        <div style="font-size: 22px; color: #facc15; margin-top: 4px;">≈ <span id="sumVal">2.85</span></div>
+        <div style="color: var(--muted); font-size: 13px; margin-top: 4px;">真實答案：8/3 ≈ 2.667</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>微積分基本定理</h2>
+    <div class="lead">
+      <strong>核心結論：「微分和積分互為反操作。」</strong><br>
+      若 F'(x) = f(x)，則 <code>∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a)</code>。
+    </div>
+    <p>這是微積分最重要的定理（牛頓和萊布尼茲分別發現）。它讓「算面積」這件事變成「找反導數」，超級簡單。</p>
+
+    <h3>例：算 <code>∫₀² x² dx</code></h3>
+    <ol style="padding-left: 24px;">
+      <li>找 x² 的反導數：<code>F(x) = x³/3</code>（因為 (x³/3)' = x²）</li>
+      <li>代入上下限：<code>F(2) − F(0) = 8/3 − 0 = 8/3</code></li>
+      <li>結果 ≈ 2.667 ✓</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>常用積分公式</h2>
+    <table>
+      <thead><tr><th>函數</th><th>反導數（不定積分）</th></tr></thead>
+      <tbody>
+        <tr><td><code>xⁿ</code> （n ≠ -1）</td><td><code>x^(n+1) / (n+1) + C</code></td></tr>
+        <tr><td><code>1/x</code></td><td><code>ln|x| + C</code></td></tr>
+        <tr><td><code>eˣ</code></td><td><code>eˣ + C</code></td></tr>
+        <tr><td><code>sin(x)</code></td><td><code>−cos(x) + C</code></td></tr>
+        <tr><td><code>cos(x)</code></td><td><code>sin(x) + C</code></td></tr>
+      </tbody>
+    </table>
+    <p style="color: var(--muted); font-size: 14px; margin-top: 10px;">
+      C 是任意常數。因為常數的導數為 0，所以反導數差一個 C 也都對 — 這叫「不定積分」。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實應用</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🚗</div><h4>從速度算位移</h4><p>對速度 v(t) 積分 = 走過的距離。速度表盤的累積就是行駛里程。</p></div>
+      <div class="card"><div class="icon">🌊</div><h4>水流總量</h4><p>水龍頭每秒出 v(t) 升水 → 積分 = 水缸總水量。</p></div>
+      <div class="card"><div class="icon">⚡</div><h4>用電總量</h4><p>家裡某時刻耗電 P(t) → 積分 = 一個月的總用電（kWh）。</p></div>
+      <div class="card"><div class="icon">📊</div><h4>機率密度</h4><p>對機率密度函數積分 = 落在某區間的機率。</p></div>
+      <div class="card"><div class="icon">🏗️</div><h4>不規則面積</h4><p>湖泊面積、土地面積，用積分精確算。</p></div>
+      <div class="card"><div class="icon">🎢</div><h4>物體體積</h4><p>旋轉體體積、不規則物體都靠積分。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>定積分 = <strong>曲線下面積</strong>。</li>
+        <li>用反導數算積分，是<strong>微積分基本定理</strong>的功勞。</li>
+        <li>次方規則反過來：<code>∫xⁿdx = x^(n+1)/(n+1) + C</code>。</li>
+        <li>微分問「變化率」，積分問「累積量」 — 兩者是同一硬幣的兩面。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="c1.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">C1 · 微分初探</div></a>
+    <a href="v1.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">V1 · 向量是什麼</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("riemannCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const xMin = -0.5, xMax = 2.5, yMin = -0.5, yMax = 5;
+  const xToPx = x => ((x - xMin) / (xMax - xMin)) * W;
+  const yToPx = y => H - ((y - yMin) / (yMax - yMin)) * H;
+  let n = 10;
+  const f = x => x * x;
+  const a = 0, b = 2;
+
+  function drawGrid() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "#1e3a5f"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x <= 2; x += 0.5) { ctx.moveTo(xToPx(x), 0); ctx.lineTo(xToPx(x), H); }
+    for (let y = 0; y <= 4; y++) { ctx.moveTo(0, yToPx(y)); ctx.lineTo(W, yToPx(y)); }
+    ctx.stroke();
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0));
+    ctx.moveTo(xToPx(0), 0); ctx.lineTo(xToPx(0), H);
+    ctx.stroke();
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    for (let x = 0; x <= 2; x += 0.5) ctx.fillText(x, xToPx(x) + 3, yToPx(0) + 13);
+    for (let y = 1; y <= 4; y++) ctx.fillText(y, xToPx(0) + 4, yToPx(y) - 3);
+  }
+
+  function render() {
+    drawGrid();
+    const dx = (b - a) / n;
+    let total = 0;
+    // rectangles (midpoint rule)
+    for (let i = 0; i < n; i++) {
+      const xL = a + i * dx;
+      const xR = xL + dx;
+      const xMid = xL + dx/2;
+      const h = f(xMid);
+      total += h * dx;
+      ctx.fillStyle = "rgba(250, 204, 21, 0.4)";
+      ctx.strokeStyle = "#facc15";
+      ctx.lineWidth = 1;
+      const px = xToPx(xL);
+      const py = yToPx(h);
+      const w = xToPx(xR) - px;
+      const ph = yToPx(0) - py;
+      ctx.fillRect(px, py, w, ph);
+      ctx.strokeRect(px, py, w, ph);
+    }
+    // curve
+    ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 3;
+    ctx.beginPath();
+    let started = false;
+    for (let px = 0; px <= W; px++) {
+      const x = xMin + (px / W) * (xMax - xMin);
+      const y = f(x);
+      const py = yToPx(y);
+      if (py < -20 || py > H + 20) { started = false; continue; }
+      if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    // labels
+    ctx.fillStyle = "#94a3b8"; ctx.font = "14px sans-serif";
+    ctx.fillText("f(x) = x²", 16, 28);
+    ctx.fillText("a=0", xToPx(0) + 4, yToPx(0) + 28);
+    ctx.fillText("b=2", xToPx(2) - 24, yToPx(0) + 28);
+
+    document.getElementById("sumVal").textContent = total.toFixed(3);
+    document.getElementById("nVal").textContent = n;
+    document.getElementById("nDisp").textContent = n;
+  }
+
+  document.getElementById("nSlider").addEventListener("input", e => {
+    n = +e.target.value;
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

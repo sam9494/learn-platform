@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>算術 A1 · 分數與小數</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #94a3b8; }
+  .pizza { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .pizza canvas { max-width: 280px; }
+  .pizza-info { font-size: 16px; }
+  .pizza-info .big { font-size: 32px; font-family: monospace; color: var(--accent-3); }
+  .place-value { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; margin: 16px 0; }
+  .place-value .col { background: var(--panel-2); padding: 10px 4px; border-radius: 6px; }
+  .place-value .col .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .place-value .col .digit { font-size: 22px; font-family: monospace; color: var(--accent-3); }
+  .place-value .col.point { background: transparent; color: var(--accent); font-size: 28px; padding-top: 14px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">算術 · A1</span>
+  </nav>
+
+  <header>
+    <span class="badge">Arithmetic · A1</span>
+    <h1>分數與小數</h1>
+    <p class="subtitle">Fractions & Decimals — 切披薩與位值的故事</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「不滿一個整數的數，要怎麼表達？」</strong><br>
+      整數可以數（1、2、3⋯），但「半個披薩」、「3.14」這種「中間的數」需要新的記號 —
+      那就是<strong>分數</strong>和<strong>小數</strong>。
+    </div>
+    <ul>
+      <li><strong>分數</strong>從「分東西」來：把一個整體切成幾份，取其中幾份。</li>
+      <li><strong>小數</strong>從「位值」來：個位、十分位、百分位，按位記錄。</li>
+      <li>兩者其實在講<strong>同一件事</strong>，只是表達方式不同。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>分數：把整體切成幾份</h2>
+    <p>分數寫作 <code>a/b</code>，意思是「把整體切成 b 份，取 a 份」。</p>
+    <div class="lab">
+      <div class="pizza">
+        <canvas id="pizza" width="280" height="280"></canvas>
+        <div class="pizza-info">
+          <div class="big" id="fracText">3 / 8</div>
+          <p>= 把披薩切成 <span id="den">8</span> 份<br>取 <span id="num">3</span> 份</p>
+          <p style="color: var(--muted); font-size: 14px;">小數值：<code id="decVal">0.375</code></p>
+        </div>
+      </div>
+      <div class="controls-row" style="margin-top: 18px;">
+        <div class="ctrl">
+          <label>分子（取幾份）<span id="numVal">3</span></label>
+          <input type="range" id="numSlider" min="0" max="12" step="1" value="3">
+        </div>
+        <div class="ctrl">
+          <label>分母（切幾份）<span id="denVal">8</span></label>
+          <input type="range" id="denSlider" min="1" max="12" step="1" value="8">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>小數：位值的延伸</h2>
+    <p>小數點左邊是整數位（個、十、百⋯），右邊是分數位（十分之一、百分之一⋯）。</p>
+    <div class="lab">
+      <div style="text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 8px;">
+        以 <strong style="color: var(--accent-3);">123.456</strong> 為例
+      </div>
+      <div class="place-value">
+        <div class="col"><div class="label">百</div><div class="digit">1</div></div>
+        <div class="col"><div class="label">十</div><div class="digit">2</div></div>
+        <div class="col"><div class="label">個</div><div class="digit">3</div></div>
+        <div class="col point">.</div>
+        <div class="col"><div class="label">十分之</div><div class="digit">4</div></div>
+        <div class="col"><div class="label">百分之</div><div class="digit">5</div></div>
+        <div class="col"><div class="label">千分之</div><div class="digit">6</div></div>
+      </div>
+      <p style="text-align: center; margin-top: 10px;">
+        = 100 + 20 + 3 + 0.4 + 0.05 + 0.006
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>互換對照</h2>
+    <table>
+      <thead><tr><th>分數</th><th>小數</th><th>百分比</th><th>實際情境</th></tr></thead>
+      <tbody>
+        <tr><td><code>1/2</code></td><td>0.5</td><td>50%</td><td>一半</td></tr>
+        <tr><td><code>1/4</code></td><td>0.25</td><td>25%</td><td>四分之一</td></tr>
+        <tr><td><code>3/4</code></td><td>0.75</td><td>75%</td><td>四分之三</td></tr>
+        <tr><td><code>1/3</code></td><td>0.333…</td><td>33.3%</td><td>除不盡</td></tr>
+        <tr><td><code>1/8</code></td><td>0.125</td><td>12.5%</td><td>八分之一</td></tr>
+      </tbody>
+    </table>
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>分數 → 小數：分子 ÷ 分母（用除法算）。</li>
+        <li>小數 → 分數：把小數寫成「÷ 10、÷ 100⋯」再化簡。</li>
+        <li>有些分數（如 1/3）轉成小數會<strong>除不盡</strong>，叫做<strong>循環小數</strong>。</li>
+        <li>百分比就是「以 100 為分母」的分數。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="index.html" class="nav-btn"><div class="label">← 課程目錄</div><div class="title">所有課程</div></a>
+    <a href="lesson01.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">L1 · 函數圖形</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("pizza");
+  const ctx = canvas.getContext("2d");
+  const cx = 140, cy = 140, r = 120;
+  let num = 3, den = 8;
+
+  function draw() {
+    ctx.clearRect(0, 0, 280, 280);
+    // base circle
+    ctx.fillStyle = "#1e293b";
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+
+    // filled slices
+    const sliceAngle = (Math.PI * 2) / den;
+    for (let i = 0; i < num && i < den; i++) {
+      ctx.fillStyle = i % 2 === 0 ? "#f472b6" : "#fb923c";
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, -Math.PI/2 + i * sliceAngle, -Math.PI/2 + (i + 1) * sliceAngle);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    // slice lines
+    ctx.strokeStyle = "#0a1628";
+    ctx.lineWidth = 2;
+    for (let i = 0; i < den; i++) {
+      const a = -Math.PI/2 + i * sliceAngle;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+      ctx.stroke();
+    }
+    // outline
+    ctx.strokeStyle = "#64748b";
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  function update() {
+    if (num > den) num = den;
+    document.getElementById("numSlider").max = den;
+    document.getElementById("numSlider").value = num;
+    document.getElementById("numVal").textContent = num;
+    document.getElementById("denVal").textContent = den;
+    document.getElementById("num").textContent = num;
+    document.getElementById("den").textContent = den;
+    document.getElementById("fracText").textContent = `${num} / ${den}`;
+    document.getElementById("decVal").textContent = (num / den).toFixed(3);
+    draw();
+  }
+
+  document.getElementById("numSlider").addEventListener("input", e => { num = +e.target.value; update(); });
+  document.getElementById("denSlider").addEventListener("input", e => { den = +e.target.value; update(); });
+  update();
+})();
+</script>
+</body>
+</html>

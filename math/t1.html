@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角學 T1 · 三角函數入門</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #f472b6; }
+  .ratio-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .ratio-box .item {
+    background: var(--panel-2);
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .ratio-box .item .name { color: var(--branch); font-weight: 700; font-size: 18px; }
+  .ratio-box .item .value { font-family: monospace; font-size: 24px; color: var(--accent-3); margin: 6px 0; }
+  .ratio-box .item .formula { color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">三角學 · T1</span>
+  </nav>
+
+  <header>
+    <span class="badge">Trigonometry · T1</span>
+    <h1>三角函數入門</h1>
+    <p class="subtitle">SOH-CAH-TOA — 從直角三角形開始</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「不能直接量的距離，怎麼算？」</strong><br>
+      古人想知道月亮的距離、山的高度、星星的位置 — 不能用尺直接量，但可以量<strong>角度</strong>。
+      三角函數就是把「角度」變成「邊長比例」的轉換器。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>三個主角：sin、cos、tan</h2>
+    <p>在直角三角形中，鎖定一個非直角的角 θ，三條邊有專屬名稱：</p>
+    <ul>
+      <li><strong>對邊 (Opposite)</strong>：在 θ 的對面</li>
+      <li><strong>鄰邊 (Adjacent)</strong>：靠著 θ 但不是斜邊</li>
+      <li><strong>斜邊 (Hypotenuse)</strong>：對著直角，最長</li>
+    </ul>
+
+    <h3>SOH-CAH-TOA 記法</h3>
+    <div class="grid">
+      <div class="card">
+        <h4>SOH</h4>
+        <div class="formula">sin θ = 對 / 斜</div>
+        <p><strong>S</strong>ine = <strong>O</strong>pposite / <strong>H</strong>ypotenuse</p>
+      </div>
+      <div class="card">
+        <h4>CAH</h4>
+        <div class="formula">cos θ = 鄰 / 斜</div>
+        <p><strong>C</strong>osine = <strong>A</strong>djacent / <strong>H</strong>ypotenuse</p>
+      </div>
+      <div class="card">
+        <h4>TOA</h4>
+        <div class="formula">tan θ = 對 / 鄰</div>
+        <p><strong>T</strong>angent = <strong>O</strong>pposite / <strong>A</strong>djacent</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>互動：拖動角度看三角形</h2>
+    <p style="color: var(--muted);">改變角度 θ，三邊比例與三角函數值會即時更新。</p>
+    <div class="lab">
+      <canvas id="triCanvas" width="900" height="450"></canvas>
+      <div class="ctrl" style="margin-top: 14px;">
+        <label>角度 θ <span id="angVal">30°</span></label>
+        <input type="range" id="angSlider" min="5" max="85" step="1" value="30">
+      </div>
+      <div class="ratio-box">
+        <div class="item">
+          <div class="name">sin θ</div>
+          <div class="value" id="sinV">0.500</div>
+          <div class="formula">對 / 斜</div>
+        </div>
+        <div class="item">
+          <div class="name">cos θ</div>
+          <div class="value" id="cosV">0.866</div>
+          <div class="formula">鄰 / 斜</div>
+        </div>
+        <div class="item">
+          <div class="name">tan θ</div>
+          <div class="value" id="tanV">0.577</div>
+          <div class="formula">對 / 鄰</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>常用角度的精確值</h2>
+    <table>
+      <thead><tr><th>θ</th><th>sin</th><th>cos</th><th>tan</th></tr></thead>
+      <tbody>
+        <tr><td>0°</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>30°</td><td>1/2</td><td>√3/2</td><td>1/√3</td></tr>
+        <tr><td>45°</td><td>√2/2</td><td>√2/2</td><td>1</td></tr>
+        <tr><td>60°</td><td>√3/2</td><td>1/2</td><td>√3</td></tr>
+        <tr><td>90°</td><td>1</td><td>0</td><td>∞</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top: 12px; color: var(--muted); font-size: 14px;">
+      30°、45°、60° 這三個角必背 — 從直角三角形（30-60-90 或 45-45-90）就能推出來。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實應用</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🏔️</div><h4>測量山高</h4><p>站在距離山腳 d 處，仰角 θ → 山高 = d · tan θ</p></div>
+      <div class="card"><div class="icon">🚢</div><h4>航海定位</h4><p>看星星仰角推算緯度，看星星方位推算經度。</p></div>
+      <div class="card"><div class="icon">📐</div><h4>建築斜屋頂</h4><p>知道屋頂角度，可算出建材長度。</p></div>
+      <div class="card"><div class="icon">🎯</div><h4>砲彈射程</h4><p>初速 v、角度 θ → 射程 = v²·sin(2θ)/g</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>三角函數把<strong>角度</strong>變成<strong>邊長比例</strong>。</li>
+        <li>SOH-CAH-TOA 是入門的口訣，必背。</li>
+        <li>sin 和 cos 都介於 -1 到 1 之間（因為對邊、鄰邊都不會超過斜邊）。</li>
+        <li>tan 在 90° 會「爆炸」（鄰邊變 0），因此沒有定義。</li>
+        <li>下一課我們會把角度從「直角三角形」擴展到<strong>任意角度</strong>（單位圓）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="g1.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">G1 · 平面幾何</div></a>
+    <a href="t2.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">T2 · 單位圓與波形</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("triCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  let theta = 30;
+
+  function render() {
+    const rad = theta * Math.PI / 180;
+    const hyp = 320;
+    const adj = hyp * Math.cos(rad);
+    const opp = hyp * Math.sin(rad);
+
+    const ox = 200, oy = H - 80;
+
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+
+    // adjacent (horizontal)
+    ctx.strokeStyle = "#38bdf8";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy);
+    ctx.lineTo(ox + adj, oy);
+    ctx.stroke();
+
+    // opposite (vertical)
+    ctx.strokeStyle = "#facc15";
+    ctx.beginPath();
+    ctx.moveTo(ox + adj, oy);
+    ctx.lineTo(ox + adj, oy - opp);
+    ctx.stroke();
+
+    // hypotenuse
+    ctx.strokeStyle = "#f472b6";
+    ctx.beginPath();
+    ctx.moveTo(ox, oy);
+    ctx.lineTo(ox + adj, oy - opp);
+    ctx.stroke();
+
+    // right angle
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(ox + adj - 16, oy - 16, 16, 16);
+
+    // angle arc
+    ctx.strokeStyle = "#4ade80";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(ox, oy, 50, -rad, 0);
+    ctx.stroke();
+    ctx.fillStyle = "#4ade80";
+    ctx.font = "bold 18px sans-serif";
+    ctx.fillText("θ = " + theta + "°", ox + 60, oy - 10);
+
+    // labels
+    ctx.font = "16px sans-serif";
+    ctx.fillStyle = "#38bdf8";
+    ctx.fillText("鄰邊 = " + adj.toFixed(0), ox + adj/2 - 40, oy + 24);
+    ctx.fillStyle = "#facc15";
+    ctx.fillText("對邊 = " + opp.toFixed(0), ox + adj + 10, oy - opp/2);
+    ctx.fillStyle = "#f472b6";
+    ctx.fillText("斜邊 = " + hyp, ox + adj/2 - 50, oy - opp/2 - 10);
+
+    // ratio displays
+    document.getElementById("sinV").textContent = Math.sin(rad).toFixed(3);
+    document.getElementById("cosV").textContent = Math.cos(rad).toFixed(3);
+    document.getElementById("tanV").textContent = Math.tan(rad).toFixed(3);
+  }
+
+  document.getElementById("angSlider").addEventListener("input", e => {
+    theta = +e.target.value;
+    document.getElementById("angVal").textContent = theta + "°";
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

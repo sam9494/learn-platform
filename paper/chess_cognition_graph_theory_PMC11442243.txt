@@ -1,0 +1,384 @@
+================================================================================
+THE EFFECT OF CHESS ON COGNITION: A GRAPH THEORY STUDY ON COGNITIVE DATA
+================================================================================
+
+Journal: Frontiers in Psychology
+Date: September 17, 2024
+Volume: 15, Article 1407583
+DOI: 10.3389/fpsyg.2024.1407583
+PMC ID: PMC11442243
+
+================================================================================
+AUTHORS AND AFFILIATIONS
+================================================================================
+
+Lead Author: Lissett Gonzalez-Burgos
+  - Dept. of Clinical Psychology, Psychobiology & Methodology, Universidad de La Laguna, Spain
+
+Co-authors:
+- Candida Lozano-Rodriguez (Dept. of Developmental & Educational Psychology, Universidad de La Laguna)
+- Yaiza Molina (Universidad Fernando Pessoa Canarias)
+- Eloy Garcia-Cabello (Universidad Fernando Pessoa Canarias)
+- Ramon Aciego (Universidad de La Laguna)
+- Jose Barroso (Universidad Fernando Pessoa Canarias)
+- Daniel Ferreira (Universidad Fernando Pessoa Canarias; Karolinska Institutet, Stockholm)
+
+================================================================================
+ABSTRACT
+================================================================================
+
+The study examined how chess affects cognition using graph theory analysis. Researchers
+compared 19 chess players (mean age 49.5) with 19 matched controls using 27 cognitive
+measures across multiple domains. Chess players demonstrated superior visuospatial
+abilities and displayed higher local efficiency but lower global efficiency in their
+cognitive connectome. Graph analysis revealed executive/attention/processing speed and
+visuoconstructive abilities played central roles in chess players' cognitive networks.
+The cognitive architecture showed reorganization into three functionally coherent modules
+(visual, verbal, and executive/attention/processing speed) compared to the four
+less-organized modules observed in controls.
+
+================================================================================
+1. INTRODUCTION
+================================================================================
+
+Chess involves "multiple cognitive processes" including encoding, remembering, and
+processing moves through symbolic descriptions. Players organize knowledge of openings,
+middlegame themes, and endgame techniques around verbal labels.
+
+Research suggests intensive chess practice positively impacts cognitive performance. Top
+chess players demonstrated "superior verbal skills, represented by a high frequency of
+professional writing occupations and mastery of foreign languages." Chess practice also
+influences perceptual processing -- expert players recognize game plays and recall
+positions through perceptual organization and internal position representation, enabling
+better decision-making by focusing on piece clusters rather than individual pieces.
+
+Studies comparing chess players versus non-players show mixed results. Some found higher
+performance in verbal auditory memory, visuospatial working memory, and planning
+abilities. However, other studies found no differences or worse performance in chess
+players on certain measures. These inconsistencies may reflect the limited number of
+cognitive measures in most studies, failing to comprehensively map cognitive domains.
+Additionally, univariate analysis cannot capture the complexity of interactive cognitive
+engagement that chess demands. Multivariate approaches like graph theory enable studying
+complex associations among multiple cognitive measures.
+
+Recent graph theory research on cognitive measures characterizes the "cognitive
+connectome," representing complex organization among multiple measures. However, no
+previous study investigated chess players' cognitive connectomes using multivariate
+analysis. This approach could clarify benefits of intensive intellectual practice for
+brain stimulation and age-related cognitive decline risk reduction, potentially better
+reflecting how brains handle complex cognitive demands like chess.
+
+The study aimed to investigate adult chess players' cognitive connectomes through three
+approaches: univariate analysis of cognitive performance, multivariate graph theory
+analysis comparing integration and segregation measures, and community structure analysis
+for understanding cognitive architecture.
+
+================================================================================
+2. MATERIALS AND METHODS
+================================================================================
+
+2.1. PARTICIPANTS
+-----------------
+
+Research included 38 total participants: 19 chess players and 19 controls aged 39-69
+years. Chess group recruitment occurred through announcements at the chess federation
+and several chess clubs in Tenerife, Spain. Control group selection came from the
+GENIC-database (Group of Neuropsychological Studies of the Canary Islands) by matching
+controls to chess players on "age, sex, education level, and manual preference using the
+Edinburgh Handedness Inventory". All participants were male by study design. Both study
+groups reported leisure and physical activities, with controls not playing chess regularly
+or fulfilling chess group inclusion criteria. Crystallized intelligence assessment
+utilized the Wechsler Adult Intelligence Scale (WAIS-III) Information subtest.
+
+Inclusion criteria specified: "(1) normal cognitive performance in comprehensive
+neuropsychological assessment using age-, sex-, and education-adjusted normative data
+(2) no neurologic, psychiatric, or systemic diseases with a potential impact on cognitive
+performance; and (3) no history of substance abuse." The study received ethics approval
+from the University of La Laguna (Spain), project number 57, with all participants
+providing written informed consent per the Declaration of Helsinki.
+
+DEMOGRAPHIC CHARACTERISTICS (Table 1):
+
+| Characteristic            | Chess Players (n=19)     | Controls (n=19)          | p-value |
+|---------------------------|--------------------------|--------------------------|---------|
+| Age, years (range)        | 49.5 +/- 7.8 (39-69)    | 49.7 +/- 7.7 (39-69)    | 0.837   |
+| Sex (Male)                | 19                       | 19                       | --      |
+| Education: Secondary      | 4                        | 4                        | --      |
+| Education: University     | 15                       | 15                       | --      |
+| WAIS-III Information      | 22.6 +/- 3.6 (16-28)    | 21.5 +/- 3.4 (14-26)    | 0.270   |
+| MMSE                      | 29.5 +/- 0.9 (27-30)    | 28.9 +/- 1.1 (27-30)    | 0.062   |
+| Elo rating                | 1733.8 +/- 254.8 (1283-2102) | --                  | --      |
+
+
+2.2. NEUROPSYCHOLOGICAL ASSESSMENT
+-----------------------------------
+
+"The neuropsychological protocol includes multiple tests of language, processing speed,
+attention, executive functions, verbal and visual episodic memory, procedural memory,
+and visuoconstructive, visuoperceptive and visuospatial functions". The MMSE served as
+a global cognition measure.
+
+27 COGNITIVE VARIABLES (Table 2) across 7 domains:
+
+Processing Speed & Executive Function:
+  - Stroop Words (Sheet 1)
+  - Stroop Colors (Sheet 2)
+  - Stroop Inhibition (Sheet 3)
+  - Color Trails Test Part 1
+  - Color Trails Test Part 2
+  - Phonemic Fluency (FAS)
+  - Semantic Fluency (Animals)
+
+Visuospatial & Perceptual:
+  - Facial Recognition Test
+  - Judgment of Line Orientation Test (JLOT)
+  - Spatial Span Forward
+  - Spatial Span Backward
+
+Verbal Memory (TAVEC):
+  - 1st Trial
+  - Learning
+  - Short Delay
+  - Short Delay with Cues
+  - Long Delay
+  - Long Delay with Cues
+  - Recognition (Correct)
+
+Visual Memory & Construction:
+  - Visual Reproduction I (Immediate)
+  - Visual Reproduction II (Delayed)
+  - VR Copying
+  - VR Recognition
+  - VR Visual Discrimination
+
+Premotor Function:
+  - Luria's Hand Alternating Movements (Right)
+  - Luria's Hand Alternating Movements (Left)
+
+3-D Construction & Language:
+  - Block Design (WAIS-III)
+  - Boston Naming Test (BNT)
+
+
+2.3. NETWORK CONSTRUCTION AND GRAPH ANALYSIS
+----------------------------------------------
+
+The cognitive variables serving as network nodes are listed in Table 2. "No cognitive
+variables from the extensive neuropsychological protocol were excluded for the graph
+analysis." Prior to network construction, processing speed variables underwent inversion
+so higher scores reflected better performance universally. Edges derived from
+group-specific Pearson correlation coefficient association matrices between node pairs.
+
+The resulting correlation matrices underwent binarization through correlation coefficient
+thresholding "at a range of network densities (min = 10% to max = 45%, in steps of 1%),
+to ensure fully connected networks and exclude densities where connectomes had random
+topologies". Self-connections and negative correlations were excluded.
+
+Calculated measures included global metrics: "average global efficiency, average local
+efficiency, and transitivity measures calculated from the binary networks across the
+different densities, and the average strength calculated from the weighted network".
+Nodal measures comprised nodal global efficiency, nodal local efficiency, and nodal
+closeness centrality. Modular analyses employed "the Louvain algorithm" on weighted
+undirected networks with gamma value of 1.
+
+
+2.4. STATISTICAL ANALYSIS
+--------------------------
+
+Analysis utilized R programming environment and BRAPH software. Data were assessed for
+outliers; distribution normality confirmed through histogram inspection and
+asymmetry/kurtosis computation. Mann-Whitney U tests analyzed demographic variables.
+
+Univariate analysis compared chess players versus controls across 27 cognitive variables
+using t-tests for continuous variables and Mann-Whitney U tests for non-normally
+distributed variables. Effect sizes employed Cohen's d or Hedge's g, with significance
+at p <= 0.05 (two-tailed).
+
+Global graph measure comparisons occurred through "1,000 nonparametric permutations over
+the previously pre-specified range of network densities (min = 10% to max = 45%, in
+steps of 1%)." Nodal analyses employed "the 10-45% range of network densities, and
+results were reported at the median density (27.5%)". False discovery rate (FDR) method
+adjusted p-values for multiple testing in nodal analysis. Community structure differences
+received inspection between groups.
+
+================================================================================
+3. RESULTS
+================================================================================
+
+3.1. FIRST AIM: UNIVARIATE ANALYSIS ACROSS COGNITIVE MEASURES
+---------------------------------------------------------------
+
+Demographic characteristics appear in Table 1, with both groups statistically comparable
+in crystallized intelligence via the WAIS-III Information subtest.
+
+Chess players outperformed controls in "JLOT - Second half (p = 0.039), with a medium
+effect size (g = 0.75)." No other statistically significant differences emerged across
+27 cognitive variables. However, visual inspection revealed moderate effect sizes
+favoring chess players in STROOP Inhibition (d = 0.56), spatial span forward (g = 0.56),
+and visual discrimination VR (g = 0.55), while semantic fluency showed an effect
+favoring controls (d = -0.55).
+
+
+3.2. SECOND AIM: GRAPH ANALYSIS ON THE COGNITIVE CONNECTOME
+-------------------------------------------------------------
+
+Weighted correlation matrices revealed chess players displayed "a more widespread pattern
+of correlations than controls." Executive measures correlated strongly with premotor
+function, visuospatial ability, visuoconstructive ability, visual memory, and naming --
+clustering patterns less salient in controls. Verbal memory measures showed stronger
+correlations with executive function, semantic fluency, and visual memory recognition in
+chess players versus controls.
+
+Global graph measures demonstrated chess players had "a higher average local efficiency
+and a lower average global efficiency, compared with the control group." No statistically
+significant differences emerged in transitivity or average strength.
+
+Nodal analysis revealed chess players showed higher nodal closeness centrality in
+"STROOP Words, STROOP Colors, STROOP inhibition, VR Copying, VR Total Recognition, and
+Luria's hand alternating movements (HAM) with the right hand." Controls showed higher
+closeness centrality in FAS. No significant differences appeared in nodal global or
+local efficiency.
+
+NODAL GRAPH ANALYSIS SUMMARY (Table 4):
+
+Chess players showed significantly higher closeness centrality in:
+  - Stroop Words
+  - Stroop Colors
+  - Stroop Inhibition
+  - VR Copying
+  - VR Total Recognition
+  - Luria's Hand Alternating Movements (Right)
+
+Controls showed higher centrality only in:
+  - Phonemic fluency (FAS)
+
+
+3.3. THIRD AIM: ARCHITECTURE OF COGNITIVE CONNECTOME THROUGH MODULAR ANALYSIS
+-------------------------------------------------------------------------------
+
+Chess players displayed three modules versus four in controls. Chess players' architecture
+showed "three modules...an executive/processing speed module (yellow circle), a visual
+module including visual memory, visuoconstructive, visuoperceptive, and visuospatial
+measures (orange circle), and a verbal memory module (blue circle)." Controls'
+organization was less coherent, mixing cognitive functions across modules.
+
+================================================================================
+4. DISCUSSION
+================================================================================
+
+The study investigated the cognitive connectome of adult chess players using graph theory
+alongside univariate analyses. Results indicated chess players possessed "a more
+integrated connectome locally, where nodes related to executive/attention/processing
+speed and visuoconstructive abilities played a central role."
+
+Univariate findings demonstrated chess players performed better in visuospatial abilities.
+The authors noted "High performance in visuospatial abilities in chess players was also
+reported in a previous study." While other cognitive domains showed large effect sizes
+favoring chess players, statistical significance wasn't achieved. The researchers
+suggested "those differences also existed in our cohort but were difficult to capture
+due to our slightly smaller sample size" or because most previous studies included
+younger participants.
+
+Graph theory expanded previous univariate research by revealing chess players demonstrated
+increased between-module and within-module connectivity. The authors explained this
+pattern likely resulted from "the high cognitive demand of intensive chess practice over
+time." Visual inspection and modular analysis supported cognitive connectome
+reorganization in chess players.
+
+Quantitative global graph analysis confirmed chess players exhibited higher average local
+efficiency. The authors noted this "partly aligns" with previous neuroimaging findings
+showing chess experts displayed "a higher clustering coefficient than novice players."
+
+Regarding lower global efficiency in chess players, the researchers proposed this
+reflected specialization: "The intensive training of a visual subnetwork and the high
+demands on an executive/attention/processing speed subnetwork...may rewire the
+connectome of chess players into a highly specialized connectome." This specialization
+came "at the cost of a lower capacity to integrate the connectome globally."
+
+The authors acknowledged several limitations: the sample consisted entirely of males due
+to "low representation of women chess players"; the relatively small sample size, though
+"similar or exceeds the sample size of some previous chess studies"; lack of analysis
+regarding expertise levels; and the cross-sectional design preventing causal inference
+establishment.
+
+================================================================================
+5. CONCLUSION
+================================================================================
+
+The researchers conclude: "The cognitive architecture of chess players is slightly
+reorganized into functionally and anatomically coherent modules reflecting a distinction
+between visual, verbal, and executive/attention/processing speed related functions,
+perhaps reminiscent of right hemisphere and left hemisphere subnetworks orchestrated by
+the frontal lobe and its white matter connections."
+
+================================================================================
+REFERENCES (63 citations)
+================================================================================
+
+1.  Bachmann, T., & Oit, M. (1992). Stroop-like interference in chess players' imagery. Psychol. Res., 54, 27-31.
+2.  Benedet, M.J., & Alejandre, M.A. (1998). TAVEC: Test de Aprendizaje Verbal Espana-Complutense. Manual. Madrid: TEA Ediciones.
+3.  Benton, A., Hamsher, K., & Sivan, A. (1989). Multilingual aphasia examination (2nd ed.). Iowa City, IA: AJA Associates.
+4.  Benton, A., Hamsher, S., Varney, O., & Spreen, N. (1983). Contributions to neuropsychological assessment: A clinical manual. New York: Oxford University Press.
+5.  Bilalic, M., Langner, R., Erb, M., & Grodd, W. (2010). Mechanisms and neural basis of object and pattern recognition. J. Exp. Psychol. Gen., 139, 728-742.
+6.  Bilalic, M., & McLeod, P. (2006). How intellectual is chess?--a reply to Howard. J. Biosoc. Sci., 38, 419-421.
+7.  Bilalic, M., McLeod, P., Gobet, F. (2009). Specialization effect and its influence on memory and problem solving. Cogn. Sci., 33, 1117-1143.
+8.  Bilalic, M., Smallbone, K., McLeod, P., & Gobet, F. (2009). Why are (the best) women so good at chess? Proceed. Biol. Sci., 276, 1161-1165.
+9.  Bilalic, M., Turella, L., Campitelli, G., Erb, M., & Grodd, W. (2012). Expertise modulates the neural basis of context dependent recognition. Hum. Brain Mapp., 33, 2728-2740.
+10. Blanch, A., Aluja, A., & Cornado, M.-P. (2015). Sex differences in chess performance. Personal. Individ. Differ., 86, 117-121.
+11. Blondel, V.D., Guillaume, J.L., Lambiotte, R., & Lefebvre, E. (2008). Fast unfolding of communities in large networks. J. Statistic. Mechanics, 2008, P10008.
+12. Boggan, A.L., Bartlett, J.C., & Krawczyk, D.C. (2012). Chess masters show a hallmark of face processing with chess. J. Exp. Psychol. Gen., 141, 37-42.
+13. Brockmole, J.R., Hambrick, D.Z., Windisch, D.J., & Henderson, J.M. (2008). The role of meaning in contextual cueing. Q. J. Exp. Psychol., 61, 1886-1896.
+14. Bullmore, E., & Sporns, O. (2009). Complex brain networks: Graph theoretical analysis. Nat. Rev. Neurosci., 10, 186-198.
+15. Burgoyne, A.P., Sala, G., Gobet, F., Macnamara, B.N., Campitelli, G., & Hambrick, D.Z. (2016). The relationship between cognitive ability and chess skill. Intelligence, 59, 72-83.
+16. Chabris, C., & Glickman, M. (2007). Sex differences in intellectual performance analysis of chess. Psychol. Sci., 17, 1040-1046.
+17. Charness, N., & Gerchak, Y. (1996). Participation rates and maximal performance in chess. Psychol. Sci., 7, 46-51.
+18. Charness, N., Reingold, E.M., Pomplun, M., & Stampe, D.M. (2001). The perceptual aspect of skilled performance in chess. Mem. Cogn., 29, 1146-1152.
+19. Chase, W.G., & Simon, H.A. (1973). Perception in chess. Cogn. Psychol., 4, 55-81.
+20. Christensen, A.-L. (1979). Luria's neupsychological investigation (2nd ed.). Copenhagen: Munksgaard.
+21. Correia, R., Nieto, A., Ferreira, D., Sabucedo, M., & Barroso, J. (2015). Fund of Information and neuropsychological functioning. Archives Clin. Neuropsychol., 30, 310-321.
+22. D'Elia, L., & Saltz, P. (1989). Color Trail 1 and 2. Odessa, FL: Psychological Assessment Resources.
+23. Duan, X., He, S., Liao, W., Liang, D., Qiu, L., Wei, L., et al. (2012). Reduced caudate volume and enhanced striatal-DMN integration. NeuroImage, 60, 1280-1286.
+24. Duan, X., Long, Z., Chen, H., Liang, D., Qiu, L., Huang, X., et al. (2014). Functional organization of intrinsic connectivity networks in chess experts. Brain Res., 1558, 33-43.
+25. Elo, A.E. (1978). The rating of chessplayers, past and present. New York: Arco Publishers.
+26. Fattahi, F., Geshani, A., Jafari, Z., Jalaie, S., & Salman Mahini, M. (2015). Auditory memory function in expert chess players. Med. J. Islam., 29, 275.
+27. Ferreira, D., Bartres-Faz, D., Nygren, L., Rundkvist, L.J., Molina, Y., Machado, A., et al. (2016). Different reserve proxies confer overlapping endurance. Behav. Brain Res., 311, 375-383.
+28. Ferreira, D., Pereira, J.B., Volpe, G., & Westman, E. (2019). Subtypes of Alzheimer's disease display distinct network abnormalities. Front. Neurol., 10, 524.
+29. Folstein, M.F., Folstein, S.E., & McHugh, P.R. (1975). "Mini-mental state" assessment. J. Psychiatr. Res., 12, 189-198.
+30. Garcia-Cabello, E., Gonzalez-Burgos, L., Pereira, J.B., Hernandez-Cabrera, J.A., Westman, E., Volpe, G., et al. (2021). The cognitive connectome in healthy aging. Front. Aging Neurosci., 13, 694254.
+31. Gobet, F. (1998). Expert memory: A comparison of four theories. Cognition, 66, 115-152.
+32. Gobet, F., & Charness, N. (2006). Expertise in chess. In The Cambridge handbook of expertise and expert performance. New York: Cambridge University Press.
+33. Gobet, F., & Simon, H.A. (1996). Templates in chess memory. Cogn. Psychol., 31, 1-40.
+34. Gobet, F., & Simon, H.A. (1998). Expert chess memory: Revisiting the chunking hypothesis. Memory, 6, 225-255.
+35. Golden, C.J. (1978). Stroop colour and word test: Manual for clinical and experimental uses. Chicago: Stoelting Company.
+36. Gonzalez-Burgos, L., Barroso, J., & Ferreira, D. (2020). Cognitive reserve and network efficiency. Aging, 12, 23351-23378.
+37. Gonzalez-Burgos, L., Pereira, J.B., Mohanty, R., Barroso, J., Westman, E., & Ferreira, D. (2021). Cortical networks underpinning verbal fluency compensation. Cerebral Cortex, 31, 3832-3845.
+38. Habich, A., Garcia-Cabello, E., Abbatantuono, L., Taurisano, P., & Dierks, T. (2024). The effect of cognitive reserve on the cognitive connectome. GeroScience.
+39. Hanggi, J., Brutsch, K., Siegel, A.M., & Jancke, L. (2014). The architecture of the chess player's brain. Neuropsychologia, 62, 152-162.
+40. Holding, D.H. (1992). Theories of chess skill. Psychol. Res., 54, 10-16.
+41. Kaplan, E., Goodglass, H., & Weintraub, S. (1983). Boston naming test. Philadelphia: Lea & Febiger.
+42. Kiesel, A., Kunde, W., Pohl, C., Berner, M.P., & Hoffmann, J. (2009). Playing chess unconsciously. J. Exp. Psychol. Learn. Mem. Cogn., 35, 292-298.
+43. Latora, V., & Marchiori, M. (2001). Efficient behavior of small-world networks. Phys. Rev. Lett., 87, 198701.
+44. Machado, A., Barroso, J., Molina, Y., Nieto, A., Diaz-Flores, L., Westman, E., et al. (2018). Proposal for a hierarchical approach to cognitive aging. Neurobiol. Aging, 71, 179-188.
+45. Mijalkov, M., Kakaei, E., Pereira, J.B., Westman, E., Volpe, G., & for the Alzheimer's Disease Neuroimaging Initiative. (2017). BRAPH: A graph theory software for brain connectivity analysis. PLoS One, 12, e0178798.
+46. Mohanty, R., Gonzalez-Burgos, L., Diaz-Flores, L., Muehlboeck, J.S., Barroso, J., Ferreira, D., et al. (2021). Functional connectivity and compensation of phonemic fluency. Front. Aging Neurosci., 13, 644611.
+47. Nejati, M., & Nejati, V. (2012). Frontal lobe function in chess players. Acta Med. Iran., 50, 311-314.
+48. Oldfield, R.C. (1971). The assessment and analysis of handedness. Neuropsychologia, 9, 97-113.
+49. Onofrj, M., Curatola, L., Valentini, G., Antonelli, M., Thomas, A., & Fulgente, T. (1995). Non-dominant dorsal-prefrontal activation during chess problem solution. Neurosci. Lett., 198, 169-172.
+50. R Core Team. (2016). R: A language and environment for statistical computing. Vienna, Austria.
+51. Reingold, E.M., Charness, N., Pomplun, M., & Stampe, D.M. (2001). Visual span in expert chess players. Psychol. Sci., 12, 48-55.
+52. Rubinov, M., & Sporns, O. (2010). Complex network measures of brain connectivity. NeuroImage, 52, 1059-1069.
+53. Saariluoma, P., Karlsson, H., Lyytinen, H., Teras, M., & Geisler, F. (2004). Visuospatial representations used by chess experts. Eur. J. Cogn. Psychol., 16, 753-766.
+54. Song, L., Peng, Q., Liu, S., & Wang, J. (2020). Changed hub and functional connectivity patterns in chess experts. Brain Imaging Behav., 14, 797-805.
+55. Sporns, O. (2018). Graph theory methods: Applications in brain networks. Dialogues Clin. Neurosci., 20, 111-121.
+56. Tosi, G., Borsani, C., Castiglioni, S., Daini, R., Franceschi, M., & Romano, D. (2020). Complexity in neuropsychological assessments using network analysis. Cortex, 124, 85-96.
+57. Unterrainer, J.M., Kaller, C.P., Halsband, U., & Rahm, B. (2006). Planning abilities and chess. Br. J. Psychol., 97, 299-311.
+58. Unterrainer, J.M., Kaller, C.P., Leonhart, R., & Rahm, B. (2011). Revising superior planning performance in chess players. Am. J. Psychol., 124, 213-225.
+59. Villafaina, S., Castro, M.A., Pereira, T., Carvalho Santos, A., & Fuentes-Garcia, J.P. (2021). Neurophysiological responses during chess endgames. Physiol. Behav., 237, 113454.
+60. Villafaina, S., Collado-Mateo, D., Cano-Plasencia, R., Gusi, N., & Fuentes, J.P. (2019). Electroencephalographic response of chess players under time pressure. Physiol. Behav., 198, 140-143.
+61. Wechsler, D. (1997a). Wechsler Adult Intelligence Scale - Administration and Scoring Manual (3rd ed.). San Antonio: The Psychological Corporation.
+62. Wechsler, D. (1997b). Wechsler Memory Scale - Third Edition Technical Manual (3rd ed.). San Antonio: The Psychological Corporation.
+63. Wright, L.M., De Marco, M., & Venneri, A. (2021). A graph theory approach to clarifying aging. Front. Aging Neurosci., 13, 676618.
+
+================================================================================
+END OF PAPER
+================================================================================

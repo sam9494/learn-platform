@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>統計學 S1 · 機率基礎</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #fb923c; }
+  .stat-display {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .stat-display .box {
+    background: var(--panel-2);
+    padding: 14px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .stat-display .lbl { font-size: 12px; color: var(--muted); }
+  .stat-display .num { font-size: 22px; font-family: monospace; color: var(--accent-3); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">統計學 · S1</span>
+  </nav>
+
+  <header>
+    <span class="badge">Statistics · S1</span>
+    <h1>機率基礎</h1>
+    <p class="subtitle">Probability — 量化「不確定」</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「事情『有多可能』發生？」</strong><br>
+      生活充滿不確定 — 明天會下雨嗎？這場比賽誰贏？
+      機率把「不確定」變成 0 ~ 1 之間的<strong>數字</strong>，讓我們可以理性比較與決策。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>機率的定義</h2>
+    <div class="lead">
+      <strong>古典機率</strong>：<code>P(A) = 有利結果數 / 總結果數</code><br>
+      前提是每個結果機會均等。
+    </div>
+    <h3>例子</h3>
+    <ul>
+      <li>擲一顆公正骰子，得到 6 的機率：<code>1/6 ≈ 0.167</code></li>
+      <li>52 張牌抽到紅心：<code>13/52 = 1/4</code></li>
+      <li>擲兩個骰子和為 7：<code>6/36 = 1/6</code></li>
+    </ul>
+    <h3>機率的範圍</h3>
+    <ul>
+      <li>P = 0 → 不可能發生</li>
+      <li>P = 1 → 必定發生</li>
+      <li>0 &lt; P &lt; 1 → 可能發生，越大越可能</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>互動：擲硬幣模擬</h2>
+    <p style="color: var(--muted);">理論上正反面各 50%，但實際擲少次時不一定。「<strong>大數法則</strong>」說：擲越多次，比例越接近 50%。</p>
+    <div class="lab">
+      <canvas id="canvas" width="900" height="320"></canvas>
+      <div class="btn-row">
+        <button class="btn" data-n="1">擲 1 次</button>
+        <button class="btn" data-n="10">擲 10 次</button>
+        <button class="btn" data-n="100">擲 100 次</button>
+        <button class="btn" data-n="1000">擲 1000 次</button>
+        <button class="btn" id="resetBtn">重設</button>
+      </div>
+      <div class="stat-display">
+        <div class="box"><div class="lbl">總次數</div><div class="num" id="totalV">0</div></div>
+        <div class="box"><div class="lbl">正面次數</div><div class="num" id="hV">0</div></div>
+        <div class="box"><div class="lbl">正面比例</div><div class="num" id="rV">—</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>三大重要規則</h2>
+
+    <h3>① 加法律（OR）</h3>
+    <p>互斥事件：<code>P(A ∪ B) = P(A) + P(B)</code><br>
+       一般情況：<code>P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</code></p>
+
+    <h3>② 乘法律（AND）</h3>
+    <p>獨立事件：<code>P(A ∩ B) = P(A) × P(B)</code><br>
+       例：擲兩次硬幣都正面 = 0.5 × 0.5 = 0.25</p>
+
+    <h3>③ 條件機率</h3>
+    <div class="formula" style="display: block; padding: 12px; text-align: center;">
+      P(A | B) = P(A ∩ B) / P(B)
+    </div>
+    <p>讀作「在 B 發生的條件下，A 發生的機率」。<br>
+    例：抽到紅牌的條件下，是紅心的機率 = (13/52) / (26/52) = 1/2。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實應用</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🎰</div><h4>賭場賠率</h4><p>賭場永遠贏的祕密：每個遊戲的「期望值」都是負的。</p></div>
+      <div class="card"><div class="icon">🌧️</div><h4>天氣預報</h4><p>「降雨機率 70%」是用大量歷史資料統計出來的。</p></div>
+      <div class="card"><div class="icon">🏥</div><h4>醫學檢測</h4><p>陽性結果不代表 100% 生病 — 條件機率（貝氏定理）告訴你真實機率。</p></div>
+      <div class="card"><div class="icon">🛡️</div><h4>保險定價</h4><p>保費是根據「事件機率 × 損失金額」算的期望理賠。</p></div>
+      <div class="card"><div class="icon">🤖</div><h4>機器學習</h4><p>分類器輸出的是「屬於某類的機率」。</p></div>
+      <div class="card"><div class="icon">📧</div><h4>垃圾郵件過濾</h4><p>樸素貝氏分類器：根據詞彙計算「是垃圾的條件機率」。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>機率介於 0 和 1，是「不確定」的數值表示。</li>
+        <li>獨立事件機率<strong>相乘</strong>，互斥事件機率<strong>相加</strong>。</li>
+        <li><strong>大數法則</strong>：實驗次數越多，實際比例越接近理論機率。</li>
+        <li>直覺常騙人：學機率才能避免被誤導（如賭徒謬誤）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="v2.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">V2 · 矩陣與線性變換</div></a>
+    <a href="s2.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">S2 · 描述性統計</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  let total = 0, heads = 0;
+  let history = []; // ratio over time
+
+  function flip(n) {
+    for (let i = 0; i < n; i++) {
+      total++;
+      if (Math.random() < 0.5) heads++;
+      history.push(heads / total);
+    }
+    if (history.length > 2000) history = history.slice(-2000);
+    render();
+  }
+
+  function render() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    // axes
+    ctx.strokeStyle = "#1e3a5f"; ctx.lineWidth = 1;
+    const padL = 50, padR = 20, padT = 30, padB = 30;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    ctx.beginPath();
+    for (let i = 0; i <= 10; i++) {
+      const py = padT + plotH * (i / 10);
+      ctx.moveTo(padL, py); ctx.lineTo(W - padR, py);
+    }
+    ctx.stroke();
+    // expected line at 0.5
+    ctx.strokeStyle = "#4ade80"; ctx.lineWidth = 2;
+    ctx.setLineDash([6, 6]);
+    const py50 = padT + plotH * 0.5;
+    ctx.beginPath(); ctx.moveTo(padL, py50); ctx.lineTo(W - padR, py50); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = "#4ade80"; ctx.font = "12px sans-serif";
+    ctx.fillText("理論值 0.5", W - padR - 70, py50 - 6);
+
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    ctx.fillText("1.0", 18, padT + 4);
+    ctx.fillText("0.5", 18, py50 + 4);
+    ctx.fillText("0.0", 18, padT + plotH + 4);
+    ctx.fillText("試驗次數 →", padL + plotW / 2 - 30, H - 8);
+
+    // history line
+    if (history.length > 0) {
+      ctx.strokeStyle = "#fb923c"; ctx.lineWidth = 2;
+      ctx.beginPath();
+      history.forEach((r, i) => {
+        const px = padL + (i / Math.max(history.length - 1, 1)) * plotW;
+        const py = padT + plotH * (1 - r);
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+    }
+
+    document.getElementById("totalV").textContent = total;
+    document.getElementById("hV").textContent = heads;
+    document.getElementById("rV").textContent = total > 0 ? (heads/total).toFixed(3) : "—";
+  }
+
+  document.querySelectorAll("[data-n]").forEach(b => {
+    b.addEventListener("click", () => flip(+b.dataset.n));
+  });
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    total = 0; heads = 0; history = []; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>學數學 · 第二課：函數變換與奇偶函數</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #334155;
+    --accent: #38bdf8;
+    --accent-2: #f472b6;
+    --accent-3: #facc15;
+    --accent-4: #4ade80;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #334155;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 60px 24px 100px; }
+
+  /* Top nav */
+  .topnav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .topnav a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .topnav a:hover { border-color: var(--accent); background: rgba(56,189,248,0.08); }
+  .topnav .progress { color: var(--muted); }
+
+  header { text-align: center; padding: 20px 0 50px; }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(244, 114, 182, 0.1);
+    color: var(--accent-2);
+    border: 1px solid rgba(244, 114, 182, 0.3);
+    border-radius: 999px;
+    font-size: 13px;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    background: linear-gradient(135deg, #f472b6, #facc15);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 16px;
+  }
+  .subtitle { color: var(--muted); font-size: 18px; }
+
+  section { margin-bottom: 64px; }
+  h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  h2 .num {
+    width: 36px; height: 36px;
+    background: var(--accent-2);
+    color: var(--bg);
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  h3 {
+    font-size: 20px;
+    margin: 24px 0 12px;
+    color: var(--accent-2);
+  }
+  p { margin-bottom: 12px; }
+
+  .lead {
+    font-size: 17px;
+    background: var(--panel);
+    padding: 20px 24px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-2);
+    margin-bottom: 24px;
+  }
+
+  /* Rule cards */
+  .grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  .rule-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .rule-card h4 {
+    color: var(--accent);
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+  .formula {
+    font-family: "Cascadia Code", "Consolas", monospace;
+    background: var(--panel-2);
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: var(--accent-3);
+    margin: 8px 0 12px;
+    display: inline-block;
+    font-size: 15px;
+  }
+  .rule-card p { font-size: 14px; color: var(--muted); margin: 0 0 10px; }
+  canvas.demo {
+    width: 100%;
+    height: auto;
+    background: #0a1628;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  /* Lab */
+  .lab {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .lab-formula {
+    text-align: center;
+    font-family: "Cascadia Code", "Consolas", monospace;
+    font-size: 22px;
+    color: var(--accent-3);
+    background: rgba(0,0,0,0.3);
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  .controls-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+  .ctrl {
+    background: var(--panel-2);
+    padding: 12px 14px;
+    border-radius: 8px;
+  }
+  .ctrl label {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .ctrl label span:last-child { color: var(--accent-3); font-family: monospace; }
+  .ctrl input[type=range] { width: 100%; accent-color: var(--accent); }
+  .fn-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .fn-select button {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 13px;
+  }
+  .fn-select button.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  canvas.lab-canvas {
+    width: 100%;
+    height: auto;
+    background: #0a1628;
+    border-radius: 8px;
+  }
+  .reset-btn {
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .reset-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Quiz */
+  .quiz {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+  }
+  .quiz-q {
+    font-family: monospace;
+    font-size: 18px;
+    color: var(--accent-3);
+    margin-bottom: 12px;
+  }
+  .quiz-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .quiz-options button {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1;
+    min-width: 80px;
+  }
+  .quiz-options button:hover { border-color: var(--accent); }
+  .quiz-options button.correct {
+    background: rgba(74,222,128,0.2);
+    border-color: var(--accent-4);
+    color: var(--accent-4);
+  }
+  .quiz-options button.wrong {
+    background: rgba(239,68,68,0.2);
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+  .quiz-feedback {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: rgba(74,222,128,0.1); color: var(--accent-4); }
+  .quiz-feedback.no { background: rgba(239,68,68,0.1); color: #ef4444; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 16px;
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th { background: var(--panel-2); color: var(--accent); }
+  tr:last-child td { border-bottom: none; }
+  td code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; color: var(--accent-3); font-family: monospace; }
+
+  .takeaway {
+    background: linear-gradient(135deg, rgba(244,114,182,0.08), rgba(250,204,21,0.08));
+    border: 1px solid rgba(244,114,182,0.3);
+    padding: 24px;
+    border-radius: 12px;
+    margin-top: 24px;
+  }
+  .takeaway h3 { color: var(--accent-2); margin-top: 0; }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  code {
+    background: var(--panel-2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: var(--accent-3);
+    font-size: 0.95em;
+  }
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 16px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { border-color: var(--accent); background: var(--panel-2); }
+  .nav-btn .label { font-size: 12px; color: var(--muted); }
+  .nav-btn .title { color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .nav-btn.next { text-align: right; }
+  .nav-btn.disabled { opacity: 0.4; pointer-events: none; }
+  footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">第 02 課 / 共 02 課</span>
+  </nav>
+
+  <header>
+    <span class="badge">Mathematics · Lesson 02</span>
+    <h1>函數變換</h1>
+    <p class="subtitle">Transformations — 不用重新計算，看圖就知道怎麼變</p>
+  </header>
+
+  <!-- Section 1: What problem -->
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「拿到一個複雜函數，能不能不要每次都重畫？」</strong><br>
+      上一課我們認識了基本的 x²、x³ 圖形。這一課要學的是：
+      把基本圖形<strong>平移、放大、翻轉</strong>，就能不必算就秒看出新函數的樣子。
+    </div>
+    <h3>學會這一課後，你能做到</h3>
+    <ul>
+      <li>看到 <code>y = (x-3)² + 2</code>，立刻知道是「拋物線往右 3、往上 2」。</li>
+      <li>看到 <code>y = -x²</code>，立刻知道是「拋物線翻過來」。</li>
+      <li>判斷一個函數是<strong>偶函數</strong>（左右對稱）還是<strong>奇函數</strong>（原點對稱）。</li>
+      <li>從一個基本函數<strong>推導</strong>出十幾種變形，不需要重新代值。</li>
+    </ul>
+  </section>
+
+  <!-- Section 2: Five rules -->
+  <section>
+    <h2><span class="num">2</span>五大變換規則</h2>
+    <p style="color: var(--muted); margin-bottom: 16px;">
+      每張小圖都顯示原函數（虛線）vs 變換後（實線），看一次就懂。
+    </p>
+
+    <div class="grid">
+      <div class="rule-card">
+        <h4>① 垂直平移（上下移）</h4>
+        <span class="formula">y = f(x) + k</span>
+        <p>k 為正 → 圖形<strong>往上</strong>移 k 格<br>k 為負 → 往下移</p>
+        <canvas class="demo" data-rule="vshift" width="320" height="180"></canvas>
+      </div>
+
+      <div class="rule-card">
+        <h4>② 水平平移（左右移）</h4>
+        <span class="formula">y = f(x − h)</span>
+        <p>⚠️ 反直覺！<code>x − 3</code> 是<strong>往右</strong>移 3，不是往左。<br>記法：<strong>左加右減</strong>。</p>
+        <canvas class="demo" data-rule="hshift" width="320" height="180"></canvas>
+      </div>
+
+      <div class="rule-card">
+        <h4>③ 垂直伸縮（高矮）</h4>
+        <span class="formula">y = a · f(x)</span>
+        <p>|a| &gt; 1 → 變<strong>高瘦</strong>　　|a| &lt; 1 → 變<strong>矮胖</strong></p>
+        <canvas class="demo" data-rule="vscale" width="320" height="180"></canvas>
+      </div>
+
+      <div class="rule-card">
+        <h4>④ 上下翻轉</h4>
+        <span class="formula">y = − f(x)</span>
+        <p>整張圖以 <strong>x 軸</strong>為鏡面翻過來。<br>例如：<code>y = -x²</code> 變成倒過來的拋物線。</p>
+        <canvas class="demo" data-rule="vflip" width="320" height="180"></canvas>
+      </div>
+
+      <div class="rule-card">
+        <h4>⑤ 左右翻轉</h4>
+        <span class="formula">y = f(−x)</span>
+        <p>整張圖以 <strong>y 軸</strong>為鏡面翻過來。<br>對偶函數來說沒差（本來就對稱）。</p>
+        <canvas class="demo" data-rule="hflip" width="320" height="180"></canvas>
+      </div>
+
+      <div class="rule-card">
+        <h4>⑥ 綜合應用</h4>
+        <span class="formula">y = a·f(x − h) + k</span>
+        <p>把上面組合起來：<strong>先伸縮 → 再平移</strong>。<br>例：<code>y = -2(x-1)² + 3</code></p>
+        <canvas class="demo" data-rule="combo" width="320" height="180"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Interactive lab -->
+  <section>
+    <h2><span class="num">3</span>互動實驗室：拉滑桿玩玩看</h2>
+    <p style="color: var(--muted); margin-bottom: 16px;">
+      選一個基底函數，拉動 a、h、k 的滑桿，觀察曲線即時變形。
+    </p>
+
+    <div class="lab">
+      <div class="fn-select" id="fnSelect">
+        <button class="active" data-fn="x2">f(x) = x²</button>
+        <button data-fn="x3">f(x) = x³</button>
+        <button data-fn="abs">f(x) = |x|</button>
+        <button data-fn="sin">f(x) = sin(x)</button>
+        <button data-fn="sqrt">f(x) = √x</button>
+      </div>
+
+      <div class="lab-formula" id="labFormula">y = 1·f(x − 0) + 0</div>
+
+      <div class="controls-row">
+        <div class="ctrl">
+          <label>a（垂直伸縮 / 上下翻轉）<span id="aVal">1.0</span></label>
+          <input type="range" id="aSlider" min="-3" max="3" step="0.1" value="1">
+        </div>
+        <div class="ctrl">
+          <label>h（水平平移）<span id="hVal">0.0</span></label>
+          <input type="range" id="hSlider" min="-5" max="5" step="0.1" value="0">
+        </div>
+        <div class="ctrl">
+          <label>k（垂直平移）<span id="kVal">0.0</span></label>
+          <input type="range" id="kSlider" min="-5" max="5" step="0.1" value="0">
+        </div>
+      </div>
+
+      <canvas class="lab-canvas" id="labCanvas" width="900" height="500"></canvas>
+      <button class="reset-btn" id="resetBtn">↺ 重設參數</button>
+    </div>
+  </section>
+
+  <!-- Section 4: Odd / Even -->
+  <section>
+    <h2><span class="num">4</span>奇函數 vs 偶函數</h2>
+
+    <div class="lead">
+      <strong>核心想法：用「對稱性」幫函數分類。</strong><br>
+      代入 −x，看會發生什麼事。
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>偶函數 Even</th>
+          <th>奇函數 Odd</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>定義</strong></td>
+          <td><code>f(−x) = f(x)</code></td>
+          <td><code>f(−x) = −f(x)</code></td>
+        </tr>
+        <tr>
+          <td><strong>對稱</strong></td>
+          <td>對稱於 <strong>y 軸</strong></td>
+          <td>對稱於 <strong>原點</strong></td>
+        </tr>
+        <tr>
+          <td><strong>例子</strong></td>
+          <td><code>x²</code>、<code>x⁴</code>、<code>cos(x)</code>、<code>|x|</code></td>
+          <td><code>x</code>、<code>x³</code>、<code>sin(x)</code>、<code>1/x</code></td>
+        </tr>
+        <tr>
+          <td><strong>圖形特徵</strong></td>
+          <td>左右像照鏡子</td>
+          <td>右上 ↔ 左下（180° 旋轉一樣）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>📝 小測驗</h3>
+    <p style="color: var(--muted); margin-bottom: 12px;">判斷下列函數是哪一種：</p>
+    <div id="quizContainer"></div>
+  </section>
+
+  <!-- Section 5: Takeaway -->
+  <section>
+    <div class="takeaway">
+      <h3>🎓 重點記法</h3>
+      <ul>
+        <li><strong>左加右減</strong>：括號內 <code>(x − h)</code> 是右移，<code>(x + h)</code> 是左移（反直覺！）。</li>
+        <li><strong>上加下減</strong>：在函數後面加常數 <code>+k</code> 是上移，符合直覺。</li>
+        <li><strong>負號在外面</strong> <code>−f(x)</code> → 上下翻；<strong>負號在裡面</strong> <code>f(−x)</code> → 左右翻。</li>
+        <li><strong>順序很重要</strong>：先伸縮 → 再平移。<code>y = a·f(x−h) + k</code> 是標準型。</li>
+        <li>偶函數 = 多項式中只有<strong>偶數次方</strong>項；奇函數 = 只有<strong>奇數次方</strong>項。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="index.html" class="nav-btn">
+      <div class="label">← 上一課</div>
+      <div class="title">01 · 函數圖形</div>
+    </a>
+    <a href="#" class="nav-btn next disabled">
+      <div class="label">下一課（敬請期待）</div>
+      <div class="title">03 · 微分初探 →</div>
+    </a>
+  </div>
+
+  <footer>📚 第 02 課完成 · 你已經掌握了「看圖讀懂函數」的核心技能</footer>
+
+</div>
+
+<script>
+/* ============================================================
+   Section 2: 五大變換規則的小圖
+   ============================================================ */
+(function () {
+  // shared mini canvas helper
+  function plot(canvas, opts) {
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+    const padL = 24, padR = 8, padT = 12, padB = 20;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const xMin = -3, xMax = 3, yMin = -3, yMax = 3;
+    const xToPx = x => padL + ((x - xMin) / (xMax - xMin)) * plotW;
+    const yToPx = y => padT + plotH - ((y - yMin) / (yMax - yMin)) * plotH;
+
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+
+    // grid
+    ctx.strokeStyle = "#1e3a5f";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = xMin; i <= xMax; i++) {
+      ctx.moveTo(xToPx(i), padT); ctx.lineTo(xToPx(i), padT + plotH);
+    }
+    for (let i = yMin; i <= yMax; i++) {
+      ctx.moveTo(padL, yToPx(i)); ctx.lineTo(padL + plotW, yToPx(i));
+    }
+    ctx.stroke();
+
+    // axes
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, yToPx(0)); ctx.lineTo(padL + plotW, yToPx(0));
+    ctx.moveTo(xToPx(0), padT); ctx.lineTo(xToPx(0), padT + plotH);
+    ctx.stroke();
+
+    function drawCurve(f, color, dashed) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.setLineDash(dashed ? [4, 4] : []);
+      ctx.beginPath();
+      let started = false;
+      const steps = 200;
+      for (let i = 0; i <= steps; i++) {
+        const x = xMin + (xMax - xMin) * (i / steps);
+        const y = f(x);
+        if (!isFinite(y)) { started = false; continue; }
+        const py = yToPx(y);
+        if (py < padT - 30 || py > padT + plotH + 30) { started = false; continue; }
+        const px = xToPx(x);
+        if (!started) { ctx.moveTo(px, py); started = true; }
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    opts.curves.forEach(c => drawCurve(c.f, c.color, c.dashed));
+  }
+
+  const base = x => x * x;
+  const configs = {
+    vshift: { curves: [
+      { f: base, color: "#64748b", dashed: true },
+      { f: x => base(x) + 1.5, color: "#facc15" }
+    ]},
+    hshift: { curves: [
+      { f: base, color: "#64748b", dashed: true },
+      { f: x => base(x - 1.5), color: "#facc15" }
+    ]},
+    vscale: { curves: [
+      { f: base, color: "#64748b", dashed: true },
+      { f: x => 2 * base(x), color: "#facc15" }
+    ]},
+    vflip: { curves: [
+      { f: base, color: "#64748b", dashed: true },
+      { f: x => -base(x), color: "#facc15" }
+    ]},
+    hflip: { curves: [
+      { f: x => x * x * x * 0.3, color: "#64748b", dashed: true },
+      { f: x => -(x * x * x * 0.3), color: "#facc15" }
+    ]},
+    combo: { curves: [
+      { f: base, color: "#64748b", dashed: true },
+      { f: x => -2 * Math.pow(x - 1, 2) + 2, color: "#facc15" }
+    ]}
+  };
+
+  document.querySelectorAll("canvas.demo").forEach(c => {
+    const cfg = configs[c.dataset.rule];
+    if (cfg) plot(c, cfg);
+  });
+})();
+
+/* ============================================================
+   Section 3: Interactive lab
+   ============================================================ */
+(function () {
+  const canvas = document.getElementById("labCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const xMin = -6, xMax = 6, yMin = -6, yMax = 6;
+  const xToPx = x => ((x - xMin) / (xMax - xMin)) * W;
+  const yToPx = y => H - ((y - yMin) / (yMax - yMin)) * H;
+
+  const fns = {
+    x2:   { f: x => x * x,            label: "x²" },
+    x3:   { f: x => x * x * x,        label: "x³" },
+    abs:  { f: x => Math.abs(x),      label: "|x|" },
+    sin:  { f: x => Math.sin(x),      label: "sin(x)" },
+    sqrt: { f: x => x >= 0 ? Math.sqrt(x) : NaN, label: "√x" }
+  };
+
+  let state = { fn: "x2", a: 1, h: 0, k: 0 };
+
+  function drawGrid() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "#1e3a5f";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = Math.ceil(xMin); x <= xMax; x++) {
+      ctx.moveTo(xToPx(x), 0); ctx.lineTo(xToPx(x), H);
+    }
+    for (let y = Math.ceil(yMin); y <= yMax; y++) {
+      ctx.moveTo(0, yToPx(y)); ctx.lineTo(W, yToPx(y));
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0));
+    ctx.moveTo(xToPx(0), 0); ctx.lineTo(xToPx(0), H);
+    ctx.stroke();
+
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    for (let x = Math.ceil(xMin); x <= xMax; x++) {
+      if (x === 0) continue;
+      ctx.fillText(x, xToPx(x) + 3, yToPx(0) + 13);
+    }
+    for (let y = Math.ceil(yMin); y <= yMax; y++) {
+      if (y === 0) continue;
+      ctx.fillText(y, xToPx(0) + 4, yToPx(y) - 3);
+    }
+  }
+
+  function drawCurve(f, color, dashed) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash(dashed ? [6, 6] : []);
+    ctx.beginPath();
+    let started = false;
+    const steps = 600;
+    for (let i = 0; i <= steps; i++) {
+      const x = xMin + (xMax - xMin) * (i / steps);
+      const y = f(x);
+      if (!isFinite(y)) { started = false; continue; }
+      const py = yToPx(y);
+      if (py < -40 || py > H + 40) { started = false; continue; }
+      const px = xToPx(x);
+      if (!started) { ctx.moveTo(px, py); started = true; }
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function fmt(n) {
+    return (Math.round(n * 10) / 10).toFixed(1);
+  }
+
+  function render() {
+    drawGrid();
+    const baseF = fns[state.fn].f;
+    drawCurve(baseF, "#64748b", true);
+    drawCurve(x => state.a * baseF(x - state.h) + state.k, "#f472b6", false);
+
+    // legend
+    ctx.fillStyle = "#94a3b8"; ctx.font = "13px sans-serif";
+    ctx.fillText("--- 原函數 f(x)", 14, 24);
+    ctx.fillStyle = "#f472b6";
+    ctx.fillText("—— 變換後", 14, 44);
+
+    // formula
+    const lbl = fns[state.fn].label;
+    const aPart = state.a === 1 ? "" : (state.a === -1 ? "−" : fmt(state.a) + "·");
+    const hPart = state.h === 0 ? "x" : (state.h > 0 ? `(x − ${fmt(state.h)})` : `(x + ${fmt(-state.h)})`);
+    const fnExpr = lbl.replace("x", hPart).replace("(x − ", "(x − ").replace("|x|", `|${hPart}|`);
+    let display;
+    if (state.fn === "x2")   display = `${aPart}${hPart}²`;
+    else if (state.fn === "x3") display = `${aPart}${hPart}³`;
+    else if (state.fn === "abs") display = `${aPart}|${hPart}|`;
+    else if (state.fn === "sin") display = `${aPart}sin${hPart}`;
+    else if (state.fn === "sqrt") display = `${aPart}√${hPart}`;
+    const kPart = state.k === 0 ? "" : (state.k > 0 ? ` + ${fmt(state.k)}` : ` − ${fmt(-state.k)}`);
+    document.getElementById("labFormula").textContent = `y = ${display}${kPart}`;
+  }
+
+  function bind(id, prop, displayId) {
+    const el = document.getElementById(id);
+    el.addEventListener("input", () => {
+      state[prop] = parseFloat(el.value);
+      document.getElementById(displayId).textContent = fmt(state[prop]);
+      render();
+    });
+  }
+  bind("aSlider", "a", "aVal");
+  bind("hSlider", "h", "hVal");
+  bind("kSlider", "k", "kVal");
+
+  document.getElementById("fnSelect").addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    document.querySelectorAll("#fnSelect button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    state.fn = btn.dataset.fn;
+    render();
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    state.a = 1; state.h = 0; state.k = 0;
+    document.getElementById("aSlider").value = 1;
+    document.getElementById("hSlider").value = 0;
+    document.getElementById("kSlider").value = 0;
+    document.getElementById("aVal").textContent = "1.0";
+    document.getElementById("hVal").textContent = "0.0";
+    document.getElementById("kVal").textContent = "0.0";
+    render();
+  });
+
+  render();
+})();
+
+/* ============================================================
+   Section 4: Quiz
+   ============================================================ */
+(function () {
+  const quiz = [
+    { q: "f(x) = x⁴ + 2", answer: "even", hint: "只有偶數次方項 → 偶函數，對稱於 y 軸" },
+    { q: "f(x) = x⁵ − x", answer: "odd",  hint: "只有奇數次方項 → 奇函數，對稱於原點" },
+    { q: "f(x) = x² + x", answer: "neither", hint: "混了奇偶次方 → 都不是" },
+    { q: "f(x) = cos(x)",  answer: "even", hint: "cos(−x) = cos(x) → 偶函數" },
+    { q: "f(x) = x · sin(x)", answer: "even", hint: "奇 × 奇 = 偶（負負得正）" }
+  ];
+
+  const labels = { even: "偶函數", odd: "奇函數", neither: "都不是" };
+  const container = document.getElementById("quizContainer");
+
+  quiz.forEach((item, i) => {
+    const div = document.createElement("div");
+    div.className = "quiz";
+    div.innerHTML = `
+      <div class="quiz-q">Q${i + 1}: ${item.q}</div>
+      <div class="quiz-options">
+        <button data-ans="even">偶函數</button>
+        <button data-ans="odd">奇函數</button>
+        <button data-ans="neither">都不是</button>
+      </div>
+      <div class="quiz-feedback"></div>
+    `;
+    container.appendChild(div);
+
+    const fb = div.querySelector(".quiz-feedback");
+    div.querySelectorAll(".quiz-options button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        div.querySelectorAll(".quiz-options button").forEach(b => {
+          b.classList.remove("correct", "wrong");
+        });
+        if (btn.dataset.ans === item.answer) {
+          btn.classList.add("correct");
+          fb.className = "quiz-feedback show ok";
+          fb.textContent = `✓ 正確！${item.hint}`;
+        } else {
+          btn.classList.add("wrong");
+          fb.className = "quiz-feedback show no";
+          fb.textContent = `✗ 答案是「${labels[item.answer]}」。${item.hint}`;
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

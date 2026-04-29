@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微積分 C1 · 微分初探</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #facc15; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">微積分 · C1</span>
+  </nav>
+
+  <header>
+    <span class="badge">Calculus · C1</span>
+    <h1>微分初探</h1>
+    <p class="subtitle">Differentiation — 用「斜率」描述變化</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「在某個瞬間，量變化得多快？」</strong><br>
+      平均速度好算（總距離 ÷ 總時間），但「<strong>此時此刻</strong>」的速度呢？
+      微分就是用來算這個「瞬間變化率」的工具。它在圖形上表現為<strong>切線斜率</strong>。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>從割線到切線</h2>
+    <p>取曲線上兩點 A、B，連線是<strong>割線</strong>，斜率 = (y₂−y₁) / (x₂−x₁)。</p>
+    <p>當 B 越來越靠近 A，割線會「<strong>逼近</strong>」一條剛好碰一點的線 — 那就是<strong>切線</strong>。</p>
+    <p>切線的斜率就是該點的<strong>瞬間變化率</strong>，記作 <code>f'(x)</code> 或 <code>dy/dx</code>。</p>
+
+    <div class="lab">
+      <canvas id="tangentCanvas" width="900" height="500"></canvas>
+      <div class="ctrl" style="margin-top: 14px;">
+        <label>x 點位置 <span id="xVal">1.0</span></label>
+        <input type="range" id="xSlider" min="-2.5" max="2.5" step="0.05" value="1">
+      </div>
+      <div style="background: var(--panel-2); padding: 14px; border-radius: 8px; text-align: center; margin-top: 12px; font-family: monospace;">
+        <div style="color: var(--muted); font-size: 13px;">在 x = <span id="xDisp" style="color: #facc15;">1.0</span> 處</div>
+        <div style="font-size: 22px; color: #facc15; margin-top: 4px;">f'(x) = <span id="slopeVal">2.000</span></div>
+        <div style="color: var(--muted); font-size: 13px; margin-top: 4px;">（也就是切線的斜率）</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>常用微分公式</h2>
+    <table>
+      <thead><tr><th>函數 f(x)</th><th>導數 f'(x)</th><th>記法</th></tr></thead>
+      <tbody>
+        <tr><td><code>c</code>（常數）</td><td><code>0</code></td><td>常數的斜率為 0</td></tr>
+        <tr><td><code>x</code></td><td><code>1</code></td><td>直線斜率 = 1</td></tr>
+        <tr><td><code>xⁿ</code></td><td><code>n · xⁿ⁻¹</code></td><td><strong>次方規則</strong>（最重要）</td></tr>
+        <tr><td><code>eˣ</code></td><td><code>eˣ</code></td><td>自己微分自己</td></tr>
+        <tr><td><code>ln(x)</code></td><td><code>1/x</code></td><td></td></tr>
+        <tr><td><code>sin(x)</code></td><td><code>cos(x)</code></td><td></td></tr>
+        <tr><td><code>cos(x)</code></td><td><code>−sin(x)</code></td><td>注意負號</td></tr>
+      </tbody>
+    </table>
+    <h3>四個運算規則</h3>
+    <ul>
+      <li><strong>常數倍</strong>：<code>(c · f)' = c · f'</code></li>
+      <li><strong>加減</strong>：<code>(f ± g)' = f' ± g'</code></li>
+      <li><strong>乘積</strong>：<code>(f · g)' = f'g + fg'</code></li>
+      <li><strong>連鎖律</strong>：<code>f(g(x))' = f'(g(x)) · g'(x)</code>（最常用、最容易錯）</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>微分能做什麼？</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">⚡</div><h4>找瞬間速度</h4><p>位置函數的導數 = 速度。速度的導數 = 加速度。</p></div>
+      <div class="card"><div class="icon">📈</div><h4>找最大 / 最小值</h4><p>極值點的斜率 = 0。把 f'(x) = 0 解出來就找到候選點。</p></div>
+      <div class="card"><div class="icon">📐</div><h4>畫切線</h4><p>已知斜率與一點 → 點斜式 y - y₀ = m(x - x₀) 寫出切線。</p></div>
+      <div class="card"><div class="icon">🤖</div><h4>機器學習</h4><p>梯度下降法（Gradient Descent）就是用導數找誤差最低點。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實例子</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🚗</div><h4>汽車速度表</h4><p>顯示的是「此刻」的速度，不是平均。這是位置對時間的導數。</p></div>
+      <div class="card"><div class="icon">📊</div><h4>股價分析</h4><p>「現在漲得多快」就是價格對時間的導數，技術分析的基礎。</p></div>
+      <div class="card"><div class="icon">🏭</div><h4>邊際成本</h4><p>多生產 1 單位多花多少錢？= 總成本函數的導數。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>微分的本質是「<strong>瞬間變化率</strong>」，幾何上 = 切線斜率。</li>
+        <li>次方規則 <code>(xⁿ)' = n·xⁿ⁻¹</code> 是入門必背。</li>
+        <li>找極值就解 <code>f'(x) = 0</code>。</li>
+        <li>下一課的積分是它的「反操作」。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="t2.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">T2 · 單位圓與波形</div></a>
+    <a href="c2.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">C2 · 積分入門</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("tangentCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const xMin = -3, xMax = 3, yMin = -2, yMax = 8;
+  const xToPx = x => ((x - xMin) / (xMax - xMin)) * W;
+  const yToPx = y => H - ((y - yMin) / (yMax - yMin)) * H;
+  let xPt = 1;
+  const f = x => x * x;       // f(x) = x²
+  const df = x => 2 * x;       // f'(x) = 2x
+
+  function drawGrid() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "#1e3a5f"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = Math.ceil(xMin); x <= xMax; x++) { ctx.moveTo(xToPx(x), 0); ctx.lineTo(xToPx(x), H); }
+    for (let y = Math.ceil(yMin); y <= yMax; y++) { ctx.moveTo(0, yToPx(y)); ctx.lineTo(W, yToPx(y)); }
+    ctx.stroke();
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0));
+    ctx.moveTo(xToPx(0), 0); ctx.lineTo(xToPx(0), H);
+    ctx.stroke();
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    for (let x = Math.ceil(xMin); x <= xMax; x++) if (x !== 0) ctx.fillText(x, xToPx(x) + 3, yToPx(0) + 13);
+    for (let y = Math.ceil(yMin); y <= yMax; y++) if (y !== 0) ctx.fillText(y, xToPx(0) + 4, yToPx(y) - 3);
+  }
+
+  function render() {
+    drawGrid();
+    // f(x) = x²
+    ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let started = false;
+    for (let px = 0; px <= W; px++) {
+      const x = xMin + (px / W) * (xMax - xMin);
+      const y = f(x);
+      const py = yToPx(y);
+      if (py < -30 || py > H + 30) { started = false; continue; }
+      if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // tangent line at xPt
+    const slope = df(xPt);
+    const y0 = f(xPt);
+    // y = slope * (x - xPt) + y0
+    const t1x = xMin, t1y = slope * (xMin - xPt) + y0;
+    const t2x = xMax, t2y = slope * (xMax - xPt) + y0;
+    ctx.strokeStyle = "#facc15"; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(xToPx(t1x), yToPx(t1y));
+    ctx.lineTo(xToPx(t2x), yToPx(t2y));
+    ctx.stroke();
+
+    // point
+    ctx.fillStyle = "#f472b6";
+    ctx.beginPath(); ctx.arc(xToPx(xPt), yToPx(y0), 7, 0, Math.PI * 2); ctx.fill();
+
+    // legend
+    ctx.fillStyle = "#94a3b8"; ctx.font = "14px sans-serif";
+    ctx.fillText("— f(x) = x²", 16, 28);
+    ctx.fillStyle = "#facc15";
+    ctx.fillText("— 切線（斜率 = 2x = " + slope.toFixed(2) + "）", 16, 48);
+
+    document.getElementById("slopeVal").textContent = slope.toFixed(3);
+    document.getElementById("xVal").textContent = xPt.toFixed(2);
+    document.getElementById("xDisp").textContent = xPt.toFixed(2);
+  }
+
+  document.getElementById("xSlider").addEventListener("input", e => {
+    xPt = +e.target.value;
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

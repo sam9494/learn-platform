@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>代數 L4 · 指數與對數</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #38bdf8; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">代數 · L4</span>
+  </nav>
+
+  <header>
+    <span class="badge">Algebra · L4</span>
+    <h1>指數與對數</h1>
+    <p class="subtitle">Exponents & Logarithms — 重複乘法的縮寫，與它的反函數</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「重複乘很多次怎麼簡化？反過來能不能算次方數？」</strong><br>
+      指數是「重複乘」的縮寫，對數是「反過來問次方」。
+      兩者一起描述了從<strong>細菌繁殖</strong>到<strong>地震規模</strong>的所有「倍數成長」現象。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>指數：重複乘的縮寫</h2>
+    <p><code>2³ = 2 × 2 × 2 = 8</code>，意思是「2 自己乘 3 次」。</p>
+    <h3>五大指數律</h3>
+    <table>
+      <thead><tr><th>規則</th><th>例子</th><th>白話</th></tr></thead>
+      <tbody>
+        <tr><td><code>aᵐ × aⁿ = aᵐ⁺ⁿ</code></td><td>2³ × 2² = 2⁵</td><td>同底相乘，指數相加</td></tr>
+        <tr><td><code>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</code></td><td>2⁵ ÷ 2² = 2³</td><td>同底相除，指數相減</td></tr>
+        <tr><td><code>(aᵐ)ⁿ = aᵐⁿ</code></td><td>(2³)² = 2⁶</td><td>次方再次方，指數相乘</td></tr>
+        <tr><td><code>a⁰ = 1</code></td><td>5⁰ = 1</td><td>任何非零數的 0 次方都是 1</td></tr>
+        <tr><td><code>a⁻ⁿ = 1/aⁿ</code></td><td>2⁻³ = 1/8</td><td>負次方 = 倒數</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>對數：反過來問「乘幾次？」</h2>
+    <div class="lead">
+      <strong>定義</strong>：<code>log_a b = c</code> 等價於 <code>aᶜ = b</code><br>
+      白話：「a 要乘自己幾次才會變成 b？」
+    </div>
+    <h3>例</h3>
+    <ul>
+      <li><code>log₂ 8 = 3</code>，因為 2³ = 8</li>
+      <li><code>log₁₀ 1000 = 3</code>，因為 10³ = 1000</li>
+      <li><code>log₂ 1 = 0</code>，因為 2⁰ = 1</li>
+    </ul>
+    <h3>常用底數</h3>
+    <ul>
+      <li><strong>log₁₀</strong>（常用對數）：常省略寫成 <code>log</code>，用於聲音分貝、地震規模。</li>
+      <li><strong>logₑ</strong>（自然對數）：寫成 <code>ln</code>，e ≈ 2.718，用於連續成長、微積分。</li>
+      <li><strong>log₂</strong>：用於電腦科學（位元、複雜度）。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>互動：指數 vs 對數</h2>
+    <p style="color: var(--muted);">兩者互為反函數，圖形以 y = x 對稱。</p>
+    <div class="lab">
+      <div class="btn-row" id="baseRow">
+        <button class="btn active" data-b="2">底數 = 2</button>
+        <button class="btn" data-b="3">底數 = 3</button>
+        <button class="btn" data-b="10">底數 = 10</button>
+      </div>
+      <canvas id="plot" width="900" height="500"></canvas>
+      <div class="legend">
+        <div class="legend-item"><span class="swatch" style="background:#38bdf8"></span>y = bˣ（指數）</div>
+        <div class="legend-item"><span class="swatch" style="background:#f472b6"></span>y = log_b(x)（對數）</div>
+        <div class="legend-item"><span class="swatch" style="background:#64748b"></span>--- y = x（對稱軸）</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>真實世界例子</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🦠</div><h4>細菌繁殖</h4><p>每 20 分鐘分裂一次：<code>N = N₀ · 2ᵗ⁾</code>。指數成長。</p></div>
+      <div class="card"><div class="icon">💰</div><h4>複利</h4><p>本金 P，利率 r，n 年後變成 <code>P(1+r)ⁿ</code>。</p></div>
+      <div class="card"><div class="icon">🌋</div><h4>地震規模</h4><p>芮氏 7 級比 6 級強 <strong>10 倍</strong>，比 5 級強 <strong>100 倍</strong>（對數刻度）。</p></div>
+      <div class="card"><div class="icon">🔊</div><h4>分貝</h4><p>每 +10 dB 等於聲音強度 ×10。對數讓人耳的感知變線性。</p></div>
+      <div class="card"><div class="icon">💊</div><h4>藥物代謝</h4><p>每隔 t 小時剩一半 → <code>濃度 = C₀ · (1/2)ᵗ⁾</code>，指數衰減。</p></div>
+      <div class="card"><div class="icon">💻</div><h4>演算法複雜度</h4><p>二分搜尋的步數 = log₂(N)，N 加倍只多一步。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>指數成長「越來越快」，對數成長「越來越慢」。</li>
+        <li>兩者互為反函數：<code>log_a(aˣ) = x</code>、<code>a^(log_a x) = x</code>。</li>
+        <li>對數把「乘除」變成「加減」，把「次方」變成「乘」。</li>
+        <li>許多自然現象用對數刻度看才線性（pH、星等、分貝）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="l3.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">L3 · 解方程式</div></a>
+    <a href="g1.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">G1 · 平面幾何</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("plot");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const xMin = -2, xMax = 8, yMin = -2, yMax = 8;
+  const xToPx = x => ((x - xMin) / (xMax - xMin)) * W;
+  const yToPx = y => H - ((y - yMin) / (yMax - yMin)) * H;
+  let base = 2;
+
+  function drawGrid() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "#1e3a5f";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = Math.ceil(xMin); x <= xMax; x++) { ctx.moveTo(xToPx(x), 0); ctx.lineTo(xToPx(x), H); }
+    for (let y = Math.ceil(yMin); y <= yMax; y++) { ctx.moveTo(0, yToPx(y)); ctx.lineTo(W, yToPx(y)); }
+    ctx.stroke();
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0));
+    ctx.moveTo(xToPx(0), 0); ctx.lineTo(xToPx(0), H);
+    ctx.stroke();
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    for (let x = Math.ceil(xMin); x <= xMax; x++) if (x !== 0) ctx.fillText(x, xToPx(x) + 3, yToPx(0) + 13);
+    for (let y = Math.ceil(yMin); y <= yMax; y++) if (y !== 0) ctx.fillText(y, xToPx(0) + 4, yToPx(y) - 3);
+  }
+
+  function drawCurve(f, color, dashed) {
+    ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+    ctx.setLineDash(dashed ? [6, 6] : []);
+    ctx.beginPath();
+    let started = false;
+    for (let px = 0; px <= W; px++) {
+      const x = xMin + (px / W) * (xMax - xMin);
+      const y = f(x);
+      if (!isFinite(y)) { started = false; continue; }
+      const py = yToPx(y);
+      if (py < -50 || py > H + 50) { started = false; continue; }
+      if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function render() {
+    drawGrid();
+    drawCurve(x => x, "#64748b", true);
+    drawCurve(x => Math.pow(base, x), "#38bdf8", false);
+    drawCurve(x => x > 0 ? Math.log(x) / Math.log(base) : NaN, "#f472b6", false);
+  }
+
+  document.getElementById("baseRow").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    document.querySelectorAll("#baseRow .btn").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    base = +b.dataset.b;
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

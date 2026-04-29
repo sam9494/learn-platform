@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>代數 L3 · 解方程式</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #38bdf8; }
+  .step {
+    background: var(--panel);
+    border-left: 4px solid var(--branch);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-family: monospace;
+    font-size: 16px;
+  }
+  .step .why { font-family: -apple-system, sans-serif; color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .balance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--panel);
+    padding: 24px;
+    border-radius: 14px;
+    margin-top: 16px;
+  }
+  .balance svg { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">代數 · L3</span>
+  </nav>
+
+  <header>
+    <span class="badge">Algebra · L3</span>
+    <h1>解方程式</h1>
+    <p class="subtitle">Solving Equations — 把未知數從等式中「揪」出來</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「等號兩邊已知一個關係，怎麼算出未知的數？」</strong><br>
+      生活中處處是「未知」：手機分期還剩多少？打折後是多少？方程式就是把未知用 x 代替，
+      然後從等式中還原它的值。
+    </div>
+    <h3>🔑 黃金原則</h3>
+    <p>等式像<strong>天平</strong>，左右一定要平衡。<br>
+       兩邊同時做一樣的操作（同加、同減、同乘、同除），等式仍成立。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>一元一次方程式</h2>
+    <p>形如 <code>ax + b = c</code>。目標：把 x 單獨留在一邊。</p>
+    <h3>例：解 <code>2x + 5 = 13</code></h3>
+    <div class="step">2x + 5 = 13<div class="why">原式</div></div>
+    <div class="step">2x + 5 − 5 = 13 − 5<div class="why">兩邊同減 5（消掉常數）</div></div>
+    <div class="step">2x = 8<div class="why">化簡</div></div>
+    <div class="step">2x ÷ 2 = 8 ÷ 2<div class="why">兩邊同除 2（消掉係數）</div></div>
+    <div class="step" style="border-left-color: var(--accent-4);">x = 4 ✓<div class="why">代回驗算：2(4) + 5 = 13 ✓</div></div>
+
+    <h3>視覺化：天平</h3>
+    <div class="balance">
+      <svg viewBox="0 0 400 200" width="400">
+        <line x1="200" y1="20" x2="200" y2="60" stroke="#64748b" stroke-width="3"/>
+        <line x1="60" y1="60" x2="340" y2="60" stroke="#64748b" stroke-width="4"/>
+        <rect x="40" y="60" width="120" height="40" fill="#1e293b" stroke="#38bdf8" stroke-width="2" rx="6"/>
+        <text x="100" y="86" text-anchor="middle" fill="#facc15" font-family="monospace" font-size="18">2x + 5</text>
+        <rect x="240" y="60" width="120" height="40" fill="#1e293b" stroke="#f472b6" stroke-width="2" rx="6"/>
+        <text x="300" y="86" text-anchor="middle" fill="#facc15" font-family="monospace" font-size="18">13</text>
+        <polygon points="200,20 188,8 212,8" fill="#64748b"/>
+        <text x="200" y="140" text-anchor="middle" fill="#94a3b8" font-size="14">兩邊一樣重 → 等號成立</text>
+        <text x="200" y="170" text-anchor="middle" fill="#94a3b8" font-size="13">兩邊「同減 5」、「同除 2」也都不會打破平衡</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>一元二次方程式</h2>
+    <p>形如 <code>ax² + bx + c = 0</code>。有 <strong>3 種解法</strong>，挑最快的用：</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="icon">①</div>
+        <h4>因式分解</h4>
+        <p>湊出 <code>(x − p)(x − q) = 0</code>，則 x = p 或 x = q。<br>
+           例：<code>x² − 5x + 6 = 0</code> → <code>(x−2)(x−3) = 0</code> → x = 2 或 3</p>
+      </div>
+      <div class="card">
+        <div class="icon">②</div>
+        <h4>公式解</h4>
+        <p style="font-family: monospace; color: var(--accent-3); font-size: 15px;">x = (−b ± √(b² − 4ac)) / 2a</p>
+        <p>萬用，但要小心代符號。</p>
+      </div>
+      <div class="card">
+        <div class="icon">③</div>
+        <h4>配方法</h4>
+        <p>湊成 <code>(x + p)² = q</code>，再開平方。也能找到頂點。</p>
+      </div>
+    </div>
+
+    <h3>判別式 Δ = b² − 4ac</h3>
+    <ul>
+      <li>Δ &gt; 0：兩個不同的實數解</li>
+      <li>Δ = 0：一個重根（拋物線剛好碰 x 軸）</li>
+      <li>Δ &lt; 0：沒有實數解（拋物線不碰 x 軸）</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>真實世界例子</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">💰</div><h4>分攤費用</h4><p>5 個人吃 1500 元，每人 x 元，列式 5x = 1500，x = 300。</p></div>
+      <div class="card"><div class="icon">🏃</div><h4>追上的時間</h4><p>哥哥每分走 80m，弟弟走 60m，弟弟先走 5 分鐘。何時追上？列等式解 x。</p></div>
+      <div class="card"><div class="icon">🎯</div><h4>拋物線落點</h4><p>球的軌跡 y = -5x² + 20x，落地時 y = 0 → 解二次方程。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>解方程式 = <strong>「移項 + 化簡」</strong>，本質是天平兩邊同步操作。</li>
+        <li>移項時記得<strong>變號</strong>（左邊加 5 移到右邊變減 5）。</li>
+        <li>二次方程優先試<strong>因式分解</strong>，分解不出來再用公式。</li>
+        <li>解完一定要<strong>代回驗算</strong>。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="lesson02.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">L2 · 函數變換</div></a>
+    <a href="l4.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">L4 · 指數與對數</div></a>
+  </div>
+</div>
+
+</body>
+</html>

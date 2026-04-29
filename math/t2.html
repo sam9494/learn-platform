@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角學 T2 · 單位圓與波形</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --branch: #f472b6; }
+  .vals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .vals .v {
+    background: var(--panel-2);
+    padding: 10px;
+    border-radius: 6px;
+    font-family: monospace;
+  }
+  .vals .v .lbl { font-size: 12px; color: var(--muted); }
+  .vals .v .num { font-size: 18px; color: var(--accent-3); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <nav class="topnav">
+    <a href="index.html">← 課程目錄</a>
+    <span class="progress">三角學 · T2</span>
+  </nav>
+
+  <header>
+    <span class="badge">Trigonometry · T2</span>
+    <h1>單位圓與波形</h1>
+    <p class="subtitle">Unit Circle & Waves — 從旋轉中誕生的波</p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <div class="lead">
+      <strong>核心問題：「為什麼 sin、cos 會畫出波形？又為什麼能描述聲音、潮汐？」</strong><br>
+      上一課我們從直角三角形定義 sin、cos，但角度只能 0°~90°。這一課用<strong>單位圓</strong>把它擴展到任意角度，
+      並發現它們和「<strong>旋轉</strong>」、「<strong>週期</strong>」是同一回事。
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>單位圓的定義</h2>
+    <div class="lead">
+      <strong>單位圓</strong>：以原點為圓心、半徑為 1 的圓。<br>
+      在圓上取一個點 P，從正 x 軸量到 OP 的角度為 θ，則：
+      <ul style="margin-top: 10px;">
+        <li>P 的 <strong>x 座標</strong> = <code>cos θ</code></li>
+        <li>P 的 <strong>y 座標</strong> = <code>sin θ</code></li>
+      </ul>
+    </div>
+    <p>這個定義和直角三角形的定義<strong>完全一致</strong>（單位圓上半徑 = 斜邊 = 1，所以 sin = 對 / 1 = y，cos = 鄰 / 1 = x）。
+       但它的優點是：<strong>θ 可以是任何角度</strong>，包括 180°、360°、甚至負的。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>互動：旋轉一圈，畫出波形</h2>
+    <p style="color: var(--muted);">拖動滑桿旋轉 P 點，右邊的 sin 與 cos 波會即時被「畫」出來。</p>
+
+    <div class="lab">
+      <canvas id="canvas" width="900" height="400"></canvas>
+      <div class="ctrl" style="margin-top: 14px;">
+        <label>角度 θ <span id="angVal">90°</span></label>
+        <input type="range" id="angSlider" min="0" max="720" step="1" value="90">
+      </div>
+      <div class="vals">
+        <div class="v"><div class="lbl">θ (弧度)</div><div class="num" id="radV">1.571</div></div>
+        <div class="v"><div class="lbl">sin θ</div><div class="num" id="sinV">1.000</div></div>
+        <div class="v"><div class="lbl">cos θ</div><div class="num" id="cosV">0.000</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>波形的關鍵詞</h2>
+    <table>
+      <thead><tr><th>名詞</th><th>意思</th><th>對 sin 來說</th></tr></thead>
+      <tbody>
+        <tr><td><strong>週期 (Period)</strong></td><td>波形重複一次的長度</td><td>2π（≈ 6.28）</td></tr>
+        <tr><td><strong>振幅 (Amplitude)</strong></td><td>波峰到中線的距離</td><td>1</td></tr>
+        <tr><td><strong>相位 (Phase)</strong></td><td>波形被左右推移的距離</td><td>cos = sin 向左推 π/2</td></tr>
+        <tr><td><strong>頻率 (Frequency)</strong></td><td>每單位時間振動幾次</td><td>= 1 / 週期</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>弧度（Radian）</h2>
+    <div class="lead">
+      角度有兩種寫法：<strong>度（°）</strong>和<strong>弧度（rad）</strong>。<br>
+      微積分裡幾乎都用弧度，因為公式更乾淨。
+    </div>
+    <ul>
+      <li>1 圈 = 360° = <strong>2π</strong> rad</li>
+      <li>180° = π rad</li>
+      <li>90° = π/2 rad</li>
+      <li><strong>換算</strong>：弧度 = 度 × π / 180</li>
+    </ul>
+    <p style="color: var(--muted); font-size: 14px;">
+      為什麼是 2π？因為單位圓的<strong>圓周長 = 2π</strong>。所以「一圈走的弧長 = 2π」自然就是這個圓的「自然單位」。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span>真實應用</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">🎵</div><h4>聲音</h4><p>純音 = sin 波。鋼琴中央 C 音 = 261.6 Hz 的 sin 波。</p></div>
+      <div class="card"><div class="icon">🌊</div><h4>潮汐</h4><p>每天兩次漲退潮，幾乎是 cos 波（週期 ≈ 12 小時）。</p></div>
+      <div class="card"><div class="icon">⚡</div><h4>交流電</h4><p>家用 110V/60Hz 是純 sin 波。每秒振動 60 次。</p></div>
+      <div class="card"><div class="icon">📡</div><h4>無線電</h4><p>FM、5G、WiFi 都是 sin 波在不同頻率。</p></div>
+      <div class="card"><div class="icon">☀️</div><h4>季節變化</h4><p>日照時間沿 cos 波年週期變化，造成春夏秋冬。</p></div>
+      <div class="card"><div class="icon">🎢</div><h4>單擺</h4><p>小幅度擺動的位置 ≈ sin 波，週期由繩長決定。</p></div>
+    </div>
+
+    <div class="takeaway">
+      <h3>🎓 重點</h3>
+      <ul>
+        <li>單位圓上 P 點的 <strong>(x, y) = (cos θ, sin θ)</strong>。</li>
+        <li>讓 θ 從 0 一直增加 → P 繞圓 → y 座標畫出 sin 波。</li>
+        <li>三角函數的本質是<strong>週期性</strong>，凡是「重複出現」的現象都能用它建模。</li>
+        <li>弧度比角度自然，數學裡優先使用弧度。</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="nav-buttons">
+    <a href="t1.html" class="nav-btn"><div class="label">← 上一課</div><div class="title">T1 · 三角函數入門</div></a>
+    <a href="c1.html" class="nav-btn next"><div class="label">下一課 →</div><div class="title">C1 · 微分初探</div></a>
+  </div>
+</div>
+
+<script>
+(function() {
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+
+  // Layout: left 360x360 unit circle, right wave plot
+  const cx = 180, cy = 200, R = 130;
+  const waveX0 = 380, waveX1 = W - 20;
+  const waveCY = 200;
+  const waveScale = 100; // y-scale
+
+  let theta = 90; // degrees
+
+  function draw() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+
+    // Unit circle
+    ctx.strokeStyle = "#1e3a5f";
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+
+    // axes
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - R - 20, cy); ctx.lineTo(cx + R + 20, cy);
+    ctx.moveTo(cx, cy - R - 20); ctx.lineTo(cx, cy + R + 20);
+    ctx.stroke();
+
+    // Point P
+    const rad = theta * Math.PI / 180;
+    const px = cx + R * Math.cos(rad);
+    const py = cy - R * Math.sin(rad);
+
+    // radius line
+    ctx.strokeStyle = "#f472b6"; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, py); ctx.stroke();
+
+    // sin (vertical drop)
+    ctx.strokeStyle = "#facc15"; ctx.lineWidth = 2;
+    ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, cy); ctx.stroke();
+
+    // cos (horizontal)
+    ctx.strokeStyle = "#38bdf8";
+    ctx.beginPath(); ctx.moveTo(px, cy); ctx.lineTo(cx, cy); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // P dot
+    ctx.fillStyle = "#f472b6";
+    ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI * 2); ctx.fill();
+
+    // labels
+    ctx.fillStyle = "#94a3b8"; ctx.font = "12px sans-serif";
+    ctx.fillText("(cos, sin)", px + 10, py - 8);
+    ctx.fillStyle = "#38bdf8"; ctx.fillText("cos", (px+cx)/2 - 12, cy + 14);
+    ctx.fillStyle = "#facc15"; ctx.fillText("sin", px + 6, (py+cy)/2);
+
+    // Wave plot area
+    ctx.strokeStyle = "#1e3a5f"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(waveX0, 50); ctx.lineTo(waveX0, H - 50);
+    ctx.moveTo(waveX0, waveCY); ctx.lineTo(waveX1, waveCY);
+    ctx.stroke();
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    ctx.fillText("0", waveX0 - 12, waveCY + 12);
+    ctx.fillText("1", waveX0 - 12, waveCY - waveScale + 4);
+    ctx.fillText("-1", waveX0 - 14, waveCY + waveScale + 4);
+    ctx.fillText("π", waveX0 + (waveX1 - waveX0) / 2 - 6, waveCY + 14);
+    ctx.fillText("2π", waveX1 - 14, waveCY + 14);
+
+    // Draw sin wave from 0 to theta
+    const totalRad = theta * Math.PI / 180;
+    const maxRad = 4 * Math.PI; // up to 720°
+    const xScale = (waveX1 - waveX0) / maxRad;
+
+    // sin (yellow)
+    ctx.strokeStyle = "#facc15"; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    for (let r = 0; r <= totalRad; r += 0.02) {
+      const wx = waveX0 + r * xScale;
+      const wy = waveCY - Math.sin(r) * waveScale;
+      if (r === 0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
+    }
+    ctx.stroke();
+
+    // cos (blue, slightly transparent)
+    ctx.strokeStyle = "rgba(56, 189, 248, 0.7)"; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let r = 0; r <= totalRad; r += 0.02) {
+      const wx = waveX0 + r * xScale;
+      const wy = waveCY - Math.cos(r) * waveScale;
+      if (r === 0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
+    }
+    ctx.stroke();
+
+    // current point on wave
+    const wx = waveX0 + totalRad * xScale;
+    if (wx <= waveX1) {
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath(); ctx.arc(wx, waveCY - Math.sin(totalRad) * waveScale, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#38bdf8";
+      ctx.beginPath(); ctx.arc(wx, waveCY - Math.cos(totalRad) * waveScale, 5, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // legend
+    ctx.fillStyle = "#facc15"; ctx.font = "13px sans-serif";
+    ctx.fillText("— sin θ", waveX1 - 80, 60);
+    ctx.fillStyle = "#38bdf8";
+    ctx.fillText("— cos θ", waveX1 - 80, 78);
+
+    // values
+    document.getElementById("radV").textContent = (totalRad).toFixed(3);
+    document.getElementById("sinV").textContent = Math.sin(totalRad).toFixed(3);
+    document.getElementById("cosV").textContent = Math.cos(totalRad).toFixed(3);
+  }
+
+  document.getElementById("angSlider").addEventListener("input", e => {
+    theta = +e.target.value;
+    document.getElementById("angVal").textContent = theta + "°";
+    draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>
