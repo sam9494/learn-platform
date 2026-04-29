@@ -5,6 +5,9 @@
 *.db-shm
 *.db-wal
 
+# Local progress tracking
+math/progress.db
+
 # Node
 node_modules/
 dist/

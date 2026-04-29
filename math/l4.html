@@ -7,6 +7,48 @@
 <link rel="stylesheet" href="styles.css">
 <style>
   :root { --branch: #38bdf8; }
+
+  /* Derivation block: shows step-by-step reasoning */
+  .derive {
+    background: rgba(56,189,248,0.06);
+    border-left: 3px solid var(--branch);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+    font-size: 15px;
+  }
+  .derive-title {
+    color: var(--branch);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .derive-step {
+    font-family: "Cascadia Code", "Consolas", monospace;
+    color: var(--accent-3);
+    margin: 6px 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--panel-2);
+  }
+  .derive-note { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+  /* Real example block */
+  .example {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .example-title {
+    color: var(--accent-2);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .example-q { color: var(--text); margin-bottom: 8px; }
+  .example-a { color: var(--muted); font-size: 14px; }
+  .example-a .formula { font-size: 14px; }
 </style>
 </head>
 <body>
@@ -20,57 +62,171 @@
   <header>
     <span class="badge">Algebra · L4</span>
     <h1>指數與對數</h1>
-    <p class="subtitle">Exponents & Logarithms — 重複乘法的縮寫，與它的反函數</p>
+    <p class="subtitle">Exponents & Logarithms — 一個描述「倍數成長」，一個把「倍數」變成「次方」</p>
   </header>
 
+  <!-- =============================================== -->
+  <!-- 1. 動機 -->
+  <!-- =============================================== -->
   <section>
-    <h2><span class="num">1</span>這一課在解決什麼問題？</h2>
+    <h2><span class="num">1</span>從一個真實問題開始</h2>
     <div class="lead">
-      <strong>核心問題：「重複乘很多次怎麼簡化？反過來能不能算次方數？」</strong><br>
-      指數是「重複乘」的縮寫，對數是「反過來問次方」。
-      兩者一起描述了從<strong>細菌繁殖</strong>到<strong>地震規模</strong>的所有「倍數成長」現象。
+      <strong>2020 年 3 月，某城市每日確診數：1, 2, 4, 8, 16, 32 ……</strong><br>
+      你怎麼知道下一天會是 64？再下一天 128？<br>
+      你需要的工具叫 <strong>指數函數</strong>。<br>
+      但如果問題反過來——「現在 1024 人，是<em>第幾天</em>？」<br>
+      你需要的就是 <strong>對數</strong>。
     </div>
+    <p>本課要回答四件事：</p>
+    <ul>
+      <li>指數 <code>aⁿ</code> 為什麼有那五條運算律？（不是死背，是<strong>推</strong>出來的）</li>
+      <li>對數是什麼？它和指數什麼關係？</li>
+      <li>對數律 <code>log(xy) = log x + log y</code> 為什麼成立？</li>
+      <li>現實怎麼用：複利、疫情、地震、藥物、演算法。</li>
+    </ul>
   </section>
 
+  <!-- =============================================== -->
+  <!-- 2. 指數的本質 -->
+  <!-- =============================================== -->
   <section>
-    <h2><span class="num">2</span>指數：重複乘的縮寫</h2>
-    <p><code>2³ = 2 × 2 × 2 = 8</code>，意思是「2 自己乘 3 次」。</p>
-    <h3>五大指數律</h3>
+    <h2><span class="num">2</span>指數：「重複乘」的速記</h2>
+
+    <p>從定義開始：</p>
+    <div class="lab-formula">aⁿ = a × a × a × … × a　（n 個 a 相乘）</div>
+    <p>這裡 <code>a</code> 叫<strong>底數</strong>（base），<code>n</code> 叫<strong>指數</strong>（exponent）。</p>
+
+    <h3>2.1　五條指數律的推論</h3>
+    <p>這些不是規定，而是從定義<strong>展開後自然得到</strong>的結果。</p>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 1：aᵐ × aⁿ = aᵐ⁺ⁿ</div>
+      <div class="derive-step">aᵐ × aⁿ = (a·a·…·a) × (a·a·…·a)</div>
+      <div class="derive-step">　　　　　　 m 個　　　　　 n 個</div>
+      <div class="derive-step">　　　 = a·a·a·…·a　（共 m + n 個）</div>
+      <div class="derive-step">　　　 = aᵐ⁺ⁿ ✓</div>
+      <div class="derive-note">數 a 的個數加起來，就是新的指數。</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 2：aᵐ ÷ aⁿ = aᵐ⁻ⁿ</div>
+      <div class="derive-step">aᵐ / aⁿ = (a·a·…·a) / (a·a·…·a)</div>
+      <div class="derive-step">　　　　　　 m 個　　　　　 n 個</div>
+      <div class="derive-step">分子分母可以「約掉」n 對 a：</div>
+      <div class="derive-step">　　　 = a·a·…·a　（剩 m − n 個）= aᵐ⁻ⁿ ✓</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 3：(aᵐ)ⁿ = aᵐⁿ</div>
+      <div class="derive-step">(aᵐ)ⁿ = aᵐ × aᵐ × … × aᵐ　（n 個 aᵐ）</div>
+      <div class="derive-step">　　　 用規則 1：指數加總，每個是 m，加 n 次</div>
+      <div class="derive-step">　　　 = aᵐ⁺ᵐ⁺…⁺ᵐ = aᵐⁿ ✓</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 4：a⁰ = 1（為什麼？）</div>
+      <div class="derive-step">由規則 2：aⁿ / aⁿ = aⁿ⁻ⁿ = a⁰</div>
+      <div class="derive-step">但同時 aⁿ / aⁿ = 1（任何數除以自己 = 1）</div>
+      <div class="derive-step">兩式相等 → a⁰ = 1 ✓</div>
+      <div class="derive-note">這不是規定，是為了讓規則 2 在 m = n 時不矛盾。</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 5：a⁻ⁿ = 1/aⁿ（負次方的意義）</div>
+      <div class="derive-step">由規則 1：aⁿ × a⁻ⁿ = aⁿ⁺⁽⁻ⁿ⁾ = a⁰ = 1</div>
+      <div class="derive-step">→ a⁻ⁿ = 1/aⁿ ✓</div>
+      <div class="derive-note">負指數 = 倒數。這也不是規定，是為了讓規則 1 對負數也成立。</div>
+    </div>
+
+    <h3>2.2　指數函數 y = aˣ 的特徵</h3>
     <table>
-      <thead><tr><th>規則</th><th>例子</th><th>白話</th></tr></thead>
+      <thead><tr><th>x</th><th>2ˣ</th><th>3ˣ</th><th>10ˣ</th></tr></thead>
       <tbody>
-        <tr><td><code>aᵐ × aⁿ = aᵐ⁺ⁿ</code></td><td>2³ × 2² = 2⁵</td><td>同底相乘，指數相加</td></tr>
-        <tr><td><code>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</code></td><td>2⁵ ÷ 2² = 2³</td><td>同底相除，指數相減</td></tr>
-        <tr><td><code>(aᵐ)ⁿ = aᵐⁿ</code></td><td>(2³)² = 2⁶</td><td>次方再次方，指數相乘</td></tr>
-        <tr><td><code>a⁰ = 1</code></td><td>5⁰ = 1</td><td>任何非零數的 0 次方都是 1</td></tr>
-        <tr><td><code>a⁻ⁿ = 1/aⁿ</code></td><td>2⁻³ = 1/8</td><td>負次方 = 倒數</td></tr>
+        <tr><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>2</td><td>3</td><td>10</td></tr>
+        <tr><td>2</td><td>4</td><td>9</td><td>100</td></tr>
+        <tr><td>3</td><td>8</td><td>27</td><td>1000</td></tr>
+        <tr><td>10</td><td>1024</td><td>59049</td><td>10⁰¹⁰</td></tr>
       </tbody>
     </table>
+    <p style="color: var(--muted); margin-top: 10px;">
+      x 加一格，y 不是「多一點」而是「<strong>乘一個固定倍數</strong>」。這是指數最重要的特徵。
+    </p>
   </section>
 
+  <!-- =============================================== -->
+  <!-- 3. 對數的定義與規則 -->
+  <!-- =============================================== -->
   <section>
     <h2><span class="num">3</span>對數：反過來問「乘幾次？」</h2>
+
     <div class="lead">
-      <strong>定義</strong>：<code>log_a b = c</code> 等價於 <code>aᶜ = b</code><br>
-      白話：「a 要乘自己幾次才會變成 b？」
+      <strong>定義</strong>　<code>log_a b = c</code>　⟺　<code>aᶜ = b</code><br>
+      白話：「<strong>a 自己乘幾次會等於 b？答案就是 c。</strong>」
     </div>
-    <h3>例</h3>
+
+    <h3>3.1　從表格直接看</h3>
+    <table>
+      <thead><tr><th>指數式</th><th>對數式</th><th>讀法</th></tr></thead>
+      <tbody>
+        <tr><td><code>2³ = 8</code></td><td><code>log₂ 8 = 3</code></td><td>2 乘 3 次得 8</td></tr>
+        <tr><td><code>10² = 100</code></td><td><code>log₁₀ 100 = 2</code></td><td>10 乘 2 次得 100</td></tr>
+        <tr><td><code>5⁰ = 1</code></td><td><code>log₅ 1 = 0</code></td><td>5 乘 0 次（什麼都沒乘）= 1</td></tr>
+        <tr><td><code>2⁻¹ = 0.5</code></td><td><code>log₂ 0.5 = −1</code></td><td>2 乘 −1 次（取倒數）= 0.5</td></tr>
+        <tr><td><code>2¹⁰ = 1024</code></td><td><code>log₂ 1024 = 10</code></td><td>1024 是 2 翻倍 10 次來的</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.2　三種常用底數</h3>
     <ul>
-      <li><code>log₂ 8 = 3</code>，因為 2³ = 8</li>
-      <li><code>log₁₀ 1000 = 3</code>，因為 10³ = 1000</li>
-      <li><code>log₂ 1 = 0</code>，因為 2⁰ = 1</li>
+      <li><strong>log₁₀（常用對數）</strong>：常省略寫成 <code>log</code>。地震、聲音、pH 都用它。</li>
+      <li><strong>logₑ（自然對數）</strong>：寫成 <code>ln</code>，<code>e ≈ 2.71828</code>。微積分、連續成長、機率都用。</li>
+      <li><strong>log₂</strong>：用於電腦科學（資訊理論、複雜度分析）。</li>
     </ul>
-    <h3>常用底數</h3>
-    <ul>
-      <li><strong>log₁₀</strong>（常用對數）：常省略寫成 <code>log</code>，用於聲音分貝、地震規模。</li>
-      <li><strong>logₑ</strong>（自然對數）：寫成 <code>ln</code>，e ≈ 2.718，用於連續成長、微積分。</li>
-      <li><strong>log₂</strong>：用於電腦科學（位元、複雜度）。</li>
-    </ul>
+
+    <h3>3.3　四條對數律的推論</h3>
+    <p>所有對數律都是<strong>從指數律翻譯過來</strong>的。看推論你就再也不用背。</p>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 1：log(xy) = log x + log y　（乘變加）</div>
+      <div class="derive-step">設 log x = m, log y = n（同底，省略下標）</div>
+      <div class="derive-step">由定義：x = aᵐ, y = aⁿ</div>
+      <div class="derive-step">兩式相乘：xy = aᵐ × aⁿ = aᵐ⁺ⁿ　（用了指數律 1）</div>
+      <div class="derive-step">把這一步翻譯回對數：log(xy) = m + n = log x + log y ✓</div>
+      <div class="derive-note">這就是「對數把乘法變加法」的根源——古代沒有計算機時，工程師用<strong>對數表</strong>把難算的乘法變成查表加法。</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 2：log(x/y) = log x − log y　（除變減）</div>
+      <div class="derive-step">同樣設 x = aᵐ, y = aⁿ</div>
+      <div class="derive-step">x/y = aᵐ⁻ⁿ　（指數律 2）</div>
+      <div class="derive-step">→ log(x/y) = m − n = log x − log y ✓</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 3：log(xⁿ) = n · log x　（次方變乘）</div>
+      <div class="derive-step">設 log x = m，所以 x = aᵐ</div>
+      <div class="derive-step">xⁿ = (aᵐ)ⁿ = aᵐⁿ　（指數律 3）</div>
+      <div class="derive-step">→ log(xⁿ) = mn = n · log x ✓</div>
+      <div class="derive-note">這條最有用——<strong>它讓我們從指數中「拉下」變數</strong>。下面解疫情題會用到。</div>
+    </div>
+
+    <div class="derive">
+      <div class="derive-title">▼ 規則 4：換底公式 log_a b = log_c b / log_c a</div>
+      <div class="derive-step">設 log_a b = x，意思是 aˣ = b</div>
+      <div class="derive-step">兩邊取 log_c（任何底數都可以）：log_c(aˣ) = log_c b</div>
+      <div class="derive-step">用規則 3 把 x 拉下來：x · log_c a = log_c b</div>
+      <div class="derive-step">→ x = log_c b / log_c a ✓</div>
+      <div class="derive-note">這就是為什麼計算機只要 ln 和 log 兩個鍵，就能算任何底的對數。</div>
+    </div>
   </section>
 
+  <!-- =============================================== -->
+  <!-- 4. 互動：指數 vs 對數圖形 -->
+  <!-- =============================================== -->
   <section>
-    <h2><span class="num">4</span>互動：指數 vs 對數</h2>
-    <p style="color: var(--muted);">兩者互為反函數，圖形以 y = x 對稱。</p>
+    <h2><span class="num">4</span>互動 1：指數與對數互為反函數</h2>
+    <p style="color: var(--muted);">兩條曲線以 <code>y = x</code> 為軸<strong>對稱</strong>——這就是「反函數」的視覺意義。</p>
     <div class="lab">
       <div class="btn-row" id="baseRow">
         <button class="btn active" data-b="2">底數 = 2</button>
@@ -86,24 +242,193 @@
     </div>
   </section>
 
+  <!-- =============================================== -->
+  <!-- 5. 互動：對數刻度的威力 -->
+  <!-- =============================================== -->
   <section>
-    <h2><span class="num">5</span>真實世界例子</h2>
-    <div class="grid">
-      <div class="card"><div class="icon">🦠</div><h4>細菌繁殖</h4><p>每 20 分鐘分裂一次：<code>N = N₀ · 2ᵗ⁾</code>。指數成長。</p></div>
-      <div class="card"><div class="icon">💰</div><h4>複利</h4><p>本金 P，利率 r，n 年後變成 <code>P(1+r)ⁿ</code>。</p></div>
-      <div class="card"><div class="icon">🌋</div><h4>地震規模</h4><p>芮氏 7 級比 6 級強 <strong>10 倍</strong>，比 5 級強 <strong>100 倍</strong>（對數刻度）。</p></div>
-      <div class="card"><div class="icon">🔊</div><h4>分貝</h4><p>每 +10 dB 等於聲音強度 ×10。對數讓人耳的感知變線性。</p></div>
-      <div class="card"><div class="icon">💊</div><h4>藥物代謝</h4><p>每隔 t 小時剩一半 → <code>濃度 = C₀ · (1/2)ᵗ⁾</code>，指數衰減。</p></div>
-      <div class="card"><div class="icon">💻</div><h4>演算法複雜度</h4><p>二分搜尋的步數 = log₂(N)，N 加倍只多一步。</p></div>
+    <h2><span class="num">5</span>互動 2：為什麼疫情圖要用 log 刻度？</h2>
+    <p>同一份「每日確診人數」資料（每天 ×1.5 倍），切換 y 軸的刻度看看：</p>
+    <div class="lab">
+      <div class="btn-row" id="scaleRow">
+        <button class="btn active" data-s="linear">線性刻度（看到爆炸）</button>
+        <button class="btn" data-s="log">對數刻度（變成直線）</button>
+      </div>
+      <canvas id="logplot" width="900" height="450"></canvas>
+      <div class="legend">
+        <div class="legend-item"><span class="swatch" style="background:#fb923c"></span>實際確診人數</div>
+        <div class="legend-item" id="scaleNote" style="color: var(--accent-3);">→ 線性：曲線爆炸式成長</div>
+      </div>
     </div>
 
+    <div class="derive" style="margin-top: 16px;">
+      <div class="derive-title">▼ 為什麼指數曲線在 log 軸會變直線？</div>
+      <div class="derive-step">假設疫情是 y = a · bˣ（每天 ×b 倍）</div>
+      <div class="derive-step">兩邊取 log：log y = log(a · bˣ) = log a + log(bˣ)</div>
+      <div class="derive-step">用對數律 3：log y = log a + x · log b</div>
+      <div class="derive-step">令 Y = log y，這就變成 Y = log a + (log b) · x</div>
+      <div class="derive-step">這是<strong>一條直線</strong>！斜率 = log b，截距 = log a。</div>
+      <div class="derive-note">所以現實做法：把資料畫在 log 軸，做<strong>線性迴歸</strong>，得到斜率 m → 反推 b = 10ᵐ，就找出每天倍率。</div>
+    </div>
+  </section>
+
+  <!-- =============================================== -->
+  <!-- 6. 真實世界深入例子 -->
+  <!-- =============================================== -->
+  <section>
+    <h2><span class="num">6</span>真實世界例子（含計算）</h2>
+
+    <!-- 例 1：複利與 e -->
+    <div class="example">
+      <div class="example-title">💰 例 1　複利：e 為什麼出現？</div>
+      <div class="example-q">
+        本金 1 元，年利率 100%，一年後是多少？
+      </div>
+      <div class="example-a">
+        每年算一次：<span class="formula">1 × (1 + 1)¹ = 2</span><br>
+        每半年算一次（半年利率 50%）：<span class="formula">1 × (1 + 0.5)² = 2.25</span><br>
+        每月算一次：<span class="formula">(1 + 1/12)¹² ≈ 2.613</span><br>
+        每天算：<span class="formula">(1 + 1/365)³⁶⁵ ≈ 2.7146</span><br>
+        每秒、每瞬間算（連續複利）：極限值 <span class="formula">≈ 2.71828… = e</span><br>
+        <strong>這就是 e 的由來</strong>——它是「複利切到無限細」的成長極限。所以連續複利公式是 <code>P · eʳᵗ</code>。
+      </div>
+    </div>
+
+    <!-- 例 2：疫情倍增時間 -->
+    <div class="example">
+      <div class="example-title">🦠 例 2　疫情：從每日 ×1.3 倍，到「幾天翻一倍」？</div>
+      <div class="example-q">
+        每天確診人數變 1.3 倍。需要幾天才會翻倍（變 2 倍）？
+      </div>
+      <div class="example-a">
+        要找 t 使得 <span class="formula">1.3ᵗ = 2</span><br>
+        兩邊取 log：<span class="formula">t · log 1.3 = log 2</span>　（對數律 3）<br>
+        <span class="formula">t = log 2 / log 1.3 ≈ 0.301 / 0.114 ≈ 2.64 天</span><br>
+        <strong>結論：每天 +30% 的疫情，每 2.6 天就翻倍。</strong> 一週多一點 → 8 倍；兩週 → 64 倍。這就是為何防疫要快。
+      </div>
+    </div>
+
+    <!-- 例 3：地震規模 -->
+    <div class="example">
+      <div class="example-title">🌋 例 3　地震：規模 7 比 5 強多少倍？</div>
+      <div class="example-q">
+        芮氏規模定義：<span class="formula">M = log₁₀(A/A₀)</span>，A 是地震波振幅。
+      </div>
+      <div class="example-a">
+        規模 7：<span class="formula">A₇/A₀ = 10⁷</span><br>
+        規模 5：<span class="formula">A₅/A₀ = 10⁵</span><br>
+        相比：<span class="formula">A₇ / A₅ = 10⁷ / 10⁵ = 10² = 100 倍</span><br>
+        <strong>規模差 2 → 振幅差 100 倍；釋放能量約差 1000 倍（因能量 ∝ A^1.5）。</strong>
+      </div>
+    </div>
+
+    <!-- 例 4：pH -->
+    <div class="example">
+      <div class="example-title">🧪 例 4　pH：為什麼可樂比水酸 10000 倍？</div>
+      <div class="example-q">
+        pH 定義：<span class="formula">pH = −log₁₀[H⁺]</span>，[H⁺] 是氫離子濃度。
+      </div>
+      <div class="example-a">
+        純水 pH = 7　→　[H⁺] = 10⁻⁷ mol/L<br>
+        可樂 pH = 3　→　[H⁺] = 10⁻³ mol/L<br>
+        比值：<span class="formula">10⁻³ / 10⁻⁷ = 10⁴ = 10000 倍</span><br>
+        <strong>pH 看起來只差 4，氫離子濃度卻差一萬倍。</strong>這就是對數刻度——讓人類能用一個個位數，描述跨越 14 個數量級的酸鹼度。
+      </div>
+    </div>
+
+    <!-- 例 5：藥物半衰期 -->
+    <div class="example">
+      <div class="example-title">💊 例 5　藥物：吃下後 12 小時還剩多少？</div>
+      <div class="example-q">
+        某藥半衰期 4 小時（每 4 小時減半）。吃下 200 mg，12 小時後剩多少？
+      </div>
+      <div class="example-a">
+        12 小時 = 3 個半衰期<br>
+        <span class="formula">200 × (1/2)³ = 200 × 1/8 = 25 mg</span><br>
+        要降到 1 mg 以下需要幾小時？<span class="formula">(1/2)ⁿ × 200 < 1</span> → <span class="formula">n > log₂ 200 ≈ 7.6</span><br>
+        <strong>需要 8 個半衰期 = 32 小時。</strong>這就是為何醫生說「停藥後一兩天才完全代謝」。
+      </div>
+    </div>
+
+    <!-- 例 6：演算法 -->
+    <div class="example">
+      <div class="example-title">💻 例 6　二分搜尋：100 萬筆資料只要 20 步</div>
+      <div class="example-q">
+        在排序好的陣列中找一個數，每次砍一半。資料量 N 時最多比幾次？
+      </div>
+      <div class="example-a">
+        每次切半，剩餘 N → N/2 → N/4 → … → 1。<br>
+        砍 k 次後剩 1：<span class="formula">N / 2ᵏ = 1</span> → <span class="formula">k = log₂ N</span><br>
+        N = 1,000,000 時：<span class="formula">log₂ 1000000 ≈ 19.9</span> → <strong>最多 20 步</strong><br>
+        N 翻一倍只多 1 步。Google 搜尋上百億筆資料只比 ~33 步，就靠這個。
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================== -->
+  <!-- 7. 小測驗 -->
+  <!-- =============================================== -->
+  <section>
+    <h2><span class="num">7</span>動手檢測</h2>
+
+    <div class="quiz" data-answer="2">
+      <div class="quiz-q">Q1.　log₂ 32 = ?</div>
+      <div class="quiz-options">
+        <button data-i="0">3</button>
+        <button data-i="1">4</button>
+        <button data-i="2">5</button>
+        <button data-i="3">6</button>
+      </div>
+      <div class="quiz-feedback">2⁵ = 32，所以 log₂ 32 = 5。</div>
+    </div>
+
+    <div class="quiz" data-answer="1">
+      <div class="quiz-q">Q2.　如果 log₁₀ 2 ≈ 0.301，那 log₁₀ 200 = ?</div>
+      <div class="quiz-options">
+        <button data-i="0">0.602</button>
+        <button data-i="1">2.301</button>
+        <button data-i="2">3.010</button>
+        <button data-i="3">6.020</button>
+      </div>
+      <div class="quiz-feedback">log(200) = log(100 × 2) = log 100 + log 2 = 2 + 0.301 = 2.301（對數律 1）。</div>
+    </div>
+
+    <div class="quiz" data-answer="2">
+      <div class="quiz-q">Q3.　每天感染數變 2 倍。從 1 人到超過 100 萬人需要幾天？</div>
+      <div class="quiz-options">
+        <button data-i="0">10</button>
+        <button data-i="1">15</button>
+        <button data-i="2">20</button>
+        <button data-i="3">100</button>
+      </div>
+      <div class="quiz-feedback">2ⁿ ≥ 1,000,000 → n ≥ log₂ 10⁶ ≈ 19.9 → 第 20 天就破百萬。指數成長的可怕之處。</div>
+    </div>
+
+    <div class="quiz" data-answer="0">
+      <div class="quiz-q">Q4.　某人聽 60 dB 的對話，旁邊飛機起飛 120 dB。飛機聲是對話的多少倍？</div>
+      <div class="quiz-options">
+        <button data-i="0">100 萬倍</button>
+        <button data-i="1">2 倍</button>
+        <button data-i="2">60 倍</button>
+        <button data-i="3">1000 倍</button>
+      </div>
+      <div class="quiz-feedback">分貝 +10 = 強度 ×10。差 60 dB → 強度差 10⁶ = 100 萬倍。</div>
+    </div>
+  </section>
+
+  <!-- =============================================== -->
+  <!-- 8. 重點總結 -->
+  <!-- =============================================== -->
+  <section>
     <div class="takeaway">
-      <h3>🎓 重點</h3>
+      <h3>🎓 一頁總結</h3>
       <ul>
-        <li>指數成長「越來越快」，對數成長「越來越慢」。</li>
-        <li>兩者互為反函數：<code>log_a(aˣ) = x</code>、<code>a^(log_a x) = x</code>。</li>
-        <li>對數把「乘除」變成「加減」，把「次方」變成「乘」。</li>
-        <li>許多自然現象用對數刻度看才線性（pH、星等、分貝）。</li>
+        <li><strong>指數 aⁿ</strong>：a 自己乘 n 次。所有指數律都從這個展開推出。</li>
+        <li><strong>對數 log_a b</strong>：問「a 要乘自己幾次等於 b」。它和指數互為反函數。</li>
+        <li><strong>三大對數律</strong>：log(xy)=log x+log y、log(x/y)=log x−log y、log(xⁿ)=n·log x。<br>本質上是把指數律翻譯回來。</li>
+        <li><strong>指數成長</strong>：「越來越快」（疫情、利息、人口）。</li>
+        <li><strong>對數成長</strong>：「越來越慢」（搜尋複雜度、資訊熵、感官刺激）。</li>
+        <li><strong>log 刻度</strong>：把「乘」變成「加」，把「指數曲線」變成「直線」。<br>這就是疫情圖、地震、pH 用對數的原因。</li>
+        <li><strong>實務心法</strong>：看到「翻倍幾次」「成長率」「半衰期」「等比」「強度差幾倍」就想到對數。</li>
       </ul>
     </div>
   </section>
@@ -115,6 +440,7 @@
 </div>
 
 <script>
+/* ----------- Plot 1: y = bˣ vs y = log_b(x) ----------- */
 (function() {
   const canvas = document.getElementById("plot");
   const ctx = canvas.getContext("2d");
@@ -177,6 +503,141 @@
   });
   render();
 })();
+
+/* ----------- Plot 2: linear vs log scale on epidemic data ----------- */
+(function() {
+  const canvas = document.getElementById("logplot");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const padL = 60, padR = 24, padT = 30, padB = 50;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+
+  /* Generate "epidemic" data: y = 2 * 1.5^x for x = 0..14 */
+  const days = 15;
+  const data = [];
+  for (let x = 0; x < days; x++) data.push({ x, y: 2 * Math.pow(1.5, x) });
+
+  let scale = "linear";
+
+  function render() {
+    ctx.fillStyle = "#0a1628";
+    ctx.fillRect(0, 0, W, H);
+
+    const yMaxLin = data[data.length - 1].y * 1.05;
+    const yMinLog = 1, yMaxLog = data[data.length - 1].y * 1.5;
+
+    function xToPx(x) { return padL + (x / (days - 1)) * plotW; }
+    function yToPx(y) {
+      if (scale === "linear") {
+        return padT + plotH - (y / yMaxLin) * plotH;
+      } else {
+        const ly = Math.log10(y), lmin = Math.log10(yMinLog), lmax = Math.log10(yMaxLog);
+        return padT + plotH - ((ly - lmin) / (lmax - lmin)) * plotH;
+      }
+    }
+
+    /* Grid */
+    ctx.strokeStyle = "#1e3a5f"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x < days; x += 2) {
+      ctx.moveTo(xToPx(x), padT);
+      ctx.lineTo(xToPx(x), padT + plotH);
+    }
+    ctx.stroke();
+
+    /* Y-axis ticks */
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px sans-serif";
+    if (scale === "linear") {
+      const ticks = [0, yMaxLin * 0.25, yMaxLin * 0.5, yMaxLin * 0.75, yMaxLin];
+      ctx.strokeStyle = "#1e3a5f"; ctx.beginPath();
+      ticks.forEach(t => {
+        const py = yToPx(t);
+        ctx.moveTo(padL, py); ctx.lineTo(padL + plotW, py);
+        ctx.fillText(Math.round(t), 8, py + 4);
+      });
+      ctx.stroke();
+    } else {
+      const logTicks = [1, 10, 100, 1000];
+      ctx.strokeStyle = "#1e3a5f"; ctx.beginPath();
+      logTicks.forEach(t => {
+        if (t > yMaxLog) return;
+        const py = yToPx(t);
+        ctx.moveTo(padL, py); ctx.lineTo(padL + plotW, py);
+        ctx.fillText(t, 8, py + 4);
+      });
+      ctx.stroke();
+    }
+
+    /* Axes */
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH);
+    ctx.stroke();
+
+    /* X-axis labels */
+    ctx.fillStyle = "#94a3b8";
+    for (let x = 0; x < days; x += 2) {
+      ctx.fillText("第 " + x + " 天", xToPx(x) - 18, padT + plotH + 18);
+    }
+
+    /* Y-axis label */
+    ctx.save();
+    ctx.translate(18, padT + plotH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = "#94a3b8";
+    ctx.fillText(scale === "linear" ? "確診數（線性）" : "確診數（log10）", -50, 0);
+    ctx.restore();
+
+    /* Plot data */
+    ctx.strokeStyle = "#fb923c"; ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    data.forEach((d, i) => {
+      const px = xToPx(d.x), py = yToPx(d.y);
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    });
+    ctx.stroke();
+
+    /* Points */
+    ctx.fillStyle = "#fb923c";
+    data.forEach(d => {
+      const px = xToPx(d.x), py = yToPx(d.y);
+      ctx.beginPath(); ctx.arc(px, py, 4, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  document.getElementById("scaleRow").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    document.querySelectorAll("#scaleRow .btn").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    scale = b.dataset.s;
+    document.getElementById("scaleNote").textContent =
+      scale === "linear" ? "→ 線性：曲線爆炸式成長" : "→ Log：彎曲變直線，斜率 = log(每日倍率)";
+    render();
+  });
+  render();
+})();
+
+/* ----------- Quiz ----------- */
+document.querySelectorAll(".quiz").forEach(q => {
+  const answer = +q.dataset.answer;
+  const fb = q.querySelector(".quiz-feedback");
+  q.querySelectorAll(".quiz-options button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const i = +btn.dataset.i;
+      q.querySelectorAll(".quiz-options button").forEach(b => b.classList.remove("correct", "wrong"));
+      if (i === answer) {
+        btn.classList.add("correct");
+        fb.classList.remove("no"); fb.classList.add("ok", "show");
+      } else {
+        btn.classList.add("wrong");
+        fb.classList.remove("ok"); fb.classList.add("no", "show");
+      }
+    });
+  });
+});
 </script>
+<script src="progress.js"></script>
 </body>
 </html>
