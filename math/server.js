@@ -1,17 +1,18 @@
 /**
  * 學數學 · 簡易伺服器
- * 提供靜態檔案 + 學習進度 API（SQLite 儲存）
+ * 提供靜態檔案 + 學習進度 API
+ * 使用 Node.js 內建 SQLite（Node 22+），零外部相依套件
  */
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
-const Database = require('better-sqlite3');
+const { DatabaseSync } = require('node:sqlite');
 
 const PORT = 3000;
 const ROOT = __dirname;
 
-const db = new Database(path.join(ROOT, 'progress.db'));
+const db = new DatabaseSync(path.join(ROOT, 'progress.db'));
 db.exec(`
   CREATE TABLE IF NOT EXISTS progress (
     lesson_id TEXT PRIMARY KEY,
@@ -19,9 +20,14 @@ db.exec(`
   )
 `);
 
+const stmtAll    = db.prepare('SELECT lesson_id, completed_at FROM progress');
+const stmtUpsert = db.prepare('INSERT OR REPLACE INTO progress (lesson_id, completed_at) VALUES (?, ?)');
+const stmtDel    = db.prepare('DELETE FROM progress WHERE lesson_id = ?');
+const stmtClear  = db.prepare('DELETE FROM progress');
+
 const MIME = {
   '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
+  '.css':  'text/css; charset=utf-8',
   '.js':   'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.png':  'image/png',
@@ -49,28 +55,22 @@ const server = http.createServer(async (req, res) => {
   // ---- API ----
   if (p.startsWith('/api/progress')) {
     try {
-      // GET /api/progress -> list all
       if (req.method === 'GET' && p === '/api/progress') {
-        const rows = db.prepare('SELECT lesson_id, completed_at FROM progress').all();
-        return sendJSON(res, 200, rows);
+        return sendJSON(res, 200, stmtAll.all());
       }
-      // POST /api/progress  body: { lessonId }
       if (req.method === 'POST' && p === '/api/progress') {
         const { lessonId } = JSON.parse(await readBody(req) || '{}');
         if (!lessonId) return sendJSON(res, 400, { error: 'lessonId required' });
-        db.prepare('INSERT OR REPLACE INTO progress (lesson_id, completed_at) VALUES (?, ?)')
-          .run(lessonId, new Date().toISOString());
+        stmtUpsert.run(lessonId, new Date().toISOString());
         return sendJSON(res, 200, { ok: true });
       }
-      // DELETE /api/progress/:lessonId
       if (req.method === 'DELETE' && p.startsWith('/api/progress/')) {
         const id = p.split('/').pop();
-        db.prepare('DELETE FROM progress WHERE lesson_id = ?').run(id);
+        stmtDel.run(id);
         return sendJSON(res, 200, { ok: true });
       }
-      // DELETE /api/progress (clear all)
       if (req.method === 'DELETE' && p === '/api/progress') {
-        db.prepare('DELETE FROM progress').run();
+        stmtClear.run();
         return sendJSON(res, 200, { ok: true });
       }
       return sendJSON(res, 404, { error: 'API not found' });
