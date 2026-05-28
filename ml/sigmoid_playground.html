@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>Sigmoid 互動樂園</title>
+<style>
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    background: #0f1115;
+    color: #e6e6e6;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 { margin: 0 0 8px; font-weight: 500; }
+  .formula {
+    font-family: "Cambria Math", Georgia, serif;
+    font-size: 22px;
+    color: #7ad6ff;
+    margin-bottom: 16px;
+  }
+  .panel {
+    background: #1a1d24;
+    border-radius: 12px;
+    padding: 20px 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  canvas {
+    background: #15181f;
+    border-radius: 8px;
+    display: block;
+  }
+  .controls {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    gap: 12px 16px;
+    align-items: center;
+  }
+  .controls label {
+    font-weight: 500;
+    color: #b8c4d4;
+  }
+  .controls input[type=range] {
+    width: 100%;
+    accent-color: #7ad6ff;
+  }
+  .controls .val {
+    font-family: "Consolas", monospace;
+    background: #0f1115;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-align: center;
+    color: #f5d76e;
+  }
+  .readout {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #2a2f3a;
+    font-family: "Consolas", monospace;
+    font-size: 14px;
+    color: #9aa5b8;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .readout span { color: #e6e6e6; }
+  .hint {
+    margin-top: 20px;
+    max-width: 720px;
+    font-size: 13px;
+    color: #8a93a3;
+    line-height: 1.6;
+  }
+  button {
+    background: #2a2f3a;
+    color: #e6e6e6;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  button:hover { background: #3a4150; }
+</style>
+</head>
+<body>
+
+<h1>Sigmoid 互動樂園</h1>
+<div class="formula">σ(x) = 1 / (1 + e<sup>−(w·x + b)</sup>)</div>
+
+<div class="panel">
+  <canvas id="plot" width="720" height="440"></canvas>
+
+  <div class="controls">
+    <label>w（陡峭度）</label>
+    <input type="range" id="w" min="-5" max="5" step="0.1" value="1">
+    <div class="val" id="wVal">1.0</div>
+
+    <label>b（偏移）</label>
+    <input type="range" id="b" min="-10" max="10" step="0.1" value="0">
+    <div class="val" id="bVal">0.0</div>
+  </div>
+
+  <div class="readout">
+    <div>σ(0) = <span id="s0"></span></div>
+    <div>σ(2) = <span id="s2"></span></div>
+    <div>σ(-2) = <span id="sn2"></span></div>
+    <div>決策邊界 x = <span id="boundary"></span></div>
+    <button id="reset">重置</button>
+  </div>
+</div>
+
+<div class="hint">
+  <strong>玩玩看：</strong><br>
+  • <b>w</b> 控制 S 曲線的陡峭程度。w 越大越像階梯（接近完美分類器），w = 0 時整條線變平坦（永遠輸出 0.5），w 為負時曲線會反轉。<br>
+  • <b>b</b> 把整條曲線左右平移。決策邊界（σ = 0.5）出現在 <code>x = -b/w</code> 的位置。<br>
+  • 試試 w = 10, b = 0 → 接近階躍函數；w = 0.3, b = 0 → 非常平緩的過渡。
+</div>
+
+<script>
+const canvas = document.getElementById('plot');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+// 座標範圍
+const xMin = -10, xMax = 10;
+const yMin = -0.1, yMax = 1.1;
+
+function xToPx(x) { return (x - xMin) / (xMax - xMin) * W; }
+function yToPx(y) { return H - (y - yMin) / (yMax - yMin) * H; }
+
+function sigmoid(z) { return 1 / (1 + Math.exp(-z)); }
+
+function draw(w, b) {
+  ctx.clearRect(0, 0, W, H);
+
+  // 0.5 的水平虛線
+  ctx.strokeStyle = '#3a4150';
+  ctx.setLineDash([4, 4]);
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, yToPx(0.5));
+  ctx.lineTo(W, yToPx(0.5));
+  ctx.stroke();
+
+  // 網格 (y = 0 和 y = 1)
+  ctx.strokeStyle = '#2a2f3a';
+  ctx.beginPath();
+  ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0));
+  ctx.moveTo(0, yToPx(1)); ctx.lineTo(W, yToPx(1));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 軸
+  ctx.strokeStyle = '#5a6378';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(xToPx(0), 0); ctx.lineTo(xToPx(0), H); // y軸
+  ctx.moveTo(0, yToPx(0)); ctx.lineTo(W, yToPx(0)); // x軸
+  ctx.stroke();
+
+  // 軸標
+  ctx.fillStyle = '#7a8294';
+  ctx.font = '12px Consolas';
+  ctx.textAlign = 'center';
+  for (let x = -10; x <= 10; x += 2) {
+    if (x === 0) continue;
+    ctx.fillText(x, xToPx(x), yToPx(0) + 14);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(x), yToPx(0) - 3);
+    ctx.lineTo(xToPx(x), yToPx(0) + 3);
+    ctx.stroke();
+  }
+  ctx.textAlign = 'right';
+  ctx.fillText('0.0', xToPx(0) - 6, yToPx(0) + 4);
+  ctx.fillText('0.5', xToPx(0) - 6, yToPx(0.5) + 4);
+  ctx.fillText('1.0', xToPx(0) - 6, yToPx(1) + 4);
+
+  // 決策邊界 (σ = 0.5 → wx+b = 0 → x = -b/w)
+  if (Math.abs(w) > 1e-6) {
+    const xBoundary = -b / w;
+    if (xBoundary > xMin && xBoundary < xMax) {
+      ctx.strokeStyle = '#f5d76e';
+      ctx.setLineDash([6, 4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(xToPx(xBoundary), 0);
+      ctx.lineTo(xToPx(xBoundary), H);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#f5d76e';
+      ctx.textAlign = 'left';
+      ctx.fillText('決策邊界', xToPx(xBoundary) + 6, 16);
+    }
+  }
+
+  // Sigmoid 曲線
+  ctx.strokeStyle = '#7ad6ff';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  const steps = 600;
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + (xMax - xMin) * i / steps;
+    const y = sigmoid(w * x + b);
+    if (i === 0) ctx.moveTo(xToPx(x), yToPx(y));
+    else ctx.lineTo(xToPx(x), yToPx(y));
+  }
+  ctx.stroke();
+
+  // 讀數
+  document.getElementById('s0').textContent = sigmoid(b).toFixed(4);
+  document.getElementById('s2').textContent = sigmoid(2*w + b).toFixed(4);
+  document.getElementById('sn2').textContent = sigmoid(-2*w + b).toFixed(4);
+  document.getElementById('boundary').textContent =
+    Math.abs(w) < 1e-6 ? '無（w=0）' : (-b/w).toFixed(2);
+}
+
+const wSlider = document.getElementById('w');
+const bSlider = document.getElementById('b');
+const wValEl = document.getElementById('wVal');
+const bValEl = document.getElementById('bVal');
+
+function update() {
+  const w = parseFloat(wSlider.value);
+  const b = parseFloat(bSlider.value);
+  wValEl.textContent = w.toFixed(1);
+  bValEl.textContent = b.toFixed(1);
+  draw(w, b);
+}
+
+wSlider.addEventListener('input', update);
+bSlider.addEventListener('input', update);
+document.getElementById('reset').addEventListener('click', () => {
+  wSlider.value = 1; bSlider.value = 0; update();
+});
+
+update();
+</script>
+
+</body>
+</html>

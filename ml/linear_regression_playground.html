@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>線性回歸 互動樂園</title>
+<style>
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    background: #0f1115;
+    color: #e6e6e6;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 { margin: 0 0 8px; font-weight: 500; }
+  .formula {
+    font-family: "Cambria Math", Georgia, serif;
+    font-size: 20px;
+    color: #7ad6ff;
+    margin-bottom: 16px;
+  }
+  .container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .panel {
+    background: #1a1d24;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .side {
+    width: 320px;
+  }
+  canvas {
+    background: #15181f;
+    border-radius: 8px;
+    display: block;
+    cursor: crosshair;
+  }
+  .section {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #2a2f3a;
+  }
+  .section:last-child { border-bottom: none; }
+  .section h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #7ad6ff;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .row label {
+    color: #b8c4d4;
+    width: 70px;
+  }
+  .row input[type=range] {
+    flex: 1;
+    accent-color: #f5d76e;
+  }
+  .row .val {
+    font-family: "Consolas", monospace;
+    background: #0f1115;
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #f5d76e;
+    width: 60px;
+    text-align: right;
+    font-size: 12px;
+  }
+  .stats {
+    font-family: "Consolas", monospace;
+    font-size: 13px;
+  }
+  .stat-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    color: #9aa5b8;
+  }
+  .stat-line span { color: #e6e6e6; }
+  .stat-line .blue { color: #7ad6ff; }
+  .stat-line .yellow { color: #f5d76e; }
+  .stat-line .red { color: #ff7a7a; }
+  button {
+    background: #2a2f3a;
+    color: #e6e6e6;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 3px 4px 3px 0;
+  }
+  button:hover { background: #3a4150; }
+  button.primary {
+    background: #2c4a6e;
+  }
+  button.primary:hover { background: #3a5c85; }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 13px;
+    color: #b8c4d4;
+    cursor: pointer;
+  }
+  .checkbox-row input { accent-color: #7ad6ff; }
+  .hint {
+    margin-top: 20px;
+    max-width: 1080px;
+    font-size: 13px;
+    color: #8a93a3;
+    line-height: 1.7;
+  }
+  .hint b { color: #b8c4d4; }
+  .hint code {
+    background: #1a1d24;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #f5d76e;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #9aa5b8;
+    margin: 8px 0 4px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatch {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<h1>線性回歸 互動樂園</h1>
+<div class="formula">ŷ = w · x + b　&nbsp;&nbsp;|&nbsp;&nbsp; MSE = (1/N) · Σ(ŷ − y)²</div>
+
+<div class="container">
+
+  <div class="panel">
+    <canvas id="plot" width="720" height="500"></canvas>
+    <div class="legend">
+      <div class="legend-item"><div class="swatch" style="background:#7ad6ff"></div>最佳擬合線（封閉解算出）</div>
+      <div class="legend-item"><div class="swatch" style="background:#f5d76e"></div>你的線（手動調整）</div>
+      <div class="legend-item"><div class="swatch" style="background:#ff7a7a; opacity:0.6"></div>誤差（殘差）</div>
+    </div>
+  </div>
+
+  <div class="panel side">
+
+    <div class="section">
+      <h3>互動方式</h3>
+      <div style="font-size:12px; color:#9aa5b8; line-height:1.6">
+        • 點擊圖面 = 新增資料點<br>
+        • Shift + 點擊 = 刪除最近的點<br>
+        • 想清空 → 按下方「清空」
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>資料</h3>
+      <button class="primary" id="sample1">範例：完美直線</button>
+      <button class="primary" id="sample2">範例：含雜訊</button>
+      <button class="primary" id="sample3">範例：非線性</button>
+      <br>
+      <button id="clear">清空</button>
+      <div class="stats" style="margin-top:8px">
+        <div class="stat-line">資料點數 <span id="nPts">0</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>最佳擬合（自動）</h3>
+      <div class="stats">
+        <div class="stat-line">w（斜率） <span class="blue" id="bestW">—</span></div>
+        <div class="stat-line">b（截距） <span class="blue" id="bestB">—</span></div>
+        <div class="stat-line">MSE <span class="blue" id="bestMSE">—</span></div>
+        <div class="stat-line">R² <span class="blue" id="bestR2">—</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="checkbox-row">
+        <input type="checkbox" id="showManual">
+        顯示「我來畫線」模式
+      </label>
+      <div id="manualControls" style="display:none">
+        <div class="row">
+          <label>手動 w</label>
+          <input type="range" id="manualW" min="-100" max="100" step="0.5" value="35">
+          <div class="val" id="manualWVal">35</div>
+        </div>
+        <div class="row">
+          <label>手動 b</label>
+          <input type="range" id="manualB" min="-500" max="500" step="1" value="0">
+          <div class="val" id="manualBVal">0</div>
+        </div>
+        <div class="stats">
+          <div class="stat-line">你的 MSE <span class="yellow" id="manualMSE">—</span></div>
+          <div class="stat-line">比最佳差 <span class="red" id="diffMSE">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="checkbox-row">
+        <input type="checkbox" id="showResiduals" checked>
+        顯示誤差線（殘差）
+      </label>
+      <label class="checkbox-row">
+        <input type="checkbox" id="showMean">
+        顯示 y 平均線（基準）
+      </label>
+    </div>
+
+  </div>
+</div>
+
+<div class="hint">
+  <b>玩法導覽：</b><br>
+  1. 點圖面亂加幾個點（想像橫軸=坪數、縱軸=房價百萬），藍線會即時自動擬合。<br>
+  2. 打開「我來畫線」，自己拖 w, b 試試看能不能贏過自動最佳解（提示：贏不了，MSE 一定 ≥ 最佳）。<br>
+  3. <b>R²（決定係數）</b>：模型比「直接猜 y 平均」好多少。1.0 = 完美，0 = 跟猜平均一樣爛，負數 = 比猜平均還爛。<br>
+  4. 載入「含雜訊」範例 → R² 通常 0.7~0.9；載入「非線性」範例 → 看線性回歸的極限（R² 很低，怎麼擺都不貼）。<br>
+  5. 試試只放 <b>2 個點</b> → MSE 一定是 0（兩點必能畫出一條線）；放 3 點以上才看得出擬合品質。
+</div>
+
+<script>
+// ============ 座標系統 ============
+const canvas = document.getElementById('plot');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const PAD = 50;
+const xMin = 0, xMax = 30;
+const yMin = 0, yMax = 1500;
+
+function xToPx(x) { return PAD + (x - xMin) / (xMax - xMin) * (W - 2*PAD); }
+function yToPx(y) { return H - PAD - (y - yMin) / (yMax - yMin) * (H - 2*PAD); }
+function pxToX(px) { return xMin + (px - PAD) / (W - 2*PAD) * (xMax - xMin); }
+function pxToY(py) { return yMin + (H - PAD - py) / (H - 2*PAD) * (yMax - yMin); }
+
+// ============ 狀態 ============
+let points = []; // { x, y }
+let showManual = false;
+let showResiduals = true;
+let showMean = false;
+let manualW = 35, manualB = 0;
+
+// ============ 線性回歸（封閉解） ============
+function fit(pts) {
+  if (pts.length < 2) return null;
+  const n = pts.length;
+  let sumX = 0, sumY = 0;
+  for (const p of pts) { sumX += p.x; sumY += p.y; }
+  const meanX = sumX / n, meanY = sumY / n;
+  let num = 0, den = 0;
+  for (const p of pts) {
+    num += (p.x - meanX) * (p.y - meanY);
+    den += (p.x - meanX) ** 2;
+  }
+  if (den === 0) return null; // 所有 x 相同
+  const w = num / den;
+  const b = meanY - w * meanX;
+  return { w, b, meanY };
+}
+
+function mse(pts, w, b) {
+  if (pts.length === 0) return null;
+  let s = 0;
+  for (const p of pts) {
+    const yhat = w * p.x + b;
+    s += (yhat - p.y) ** 2;
+  }
+  return s / pts.length;
+}
+
+function r2(pts, w, b, meanY) {
+  if (pts.length < 2) return null;
+  let ssRes = 0, ssTot = 0;
+  for (const p of pts) {
+    const yhat = w * p.x + b;
+    ssRes += (p.y - yhat) ** 2;
+    ssTot += (p.y - meanY) ** 2;
+  }
+  if (ssTot === 0) return 1;
+  return 1 - ssRes / ssTot;
+}
+
+// ============ 繪圖 ============
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // 網格
+  ctx.strokeStyle = '#22262f';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= 30; x += 5) {
+    ctx.beginPath();
+    ctx.moveTo(xToPx(x), yToPx(yMin));
+    ctx.lineTo(xToPx(x), yToPx(yMax));
+    ctx.stroke();
+  }
+  for (let y = 0; y <= 1500; y += 250) {
+    ctx.beginPath();
+    ctx.moveTo(xToPx(xMin), yToPx(y));
+    ctx.lineTo(xToPx(xMax), yToPx(y));
+    ctx.stroke();
+  }
+
+  // 軸
+  ctx.strokeStyle = '#5a6378';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(xToPx(xMin), yToPx(yMin));
+  ctx.lineTo(xToPx(xMax), yToPx(yMin));
+  ctx.moveTo(xToPx(xMin), yToPx(yMin));
+  ctx.lineTo(xToPx(xMin), yToPx(yMax));
+  ctx.stroke();
+
+  // 刻度
+  ctx.fillStyle = '#7a8294';
+  ctx.font = '11px Consolas';
+  ctx.textAlign = 'center';
+  for (let x = 0; x <= 30; x += 5) {
+    ctx.fillText(x, xToPx(x), yToPx(yMin) + 16);
+  }
+  ctx.textAlign = 'right';
+  for (let y = 0; y <= 1500; y += 250) {
+    ctx.fillText(y, xToPx(xMin) - 6, yToPx(y) + 4);
+  }
+
+  // 軸標
+  ctx.fillStyle = '#9aa5b8';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('x（坪數）', W/2, H - 10);
+  ctx.save();
+  ctx.translate(14, H/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('y（房價 / 萬）', 0, 0);
+  ctx.restore();
+
+  // 最佳擬合
+  const fitted = fit(points);
+
+  // 殘差線（最佳擬合 vs 真實值）
+  if (showResiduals && fitted) {
+    ctx.strokeStyle = 'rgba(255, 122, 122, 0.45)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    for (const p of points) {
+      const yhat = fitted.w * p.x + fitted.b;
+      ctx.beginPath();
+      ctx.moveTo(xToPx(p.x), yToPx(p.y));
+      ctx.lineTo(xToPx(p.x), yToPx(yhat));
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  }
+
+  // y 平均線
+  if (showMean && fitted) {
+    ctx.strokeStyle = 'rgba(154, 165, 184, 0.5)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(xToPx(xMin), yToPx(fitted.meanY));
+    ctx.lineTo(xToPx(xMax), yToPx(fitted.meanY));
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#9aa5b8';
+    ctx.font = '11px Consolas';
+    ctx.textAlign = 'left';
+    ctx.fillText('ȳ = ' + fitted.meanY.toFixed(1), xToPx(xMax) - 90, yToPx(fitted.meanY) - 5);
+  }
+
+  // 最佳擬合線（藍）
+  if (fitted) {
+    ctx.strokeStyle = '#7ad6ff';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    const y1 = fitted.w * xMin + fitted.b;
+    const y2 = fitted.w * xMax + fitted.b;
+    ctx.moveTo(xToPx(xMin), yToPx(y1));
+    ctx.lineTo(xToPx(xMax), yToPx(y2));
+    ctx.stroke();
+  }
+
+  // 手動線（黃）
+  if (showManual) {
+    ctx.strokeStyle = '#f5d76e';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8, 4]);
+    ctx.beginPath();
+    const y1 = manualW * xMin + manualB;
+    const y2 = manualW * xMax + manualB;
+    ctx.moveTo(xToPx(xMin), yToPx(y1));
+    ctx.lineTo(xToPx(xMax), yToPx(y2));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // 資料點
+  for (const p of points) {
+    ctx.fillStyle = '#e6e6e6';
+    ctx.strokeStyle = '#0f1115';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(xToPx(p.x), yToPx(p.y), 5.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  // 更新讀數
+  document.getElementById('nPts').textContent = points.length;
+  if (fitted) {
+    document.getElementById('bestW').textContent = fitted.w.toFixed(2);
+    document.getElementById('bestB').textContent = fitted.b.toFixed(2);
+    const m = mse(points, fitted.w, fitted.b);
+    const r = r2(points, fitted.w, fitted.b, fitted.meanY);
+    document.getElementById('bestMSE').textContent = m.toFixed(2);
+    document.getElementById('bestR2').textContent = r === null ? '—' : r.toFixed(4);
+  } else {
+    document.getElementById('bestW').textContent = '—';
+    document.getElementById('bestB').textContent = '—';
+    document.getElementById('bestMSE').textContent = '—';
+    document.getElementById('bestR2').textContent = '—';
+  }
+
+  if (showManual && points.length > 0) {
+    const mManual = mse(points, manualW, manualB);
+    document.getElementById('manualMSE').textContent = mManual.toFixed(2);
+    if (fitted) {
+      const mBest = mse(points, fitted.w, fitted.b);
+      const diff = mManual - mBest;
+      document.getElementById('diffMSE').textContent = '+' + diff.toFixed(2);
+    } else {
+      document.getElementById('diffMSE').textContent = '—';
+    }
+  } else {
+    document.getElementById('manualMSE').textContent = '—';
+    document.getElementById('diffMSE').textContent = '—';
+  }
+}
+
+// ============ 事件 ============
+canvas.addEventListener('click', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const px = (e.clientX - rect.left) * (canvas.width / rect.width);
+  const py = (e.clientY - rect.top) * (canvas.height / rect.height);
+  const x = pxToX(px);
+  const y = pxToY(py);
+  if (x < xMin || x > xMax || y < yMin || y > yMax) return;
+
+  if (e.shiftKey) {
+    // 刪除最近的點
+    if (points.length === 0) return;
+    let bestIdx = 0, bestDist = Infinity;
+    for (let i = 0; i < points.length; i++) {
+      const d = (points[i].x - x) ** 2 + ((points[i].y - y) / 50) ** 2;
+      if (d < bestDist) { bestDist = d; bestIdx = i; }
+    }
+    points.splice(bestIdx, 1);
+  } else {
+    points.push({ x, y });
+  }
+  draw();
+});
+
+document.getElementById('clear').addEventListener('click', () => {
+  points = [];
+  draw();
+});
+
+document.getElementById('sample1').addEventListener('click', () => {
+  // 完美直線：y = 35x + 50
+  points = [];
+  for (let i = 0; i < 8; i++) {
+    const x = 3 + i * 3.5;
+    points.push({ x, y: 35 * x + 50 });
+  }
+  draw();
+});
+
+document.getElementById('sample2').addEventListener('click', () => {
+  // 含雜訊：y = 35x + 50 + noise
+  points = [];
+  for (let i = 0; i < 15; i++) {
+    const x = 2 + Math.random() * 26;
+    const noise = (Math.random() - 0.5) * 300;
+    points.push({ x, y: 35 * x + 50 + noise });
+  }
+  draw();
+});
+
+document.getElementById('sample3').addEventListener('click', () => {
+  // 非線性：y = 2x² + noise
+  points = [];
+  for (let i = 0; i < 15; i++) {
+    const x = 2 + Math.random() * 26;
+    const noise = (Math.random() - 0.5) * 100;
+    points.push({ x, y: 2 * x * x + noise });
+  }
+  draw();
+});
+
+document.getElementById('showManual').addEventListener('change', (e) => {
+  showManual = e.target.checked;
+  document.getElementById('manualControls').style.display = showManual ? 'block' : 'none';
+  draw();
+});
+
+document.getElementById('showResiduals').addEventListener('change', (e) => {
+  showResiduals = e.target.checked;
+  draw();
+});
+
+document.getElementById('showMean').addEventListener('change', (e) => {
+  showMean = e.target.checked;
+  draw();
+});
+
+const mwSlider = document.getElementById('manualW');
+const mbSlider = document.getElementById('manualB');
+mwSlider.addEventListener('input', () => {
+  manualW = parseFloat(mwSlider.value);
+  document.getElementById('manualWVal').textContent = manualW.toFixed(1);
+  draw();
+});
+mbSlider.addEventListener('input', () => {
+  manualB = parseFloat(mbSlider.value);
+  document.getElementById('manualBVal').textContent = manualB.toFixed(1);
+  draw();
+});
+
+// 初始化
+draw();
+</script>
+
+</body>
+</html>
